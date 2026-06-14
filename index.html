@@ -1,1186 +1,311 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>open:grounds / common goods of davis</title>
-<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 90 90'><rect width='90' height='90' fill='%23FF5722'/><path d='M14 44 C12 26, 24 12, 43 13 C57 14, 70 9, 76 23 C82 37, 78 57, 69 65 C61 74, 44 80, 31 76 C18 72, 10 65, 14 44 Z' fill='%23F7F4EC'/><path d='M30 14 C35 35, 38 55, 42 76' fill='none' stroke='%23FF5722' stroke-width='3.5' stroke-linecap='round'/><path d='M12 50 C30 46, 55 44, 78 46' fill='none' stroke='%23FF5722' stroke-width='3.5' stroke-linecap='round'/><circle cx='57' cy='36' r='10' fill='%232F9BD6'/><circle cx='57' cy='36' r='4' fill='%23F7F4EC'/><line x1='57' y1='46' x2='57' y2='56' stroke='%232F9BD6' stroke-width='3' stroke-linecap='round'/></svg>">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-<style>
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-:root {
-  --paper:      #F7F4EC;
-  --paper-dim:  #ECE6D9;
-  --ink:        #15130F;
-
-  --pink:       #FF3E86;
-  --pink-tint:  #FFE2EE;
-  --sky:        #2F9BD6;
-  --sky-tint:   #DDF1FA;
-  --grass:      #2F4D22;
-  --grass-tint: #E6EEDF;
-  --flame:      #FF5722;
-  --flame-tint: #FFE7DA;
-  --sun:        #FFC53D;
-  --plum:       #8B5CF6;
-  --teal:       #1F6B5C;
-  --rust:       #B0431E;
-  --indigo:     #4F6BFF;
-  --rose:       #C2185B;
-  --umber:      #9C6B30;
-  --stone:      #75695A;
-
-  --border: 3px solid var(--ink);
-}
-
-html, body {
-  background: var(--paper);
-  color: var(--ink);
-  font-family: 'Space Mono', monospace;
-  font-size: 13px;
-  line-height: 1.5;
-  height: 100%;
-  overflow: hidden;
-}
-
-/* HEADER */
-header {
-  border-bottom: var(--border);
-  padding: 0 1.5rem;
-  display: grid;
-  grid-template-columns: 1fr auto;
-  align-items: center;
-  gap: 1rem;
-  background: var(--paper);
-  position: relative;
-  z-index: 10;
-  height: 64px;
-}
-
-.brand {
-  display: flex;
-  align-items: center;
-  gap: 0.9rem;
-}
-
-.brand-mark {
-  width: 52px;
-  height: 52px;
-  flex-shrink: 0;
-}
-
-.brand-mark svg {
-  width: 100%;
-  height: 100%;
-  display: block;
-}
-
-.wordmark {
-  display: flex;
-  flex-direction: column;
-  gap: 0.18rem;
-}
-
-.brand-title {
-  font-family: 'Space Grotesk', sans-serif;
-  font-weight: 700;
-  font-size: 1.9rem;
-  letter-spacing: -0.02em;
-  line-height: 1;
-}
-.brand-title .punct { color: var(--flame); }
-.brand-title .ital  { font-style: italic; color: var(--pink); }
-
-.brand-sub {
-  font-family: 'Space Mono', monospace;
-  font-size: 0.6rem;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: var(--stone);
-}
-
-.header-right {
-  display: flex;
-  gap: 0.5rem;
-  align-items: center;
-}
-
-.btn {
-  font-family: 'Space Grotesk', sans-serif;
-  font-size: 0.72rem;
-  font-weight: 700;
-  letter-spacing: 0.05em;
-  padding: 0.55rem 1.1rem;
-  border: var(--border);
-  background: var(--paper);
-  color: var(--ink);
-  cursor: pointer;
-  transition: transform 0.08s ease, background 0.1s, color 0.1s;
-  white-space: nowrap;
-  height: 36px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.btn:hover { background: var(--ink); color: var(--paper); }
-.btn:active { transform: translate(2px, 2px); }
-
-.btn-secondary {
-  border-width: 2px;
-  font-size: 0.65rem;
-  color: var(--stone);
-  border-color: rgba(21,19,15,0.3);
-}
-.btn-secondary:hover { background: var(--ink); color: var(--paper); border-color: var(--ink); }
-
-.btn-add {
-  background: var(--flame);
-  color: var(--paper);
-  box-shadow: 3px 3px 0 var(--ink);
-}
-.btn-add:hover { background: var(--ink); }
-.btn-add:active { box-shadow: 1px 1px 0 var(--ink); }
-
-/* LAYOUT */
-.app-body {
-  display: grid;
-  grid-template-columns: 300px 1fr;
-  height: calc(100vh - 64px);
-}
-
-/* SIDEBAR */
-.sidebar {
-  border-right: var(--border);
-  display: flex;
-  flex-direction: column;
-  background: var(--paper);
-  overflow: hidden;
-}
-
-.panel {
-  border-bottom: var(--border);
-  padding: 1rem 1.15rem;
-}
-
-.panel-filters { background: var(--pink-tint); }
-.panel-sources { background: var(--sky-tint); }
-.panel-index   { background: var(--flame-tint); flex: 1; min-height: 0; display: flex; flex-direction: column; }
-
-.panel-label {
-  font-family: 'Space Grotesk', sans-serif;
-  font-weight: 700;
-  font-size: 0.66rem;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  margin-bottom: 0.75rem;
-  flex-shrink: 0;
-}
-.panel-label .muted {
-  font-family: 'Space Mono', monospace;
-  font-weight: 400;
-  letter-spacing: 0.04em;
-  text-transform: none;
-  color: var(--stone);
-}
-
-/* CATEGORY BUTTONS */
-.cat-list {
-  display: flex;
-  flex-direction: column;
-  gap: 0.25rem;
-}
-
-.cat-btn {
-  display: flex;
-  align-items: center;
-  gap: 0.6rem;
-  font-family: 'Space Grotesk', sans-serif;
-  font-weight: 600;
-  font-size: 0.74rem;
-  padding: 0.42rem 0.55rem;
-  border: 2px solid transparent;
-  background: transparent;
-  color: var(--ink);
-  cursor: pointer;
-  text-align: left;
-  width: 100%;
-  transition: border-color 0.1s, background 0.1s, color 0.1s;
-}
-
-.cat-btn:hover:not(.active) { background: rgba(21,19,15,0.08); }
-
-.cat-btn.active {
-  border-color: var(--ink);
-  background: var(--ink);
-  color: var(--paper);
-}
-
-.cat-swatch {
-  width: 14px;
-  height: 14px;
-  border: 2px solid var(--ink);
-  background: var(--cat-color);
-  flex-shrink: 0;
-}
-.cat-btn.active .cat-swatch { border-color: var(--paper); }
-
-.cat-count {
-  margin-left: auto;
-  font-family: 'Space Mono', monospace;
-  font-size: 0.62rem;
-  opacity: 0.6;
-}
-
-/* SOURCE LEGEND */
-.source-legend {
-  display: flex;
-  flex-direction: column;
-  gap: 0.4rem;
-}
-
-.source-row {
-  display: flex;
-  align-items: center;
-  gap: 0.55rem;
-  font-size: 0.65rem;
-}
-
-.source-dot {
-  width: 12px;
-  height: 12px;
-  border: 2px solid var(--ink);
-  flex-shrink: 0;
-}
-
-/* INDEX / LISTINGS */
-#listings {
-  flex: 1;
-  min-height: 0;
-  overflow-y: auto;
-  display: flex;
-  flex-direction: column;
-  margin: 0 -1.15rem -1rem;
-  padding: 0 1.15rem 1rem;
-}
-
-.listing-card {
-  display: flex;
-  gap: 0.7rem;
-  border-bottom: 1.5px solid rgba(21,19,15,0.18);
-  padding: 0.65rem 0;
-  cursor: pointer;
-}
-.listing-card:last-child { border-bottom: none; }
-.listing-card:hover .listing-name { text-decoration: underline; }
-
-.listing-num {
-  width: 26px;
-  height: 26px;
-  border-radius: 50%;
-  border: 2px solid var(--ink);
-  background: var(--cat-color);
-  color: var(--paper);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: 'Space Grotesk', sans-serif;
-  font-weight: 700;
-  font-size: 0.72rem;
-  flex-shrink: 0;
-}
-
-.listing-body { flex: 1; min-width: 0; }
-
-.listing-name {
-  font-family: 'Space Grotesk', sans-serif;
-  font-weight: 700;
-  font-size: 0.8rem;
-  line-height: 1.25;
-}
-
-.listing-addr {
-  font-size: 0.6rem;
-  font-style: italic;
-  color: var(--stone);
-  margin-top: 0.15rem;
-}
-
-.listing-tags { margin-top: 0.35rem; display: flex; gap: 0.3rem; flex-wrap: wrap; }
-
-.listing-tag {
-  display: inline-block;
-  font-family: 'Space Grotesk', sans-serif;
-  font-size: 0.54rem;
-  font-weight: 700;
-  letter-spacing: 0.07em;
-  text-transform: uppercase;
-  padding: 0.1rem 0.4rem;
-  border: 1.5px solid var(--ink);
-  color: var(--ink);
-}
-
-.listing-tag.status {
-  background: var(--flame);
-  color: var(--paper);
-  border-color: var(--ink);
-}
-
-.listing-link {
-  background: transparent;
-  color: var(--flame);
-  text-decoration: none;
-  border-color: var(--flame);
-}
-.listing-link:hover { background: var(--flame); color: var(--paper); }
-
-/* MAP */
-#map {
-  width: 100%;
-  height: 100%;
-}
-
-.leaflet-tile-pane {
-  filter: contrast(1.08) brightness(1.04);
-}
-
-/* POPUPS */
-.leaflet-popup-content-wrapper {
-  border-radius: 0 !important;
-  border: var(--border);
-  box-shadow: 5px 5px 0 rgba(21,19,15,0.25) !important;
-  font-family: 'Space Mono', monospace;
-  background: var(--paper);
-  padding: 0;
-}
-
-.leaflet-popup-tip { display: none; }
-.leaflet-popup-tip-container { display: none; }
-.leaflet-popup-content { margin: 0 !important; min-width: 200px; }
-
-.popup-inner { padding: 0.95rem 1.05rem; }
-
-.popup-cat {
-  display: inline-block;
-  font-family: 'Space Grotesk', sans-serif;
-  font-size: 0.56rem;
-  font-weight: 700;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--paper);
-  background: var(--cat-color);
-  border: 1.5px solid var(--ink);
-  padding: 0.1rem 0.4rem;
-  margin-bottom: 0.4rem;
-}
-
-.popup-name {
-  font-family: 'Space Grotesk', sans-serif;
-  font-size: 0.9rem;
-  font-weight: 700;
-  line-height: 1.25;
-  margin-bottom: 0.25rem;
-}
-
-.popup-addr {
-  font-size: 0.62rem;
-  font-style: italic;
-  color: var(--stone);
-  margin-bottom: 0.4rem;
-}
-
-.popup-desc {
-  font-size: 0.66rem;
-  line-height: 1.6;
-}
-
-.popup-status {
-  display: inline-block;
-  margin-top: 0.5rem;
-  font-family: 'Space Grotesk', sans-serif;
-  font-size: 0.58rem;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--paper);
-  background: var(--flame);
-  border: 1.5px solid var(--ink);
-  padding: 0.15rem 0.4rem;
-}
-
-.popup-source {
-  font-size: 0.56rem;
-  letter-spacing: 0.06em;
-  color: var(--stone);
-}
-
-.popup-footer {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-top: 0.45rem;
-}
-
-.popup-link {
-  font-family: 'Space Grotesk', sans-serif;
-  font-size: 0.56rem;
-  font-weight: 700;
-  letter-spacing: 0.06em;
-  color: var(--flame);
-  text-decoration: none;
-  text-transform: uppercase;
-}
-.popup-link:hover { text-decoration: underline; }
-
-/* MODAL */
-.modal-backdrop {
-  display: none;
-  position: fixed;
-  inset: 0;
-  background: rgba(21,19,15,0.6);
-  z-index: 1000;
-  align-items: center;
-  justify-content: center;
-  padding: 2rem;
-}
-
-.modal-backdrop.open { display: flex; }
-
-.modal-outer {
-  width: 100%;
-  max-width: 460px;
-  max-height: 90vh;
-  box-shadow: 7px 7px 0 var(--ink);
-  display: flex;
-  flex-direction: column;
-}
-
-.modal {
-  background: var(--paper);
-  border: var(--border);
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  min-height: 0;
-}
-
-.modal-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 1.25rem 1.5rem;
-  border-bottom: var(--border);
-  flex-shrink: 0;
-}
-
-.modal-body {
-  padding: 1.25rem 1.5rem 1.5rem;
-  overflow-y: auto;
-}
-
-.modal-title {
-  font-family: 'Space Grotesk', sans-serif;
-  font-size: 1.2rem;
-  font-weight: 700;
-  letter-spacing: -0.02em;
-}
-
-.modal-close {
-  font-family: 'Space Grotesk', sans-serif;
-  font-size: 1.3rem;
-  font-weight: 700;
-  background: none;
-  border: none;
-  cursor: pointer;
-  color: var(--ink);
-  line-height: 1;
-  padding: 0;
-}
-
-.modal-close:hover { color: var(--flame); }
-
-.form-group { margin-bottom: 0.9rem; }
-
-label {
-  display: block;
-  font-family: 'Space Grotesk', sans-serif;
-  font-size: 0.64rem;
-  font-weight: 700;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  margin-bottom: 0.3rem;
-}
-
-input[type="text"],
-input[type="url"],
-textarea,
-select {
-  width: 100%;
-  font-family: 'Space Mono', monospace;
-  font-size: 0.75rem;
-  padding: 0.5rem 0.65rem;
-  border: var(--border);
-  background: var(--paper-dim);
-  color: var(--ink);
-  appearance: none;
-  outline: none;
-  resize: vertical;
-}
-
-input:focus, textarea:focus, select:focus {
-  outline: 3px solid var(--flame);
-  outline-offset: 1px;
-}
-
-textarea { min-height: 72px; }
-
-.form-hint {
-  font-size: 0.6rem;
-  font-style: italic;
-  color: var(--stone);
-  margin-top: 0.25rem;
-}
-
-.submit-note {
-  font-size: 0.64rem;
-  font-style: italic;
-  color: var(--stone);
-  margin-top: 0.75rem;
-  line-height: 1.6;
-  border-top: 1.5px solid rgba(21,19,15,0.2);
-  padding-top: 0.75rem;
-}
-
-.about-text {
-  font-size: 0.8rem;
-  line-height: 1.8;
-  margin-bottom: 0.9rem;
-}
-.about-text a { color: var(--flame); font-weight: 700; }
-
-.about-note {
-  display: inline-block;
-  font-family: 'Space Grotesk', sans-serif;
-  font-size: 0.58rem;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--paper);
-  background: var(--ink);
-  padding: 0.15rem 0.45rem;
-  margin-bottom: 0.6rem;
-}
-
-/* LOADING */
-.loading-bar {
-  position: fixed;
-  top: 0; left: 0;
-  height: 4px;
-  background: var(--flame);
-  transition: width 0.3s;
-  z-index: 2000;
-  pointer-events: none;
-}
-
-/* TOAST */
-#toast {
-  position: fixed;
-  bottom: 1.5rem;
-  left: 50%;
-  transform: translateX(-50%) translateY(80px);
-  background: var(--ink);
-  color: var(--paper);
-  font-family: 'Space Grotesk', sans-serif;
-  font-weight: 600;
-  font-size: 0.72rem;
-  padding: 0.6rem 1.2rem;
-  border: 2px solid var(--ink);
-  box-shadow: 4px 4px 0 rgba(21,19,15,0.3);
-  transition: transform 0.22s ease;
-  z-index: 2000;
-  pointer-events: none;
-}
-
-#toast.show { transform: translateX(-50%) translateY(0); }
-
-@media (max-width: 640px) {
-  .brand-title { font-size: 1.4rem; }
-  .brand-mark { width: 36px; height: 36px; }
-  .brand-sub { display: none; }
-  .app-body { grid-template-columns: 1fr; grid-template-rows: auto 1fr; }
-  .sidebar { border-right: none; border-bottom: var(--border); overflow-x: auto; }
-  .panel-filters { display: flex; align-items: center; gap: 1rem; }
-  .panel-filters .panel-label { margin-bottom: 0; white-space: nowrap; }
-  .cat-list { flex-direction: row; flex-wrap: nowrap; }
-  .panel-sources, .panel-index { display: none; }
-}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>open:grounds / common goods of davis</title>
+
+  <!-- favicon — inline SVG of the logo mark -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 90 90'><rect width='90' height='90' fill='%23FF5722'/><path d='M14 44 C12 26, 24 12, 43 13 C57 14, 70 9, 76 23 C82 37, 78 57, 69 65 C61 74, 44 80, 31 76 C18 72, 10 65, 14 44 Z' fill='%23F7F4EC'/><path d='M30 14 C35 35, 38 55, 42 76' fill='none' stroke='%23FF5722' stroke-width='3.5' stroke-linecap='round'/><path d='M12 50 C30 46, 55 44, 78 46' fill='none' stroke='%23FF5722' stroke-width='3.5' stroke-linecap='round'/><circle cx='57' cy='36' r='10' fill='%232F9BD6'/><circle cx='57' cy='36' r='4' fill='%23F7F4EC'/><line x1='57' y1='46' x2='57' y2='56' stroke='%232F9BD6' stroke-width='3' stroke-linecap='round'/></svg>">
+
+  <!-- typefaces — Space Grotesk for headings/UI, Space Mono for body/data -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+
+  <!-- leaflet map library -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+  <!-- our styles -->
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
-<div class="loading-bar" id="loading-bar" style="width:0%"></div>
-
-<header>
-  <div class="brand">
-    <div class="brand-mark">
-      <svg viewBox="0 0 90 90" xmlns="http://www.w3.org/2000/svg">
-        <rect x="0" y="0" width="90" height="90" fill="#FF5722"/>
-        <path d="M14 44 C12 26, 24 12, 43 13 C57 14, 70 9, 76 23 C82 37, 78 57, 69 65 C61 74, 44 80, 31 76 C18 72, 10 65, 14 44 Z" fill="#F7F4EC"/>
-        <path d="M30 14 C35 35, 38 55, 42 76" fill="none" stroke="#FF5722" stroke-width="3.5" stroke-linecap="round"/>
-        <path d="M12 50 C30 46, 55 44, 78 46" fill="none" stroke="#FF5722" stroke-width="3.5" stroke-linecap="round"/>
-        <circle cx="57" cy="36" r="10" fill="#2F9BD6"/>
-        <circle cx="57" cy="36" r="4" fill="#F7F4EC"/>
-        <line x1="57" y1="46" x2="57" y2="56" stroke="#2F9BD6" stroke-width="3" stroke-linecap="round"/>
-      </svg>
+  <!-- ============================================================
+       LOADING OVERLAY
+       shown while the three API fetches are in progress.
+       script.js fades it out once everything is loaded.
+       ============================================================ -->
+  <div id="loading-overlay">
+    <div class="loader-brand">open<span class="punct">:</span><span class="ital">grounds</span></div>
+    <div class="loader-dots">
+      <div class="loader-dot"></div>
+      <div class="loader-dot"></div>
+      <div class="loader-dot"></div>
+      <div class="loader-dot"></div>
     </div>
-    <div class="wordmark">
-      <div class="brand-title">open<span class="punct">:</span><span class="ital">grounds</span></div>
-      <div class="brand-sub">a citizen map of shared resources / davis, ca</div>
-    </div>
+    <div class="loader-percent" id="loader-percent">0%</div>
+    <div class="loader-label">loading the commons…</div>
   </div>
-  <div class="header-right">
-    <button class="btn btn-add" onclick="openSubmit()">+ add a place</button>
-    <button class="btn btn-secondary" onclick="openCorrection()">suggest a correction</button>
-    <button class="btn btn-secondary" onclick="openAbout()">about</button>
-  </div>
-</header>
 
-<div class="app-body">
-  <div class="sidebar">
-    <div class="panel panel-filters">
-      <div class="panel-label">filter by type</div>
-      <div class="cat-list" id="cat-filters"></div>
-    </div>
 
-    <div class="panel panel-sources">
-      <div class="panel-label">data sources</div>
-      <div class="source-legend">
-        <div class="source-row"><div class="source-dot" style="background:var(--flame)"></div>open grounds (davis)</div>
-        <div class="source-row"><div class="source-dot" style="background:var(--grass)"></div>openstreetmap</div>
-        <div class="source-row"><div class="source-dot" style="background:var(--sun)"></div>falling fruit</div>
+  <!-- ============================================================
+       HEADER
+       ============================================================ -->
+  <header>
+    <div class="brand">
+      <div class="brand-mark">
+        <svg viewBox="0 0 90 90" xmlns="http://www.w3.org/2000/svg">
+          <rect x="0" y="0" width="90" height="90" fill="#FF5722"/>
+          <path d="M14 44 C12 26, 24 12, 43 13 C57 14, 70 9, 76 23 C82 37, 78 57, 69 65 C61 74, 44 80, 31 76 C18 72, 10 65, 14 44 Z" fill="#F7F4EC"/>
+          <path d="M30 14 C35 35, 38 55, 42 76" fill="none" stroke="#FF5722" stroke-width="3.5" stroke-linecap="round"/>
+          <path d="M12 50 C30 46, 55 44, 78 46" fill="none" stroke="#FF5722" stroke-width="3.5" stroke-linecap="round"/>
+          <circle cx="57" cy="36" r="10" fill="#2F9BD6"/>
+          <circle cx="57" cy="36" r="4" fill="#F7F4EC"/>
+          <line x1="57" y1="46" x2="57" y2="56" stroke="#2F9BD6" stroke-width="3" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <div class="wordmark">
+        <div class="brand-title">open<span class="punct">:</span><span class="ital">grounds</span></div>
+        <div class="brand-sub">a citizen map of shared resources / davis, ca</div>
       </div>
     </div>
 
-    <div class="panel panel-index">
-      <div class="panel-label">index <span class="muted" id="count-label">0 places</span></div>
-      <div id="listings"></div>
+    <div class="header-right">
+      <button class="btn btn-add" onclick="openSubmit()">+ add a place</button>
+      <button class="btn btn-secondary" onclick="openCorrection()">suggest a correction</button>
+      <button class="btn btn-secondary" onclick="openAbout()">about</button>
     </div>
-  </div>
+  </header>
 
-  <div id="map"></div>
-</div>
 
-<!-- SUBMIT MODAL -->
-<div class="modal-backdrop" id="submit-modal">
-  <div class="modal-outer">
-  <div class="modal">
-    <div class="modal-header">
-      <span class="modal-title">add a place</span>
-      <button class="modal-close" onclick="closeSubmit()">x</button>
-    </div>
-    <div class="modal-body">
-    <div class="form-group">
-      <label>name of place</label>
-      <input type="text" id="f-name" placeholder="e.g. 5th Street Community Garden">
-    </div>
-    <div class="form-group">
-      <label>type</label>
-      <select id="f-cat">
-        <option value="">choose one</option>
-        <option value="garden">community garden</option>
-        <option value="fridge">community fridge / freedge</option>
-        <option value="coop">food co-op</option>
-        <option value="pantry">free pantry / blessing box</option>
-        <option value="seeds">seed library</option>
-        <option value="library">little free library</option>
-        <option value="tools">tool library / repair cafe</option>
-        <option value="thrift">thrift and reuse store</option>
-        <option value="foraging">foraging spot</option>
-        <option value="bikes">bike repair station</option>
-        <option value="mutual">mutual aid / free store</option>
-        <option value="other">other commons</option>
-      </select>
-    </div>
-    <div class="form-group">
-      <label>coordinates <span style="font-weight:400;text-transform:none;letter-spacing:0;font-style:italic;color:var(--stone)">(preferred when possible)</span></label>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.5rem">
-        <input type="text" id="f-lat" placeholder="lat e.g. 38.5449">
-        <input type="text" id="f-lng" placeholder="lng e.g. -121.7399">
+  <!-- ============================================================
+       MAIN APP BODY — sidebar | drag handle | map
+       ============================================================ -->
+  <div class="app-body">
+
+    <!-- SIDEBAR -->
+    <div class="sidebar">
+
+      <!-- category filter buttons — built by buildFilters() in script.js -->
+      <div class="panel panel-filters">
+        <div class="panel-label">filter by type</div>
+        <div class="cat-list" id="cat-filters"></div>
       </div>
-      <p class="form-hint">coordinates place the pin precisely. find them on google maps by right-clicking the spot.</p>
-    </div>
-    <div class="form-group">
-      <label>address or cross streets</label>
-      <input type="text" id="f-addr" placeholder="e.g. 5th and L St, Davis CA">
-    </div>
-    <div class="form-group">
-      <label>short description</label>
-      <textarea id="f-desc" placeholder="hours, what's available, anything useful to know"></textarea>
-    </div>
-    <div class="form-group">
-      <label>link (optional)</label>
-      <input type="url" id="f-link" placeholder="https://">
-      <p class="form-hint">instagram, website, google maps link, etc.</p>
-    </div>
-    <div class="form-group">
-      <label>your name or handle (optional)</label>
-      <input type="text" id="f-contact" placeholder="for credit">
-    </div>
-    <button class="btn btn-add" style="width:100%;margin-top:0.25rem" onclick="submitPlace()">submit for review</button>
-    <p class="submit-note">submissions are reviewed before going live. thanks for helping map the commons.</p>
-    </div>
-  </div>
-  </div>
-</div>
 
-<!-- CORRECTION MODAL -->
-<div class="modal-backdrop" id="correction-modal">
-  <div class="modal-outer">
-  <div class="modal">
-    <div class="modal-header">
-      <span class="modal-title">suggest a correction</span>
-      <button class="modal-close" onclick="closeCorrection()">x</button>
-    </div>
-    <div class="modal-body">
-    <p style="font-size:0.75rem;line-height:1.7;margin-bottom:1rem;color:var(--stone)">wrong location, closed permanently, changed hours, or something else? let us know.</p>
-    <div class="form-group">
-      <label>place name</label>
-      <input type="text" id="c-name" placeholder="which place is this about?">
-    </div>
-    <div class="form-group">
-      <label>what needs correcting?</label>
-      <select id="c-type">
-        <option value="">choose one</option>
-        <option value="wrong-location">pin is in the wrong location</option>
-        <option value="closed">place has permanently closed</option>
-        <option value="info">hours, description, or other info is wrong</option>
-        <option value="duplicate">this is a duplicate listing</option>
-        <option value="other">other</option>
-      </select>
-    </div>
-    <div class="form-group">
-      <label>corrected coordinates <span style="font-weight:400;text-transform:none;letter-spacing:0;font-style:italic;color:var(--stone)">(if location is wrong)</span></label>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.5rem">
-        <input type="text" id="c-lat" placeholder="lat">
-        <input type="text" id="c-lng" placeholder="lng">
-      </div>
-    </div>
-    <div class="form-group">
-      <label>details</label>
-      <textarea id="c-details" placeholder="anything else we should know"></textarea>
-    </div>
-    <button class="btn btn-add" style="width:100%;margin-top:0.25rem" onclick="submitCorrection()">send correction</button>
-    <p class="submit-note">corrections go straight to the maintainer for review.</p>
-    </div>
-  </div>
-  </div>
-</div>
-
-<!-- ABOUT MODAL -->
-<div class="modal-backdrop" id="about-modal">
-  <div class="modal-outer">
-  <div class="modal">
-    <div class="modal-header">
-      <span class="modal-title">open:grounds</span>
-      <button class="modal-close" onclick="closeAbout()">x</button>
-    </div>
-    <div class="modal-body">
-    <p class="about-text">
-      open:grounds is a citizen-built map of common goods in davis, ca. free, shared, and mutual-aid resources that belong to everyone: community gardens, freedges, the food co-op, little free libraries, tool libraries, thrift and reuse stores, bike repair, and more.
-    </p>
-    <p class="about-text">
-      data is pulled from <a href="https://fallingfruit.org" target="_blank">falling fruit</a>, <a href="https://openstreetmap.org" target="_blank">openstreetmap</a>, and community submissions reviewed by the project maintainer.
-    </p>
-    <p style="font-size:0.72rem;color:var(--stone);line-height:1.6">
-      a project by <a href="https://zahrabaxi.com" target="_blank" style="color:var(--flame);font-weight:700">zahra baxi</a> · davis, ca
-    </p>
-    <button class="btn" style="margin-top:1rem" onclick="closeAbout()">close</button>
-    </div>
-  </div>
-  </div>
-</div>
-
-<div id="toast"></div>
-
-<script>
-const BACK4APP_APP_ID = 'YOUR_BACK4APP_APP_ID';
-const BACK4APP_JS_KEY = 'YOUR_BACK4APP_JS_KEY';
-const BACK4APP_URL = 'https://parseapi.back4app.com/classes/Place';
-
-const DAVIS_BBOX = { south: 38.51, north: 38.57, west: -121.82, east: -121.70 };
-
-const CATEGORIES = [
-  { id: 'all',      label: 'all',                   color: '#15130F' },
-  { id: 'garden',   label: 'community garden',      color: '#2F4D22' },
-  { id: 'fridge',   label: 'community fridge',      color: '#2F9BD6' },
-  { id: 'coop',     label: 'food co-op',            color: '#FFC53D' },
-  { id: 'pantry',   label: 'free pantry',           color: '#FF5722' },
-  { id: 'seeds',    label: 'seed library',          color: '#8B5CF6' },
-  { id: 'library',  label: 'little free library',   color: '#FF3E86' },
-  { id: 'tools',    label: 'tool / repair',         color: '#1F6B5C' },
-  { id: 'thrift',   label: 'thrift & reuse',        color: '#9C6B30' },
-  { id: 'foraging', label: 'foraging',              color: '#B0431E' },
-  { id: 'bikes',    label: 'bike repair',           color: '#4F6BFF' },
-  { id: 'mutual',   label: 'mutual aid',            color: '#C2185B' },
-  { id: 'other',    label: 'other commons',         color: '#75695A' },
-];
-
-// geocodeAddress: the clean address string passed to Nominatim.
-// lat/lng: fallback coordinates used if geocoding fails or before geocoding completes.
-const SEED_DATA = [
-  { id:'s1',  name:'5th Street Community Garden',       category:'garden',   lat:38.5432, lng:-121.7298, address:'1825 5th St, Davis CA 95616',                           geocodeAddress:'1825 5th St, Davis, CA',               link:'https://cityofdavis.org/city-hall/parks-community-services/parks-open-space/community-gardens',      description:'city-run organic plots in East Davis. open year-round; new-plot waitlist through the city parks department.', source:'opengrounds' },
-  { id:'s2',  name:'Cannery Community Garden',          category:'garden',   lat:38.5600, lng:-121.7275, address:'1701 Harvest St, Davis CA 95616',                        geocodeAddress:'1701 Harvest St, Davis, CA',           link:'https://cityofdavis.org/city-hall/parks-community-services/parks-open-space/community-gardens',      description:'raised-bed plots in the Cannery neighborhood, open to residents and the public via the city garden program.', source:'opengrounds' },
-  { id:'s3',  name:'ASUCD Experimental College Garden', category:'garden',   lat:38.5346, lng:-121.7620, address:'UC Davis campus, near the Domes',                        geocodeAddress:'Baggins End Domes, UC Davis, Davis, CA', link:'https://asucd.ucdavis.edu',                                                                            description:'student-run organic farm near the Baggins End domes. open to students, staff, and the wider community.', source:'opengrounds' },
-  { id:'s4',  name:'Davis Food Co-op Freedge',          category:'fridge',   lat:38.5449, lng:-121.7399, address:'620 G St, Davis CA 95616',                               geocodeAddress:'620 G St, Davis, CA',                  link:'https://davisfood.coop',                                                                               description:'community fridge on the west side of the co-op building. staff restock it daily with surplus produce, dairy, and bakery. take what you need, leave what you can.', source:'opengrounds' },
-  { id:'s5',  name:'Memorial Union Freedge',            category:'fridge',   lat:38.5407, lng:-121.7494, address:'UC Davis Memorial Union, east side near the bookstore',  geocodeAddress:'Memorial Union, UC Davis, Davis, CA',  link:'https://basicneeds.ucdavis.edu',                                                                       description:'campus freedge for whole produce, canned goods, and sealed non-perishables, across from the ASUCD pantry.', source:'opengrounds' },
-  { id:'s6',  name:'Davis Food Co-op',                  category:'coop',     lat:38.5449, lng:-121.7399, address:'620 G St, Davis CA 95616',                               geocodeAddress:'620 G St, Davis, CA',                  link:'https://davisfood.coop',                                                                               description:'member-owned grocery co-op since 1972, open to everyone. organic produce, bulk bins, a full deli, and a community bulletin board. open daily 7am-10pm.', source:'opengrounds' },
-  { id:'s7',  name:'Davis Makerspace Repair Cafe',      category:'tools',    lat:38.5459, lng:-121.7338, address:'315 E 14th St (Yolo County Library, Davis Branch)',       geocodeAddress:'315 E 14th St, Davis, CA',             link:'https://www.yolocounty.org/general-government/library',                                                description:'monthly repair cafe. bring in clothing, electronics, and household items for free fixes. hosted by the library and friends of the davis public library.', source:'opengrounds' },
-  { id:'s8',  name:'Community Mercantile',              category:'thrift',   lat:38.5464, lng:-121.7162, address:'622 Cantrill Dr, Davis CA 95618',                         geocodeAddress:'622 Cantrill Dr, Davis, CA',           link:'https://communitymercantile.org',                                                                      description:'nonprofit reuse store and tool lending library. housewares, furniture, tools, fabric, and more, diverted from the landfill. open thu-sun.', source:'opengrounds' },
-  { id:'s9',  name:'Yolo County SPCA Thrift Store',    category:'thrift',   lat:38.5426, lng:-121.7458, address:'920 3rd St Ste F, Davis CA 95616',                        geocodeAddress:'920 3rd St, Davis, CA',                link:'https://www.yolospca.org',                                                                             description:'donation-based thrift store benefiting the spca. clothing, books, housewares, and the occasional great find.', source:'opengrounds' },
-  { id:'s10', name:'Aggie Reuse Store',                 category:'thrift',   lat:38.5407, lng:-121.7494, address:'UC Davis Memorial Union #154, 1 Shields Ave',            geocodeAddress:'Memorial Union, UC Davis, Davis, CA',  link:'https://sustainability.ucdavis.edu/action/waste/reuse-store',                                          description:'student-run reuse store now operating as zero-cost mutual aid. clothes, school supplies, and small appliances, free for students and the community.', source:'opengrounds' },
-  { id:'s11', name:'Stevenson Bridge Library in a Box', category:'library',  lat:38.5185, lng:-121.8042, address:'Stevenson Bridge Rd, Yolo/Solano county line',           geocodeAddress:'Stevenson Bridge Rd, Davis, CA',       link:null,                                                                                                   description:'free 24/7 community library on the historic graffiti bridge over Putah Creek.', source:'opengrounds', status:'bridge closed for repairs through oct 2026' },
-  { id:'s12', name:'Davis Bike Garage',                 category:'bikes',    lat:38.5590, lng:-121.7425, address:'606 Pena Dr #300, Davis CA 95618',                        geocodeAddress:'606 Pena Dr, Davis, CA',               link:'https://www.thebikecampaign.org/bike-garage',                                                          description:'free community bike repair shop run by The Bike Campaign. drop in with your bike, volunteer mechanics on site. check thebikecampaign.org for current hours.', source:'opengrounds' },
-  { id:'s13', name:'Davis Bike Collective',             category:'bikes',    lat:38.5441, lng:-121.7430, address:'1221 1/2 4th St, Davis CA 95616',                         geocodeAddress:'1221 4th St, Davis, CA',               link:'https://davisbikecollective.org',                                                                      description:'volunteer-run nonprofit bike shop. pay-what-you-can repairs, free parts library, and DIY stands. open drop-in hours most evenings and weekends.', source:'opengrounds' },
-  { id:'s14', name:'ASUCD Bike Barn',                   category:'bikes',    lat:38.5416, lng:-121.7496, address:'1 Shields Ave (Silo area), UC Davis',                    geocodeAddress:'Bike Barn, UC Davis, Davis, CA',       link:'https://bikebarn.ucdavis.edu',                                                                         description:'full-service campus bike shop with low-cost repairs and a self-service stand with tools. staffed by students, open to students, faculty, and the public.', source:'opengrounds' },
-  { id:'s15', name:'Mary L. Stephens Davis Branch Library', category:'library', lat:38.5459, lng:-121.7338, address:'315 E 14th St, Davis CA 95616',                      geocodeAddress:'315 E 14th St, Davis, CA',             link:'https://www.yolocounty.org/general-government/library/locations/davis-branch-library',                 description:'full public library with books, DVDs, CDs, and more. free with a library card. open to everyone.', source:'opengrounds' },
-];
-
-function catInfo(id) {
-  return CATEGORIES.find(c => c.id === id) || CATEGORIES[CATEGORIES.length-1];
-}
-function catColor(id) { return catInfo(id).color; }
-function catLabel(id) { return catInfo(id).label; }
-
-let map, allMarkers = [], activeCategory = 'all', allPlaces = [...SEED_DATA];
-
-function setLoading(pct) {
-  document.getElementById('loading-bar').style.width = pct + '%';
-  if (pct >= 100) setTimeout(() => { document.getElementById('loading-bar').style.width = '0%'; }, 400);
-}
-
-function initMap() {
-  map = L.map('map', { center: [38.546, -121.748], zoom: 14, zoomControl: true });
-
-  L.tileLayer('https://tiles.stadiamaps.com/tiles/stamen_toner/{z}/{x}/{y}.png', {
-    attribution: 'map tiles by <a href="http://stamen.com">stamen design</a>, © <a href="https://stadiamaps.com">stadia maps</a>, data © <a href="https://openstreetmap.org">osm</a>',
-    maxZoom: 20,
-  }).addTo(map);
-}
-
-function makeIcon(cat, num) {
-  const color = catColor(cat);
-  return L.divIcon({
-    className: '',
-    html: `<div style="width:26px;height:26px;border-radius:50%;background:${color};border:2px solid #15130F;display:flex;align-items:center;justify-content:center;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:12px;color:#F7F4EC;box-shadow:2px 2px 0 rgba(21,19,15,0.35);line-height:1">${num}</div>`,
-    iconSize: [26,26], iconAnchor: [13,13], popupAnchor: [0,-15],
-  });
-}
-
-function buildFilters() {
-  const el = document.getElementById('cat-filters');
-  el.innerHTML = '';
-  CATEGORIES.forEach(cat => {
-    const count = cat.id === 'all' ? allPlaces.length : allPlaces.filter(p => p.category === cat.id).length;
-    const btn = document.createElement('button');
-    btn.className = 'cat-btn' + (cat.id === activeCategory ? ' active' : '');
-    btn.style.setProperty('--cat-color', cat.color);
-    btn.innerHTML = `<span class="cat-swatch"></span>${cat.label}<span class="cat-count">${count}</span>`;
-    btn.onclick = () => { activeCategory = cat.id; buildFilters(); renderMarkers(); renderListings(); };
-    el.appendChild(btn);
-  });
-}
-
-function getFiltered() {
-  return activeCategory === 'all' ? allPlaces : allPlaces.filter(p => p.category === activeCategory);
-}
-
-function renderMarkers() {
-  allMarkers.forEach(m => map.removeLayer(m));
-  allMarkers = [];
-  const filtered = getFiltered();
-  filtered.forEach((place, i) => {
-    const sourceLabel = place.source === 'osm' ? 'openstreetmap' : place.source === 'fallingfruit' ? 'falling fruit' : 'open grounds';
-    const linkHtml = place.link ? `<a href="${place.link}" target="_blank" class="popup-link">visit site</a>` : '';
-    const m = L.marker([place.lat, place.lng], { icon: makeIcon(place.category, i + 1) })
-      .bindPopup(`
-        <div class="popup-inner">
-          <div class="popup-cat" style="--cat-color:${catColor(place.category)}">${catLabel(place.category)}</div>
-          <div class="popup-name">${i + 1}. ${place.name}</div>
-          ${place.address ? `<div class="popup-addr">${place.address}</div>` : ''}
-          ${place.description ? `<div class="popup-desc">${place.description}</div>` : ''}
-          ${place.status ? `<div class="popup-status">${place.status}</div>` : ''}
-          <div class="popup-footer">
-            <span class="popup-source">via ${sourceLabel}</span>
-            ${linkHtml}
+      <!-- data source legend -->
+      <div class="panel panel-sources">
+        <div class="panel-label">data sources</div>
+        <div class="source-legend">
+          <div class="source-row">
+            <div class="source-dot" style="background:var(--flame)"></div>
+            open grounds (davis)
+          </div>
+          <div class="source-row">
+            <div class="source-dot" style="background:var(--grass)"></div>
+            openstreetmap
+          </div>
+          <div class="source-row">
+            <div class="source-dot" style="background:var(--sun)"></div>
+            falling fruit
           </div>
         </div>
-      `)
-      .addTo(map);
-    allMarkers.push(m);
-  });
-}
-
-function renderListings() {
-  const el = document.getElementById('listings');
-  const countLabel = document.getElementById('count-label');
-  el.innerHTML = '';
-  const filtered = getFiltered();
-  countLabel.textContent = `${filtered.length} place${filtered.length === 1 ? '' : 's'}`;
-  filtered.forEach((place, i) => {
-    const card = document.createElement('div');
-    card.className = 'listing-card';
-    card.innerHTML = `
-      <div class="listing-num" style="--cat-color:${catColor(place.category)}">${i + 1}</div>
-      <div class="listing-body">
-        <div class="listing-name">${place.name}</div>
-        ${place.address ? `<div class="listing-addr">${place.address}</div>` : ''}
-        <div class="listing-tags">
-          <span class="listing-tag" style="background:${catColor(place.category)};color:#F7F4EC">${catLabel(place.category)}</span>
-          ${place.status ? `<span class="listing-tag status">${place.status}</span>` : ''}
-          ${place.link ? `<a class="listing-tag listing-link" href="${place.link}" target="_blank" onclick="event.stopPropagation()">website</a>` : ''}
-        </div>
       </div>
-    `;
-    card.onclick = () => { map.setView([place.lat, place.lng], 17); allMarkers[i]?.openPopup(); };
-    el.appendChild(card);
-  });
-}
 
-async function fetchOSM() {
-  const { south, north, west, east } = DAVIS_BBOX;
-  const query = `
-    [out:json][timeout:20];
-    (
-      node["amenity"="community_fridge"](${south},${west},${north},${east});
-      node["amenity"="food_bank"](${south},${west},${north},${east});
-      node["amenity"="public_bookcase"](${south},${west},${north},${east});
-      node["leisure"="garden"]["access"="public"](${south},${west},${north},${east});
-      node["landuse"="allotments"](${south},${west},${north},${east});
-      way["landuse"="allotments"](${south},${west},${north},${east});
-    );
-    out center;
-  `;
-  try {
-    const res = await fetch('https://overpass-api.de/api/interpreter', {
-      method: 'POST',
-      body: 'data=' + encodeURIComponent(query),
-    });
-    const data = await res.json();
-    return (data.elements || []).map(el => {
-      const lat = el.lat ?? el.center?.lat;
-      const lng = el.lon ?? el.center?.lon;
-      if (!lat || !lng) return null;
-      const tags = el.tags || {};
-      let category = 'other';
-      if (tags.amenity === 'community_fridge') category = 'fridge';
-      else if (tags.amenity === 'food_bank') category = 'pantry';
-      else if (tags.amenity === 'public_bookcase') category = 'library';
-      else if (tags.leisure === 'garden' || tags.landuse === 'allotments') category = 'garden';
-      return {
-        id: 'osm-' + el.id,
-        name: tags.name || tags['name:en'] || category,
-        category,
-        lat, lng,
-        address: tags['addr:street'] ? `${tags['addr:housenumber']||''} ${tags['addr:street']}, Davis CA`.trim() : '',
-        description: tags.description || tags.opening_hours || '',
-        source: 'osm',
-      };
-    }).filter(Boolean);
-  } catch(e) {
-    console.log('OSM fetch failed:', e);
-    return [];
-  }
-}
+      <!-- scrollable place index — built by renderListings() in script.js -->
+      <div class="panel panel-index">
+        <div class="panel-label">index <span class="muted" id="count-label">0 places</span></div>
+        <div id="listings"></div>
+      </div>
 
-async function fetchFallingFruit() {
-  const { south, north, west, east } = DAVIS_BBOX;
-  try {
-    const url = `https://fallingfruit.org/api/0.3/locations.json?bounds=${south},${west},${north},${east}&limit=200&locale=en`;
-    const res = await fetch(url);
-    const data = await res.json();
-    return (data || []).map(loc => ({
-      id: 'ff-' + loc.id,
-      name: loc.type_names?.join(', ') || 'foraging spot',
-      category: 'foraging',
-      lat: loc.lat,
-      lng: loc.lng,
-      address: loc.address || '',
-      description: loc.description || (loc.type_names ? loc.type_names.join(', ') : ''),
-      source: 'fallingfruit',
-    })).filter(l => l.lat && l.lng);
-  } catch(e) {
-    console.log('Falling Fruit fetch failed:', e);
-    return [];
-  }
-}
+    </div><!-- /sidebar -->
 
-async function fetchBack4App() {
-  try {
-    const res = await fetch(BACK4APP_URL + '?where={"status":"approved"}&limit=200', {
-      headers: {
-        'X-Parse-Application-Id': BACK4APP_APP_ID,
-        'X-Parse-JavaScript-Key': BACK4APP_JS_KEY,
-      },
-    });
-    const data = await res.json();
-    return (data.results || [])
-      .filter(r => r.lat && r.lng)
-      .map(r => ({ id: r.objectId, name: r.name, category: r.category, lat: r.lat, lng: r.lng, address: r.address, description: r.description, source: 'opengrounds' }));
-  } catch(e) {
-    return [];
-  }
-}
+    <!-- DRAG HANDLE — user can resize sidebar width -->
+    <div class="resize-handle" id="resize-handle"></div>
 
-function dedup(places) {
-  const seen = new Set();
-  return places.filter(p => {
-    const key = `${Math.round(p.lat*1000)},${Math.round(p.lng*1000)},${p.category}`;
-    if (seen.has(key)) return false;
-    seen.add(key); return true;
-  });
-}
+    <!-- THE MAP — leaflet attaches to this div -->
+    <div id="map"></div>
 
-// ── Nominatim geocoding ──────────────────────────────────────────────────────
-// Runs in the user's browser; results are cached in localStorage (if available)
-// so we only hit Nominatim once per address across page loads.
+  </div><!-- /app-body -->
 
-const GEO_CACHE_PREFIX = 'og_geo_v1:';
 
-function geoCache(key) {
-  try { const v = localStorage.getItem(GEO_CACHE_PREFIX + key); return v ? JSON.parse(v) : null; }
-  catch(e) { return null; }
-}
-function geoCacheSet(key, val) {
-  try { localStorage.setItem(GEO_CACHE_PREFIX + key, JSON.stringify(val)); } catch(e) {}
-}
+  <!-- ============================================================
+       MODAL — ADD A PLACE
+       ============================================================ -->
+  <div class="modal-backdrop" id="submit-modal">
+    <div class="modal-outer">
+      <div class="modal">
 
-async function geocodeOne(query) {
-  const cached = geoCache(query);
-  if (cached) return cached;
-  try {
-    const url = `https://nominatim.openstreetmap.org/search?format=json&limit=1&countrycodes=us&q=${encodeURIComponent(query)}`;
-    const res = await fetch(url, { headers: { 'Accept-Language': 'en' } });
-    const data = await res.json();
-    if (data && data[0]) {
-      const result = { lat: parseFloat(data[0].lat), lng: parseFloat(data[0].lon) };
-      geoCacheSet(query, result);
-      return result;
-    }
-  } catch(e) { /* network error - fall back to seed coords */ }
-  return null;
-}
+        <div class="modal-header">
+          <span class="modal-title">add a place</span>
+          <button class="modal-close" onclick="closeSubmit()">x</button>
+        </div>
 
-async function geocodeSeedData(places) {
-  // Filter to only places that have a geocodeAddress and might benefit from geocoding.
-  // We process them sequentially to respect Nominatim's 1 req/sec policy,
-  // but skip those already cached (fast path).
-  const toGeocode = places.filter(p => p.geocodeAddress);
-  for (let i = 0; i < toGeocode.length; i++) {
-    const p = toGeocode[i];
-    const cached = geoCache(p.geocodeAddress);
-    if (!cached) await new Promise(r => setTimeout(r, 1100)); // rate limit: only delay on cache miss
-    const result = await geocodeOne(p.geocodeAddress);
-    if (result) {
-      p.lat = result.lat;
-      p.lng = result.lng;
-    }
-    // Re-render markers as coordinates come in so the map updates progressively.
-    renderMarkers();
-    renderListings();
-  }
-}
+        <div class="modal-body">
 
-async function loadAll() {
-  setLoading(10);
-  const [osmData, ffData, b4aData] = await Promise.all([fetchOSM(), fetchFallingFruit(), fetchBack4App()]);
-  setLoading(70);
-  allPlaces = dedup([...SEED_DATA, ...b4aData, ...osmData, ...ffData]);
-  buildFilters();
-  renderMarkers();
-  renderListings();
-  setLoading(90);
-  // Geocode seed data in the background - updates map pins as results arrive.
-  geocodeSeedData(SEED_DATA).then(() => setLoading(100));
-  setLoading(100);
-}
+          <div class="form-group">
+            <label>name of place</label>
+            <input type="text" id="f-name" placeholder="e.g. 5th Street Community Garden">
+          </div>
 
-function openSubmit() { document.getElementById('submit-modal').classList.add('open'); }
-function closeSubmit() { document.getElementById('submit-modal').classList.remove('open'); }
-function openAbout() { document.getElementById('about-modal').classList.add('open'); }
-function closeAbout() { document.getElementById('about-modal').classList.remove('open'); }
-function openCorrection() { document.getElementById('correction-modal').classList.add('open'); }
-function closeCorrection() { document.getElementById('correction-modal').classList.remove('open'); }
+          <div class="form-group">
+            <label>type</label>
+            <select id="f-cat">
+              <option value="">choose one</option>
+              <option value="garden">community garden</option>
+              <option value="fridge">community fridge / freedge</option>
+              <option value="coop">food co-op</option>
+              <option value="pantry">free pantry / blessing box</option>
+              <option value="seeds">seed library</option>
+              <option value="library">little free library</option>
+              <option value="tools">tool library / repair cafe</option>
+              <option value="thrift">thrift and reuse store</option>
+              <option value="foraging">foraging spot</option>
+              <option value="bikes">bike repair station</option>
+              <option value="mutual">mutual aid / free store</option>
+              <option value="other">other commons</option>
+            </select>
+          </div>
 
-function showToast(msg) {
-  const t = document.getElementById('toast');
-  t.textContent = msg;
-  t.classList.add('show');
-  setTimeout(() => t.classList.remove('show'), 3000);
-}
+          <div class="form-group">
+            <label>
+              coordinates
+              <span style="font-weight:400;text-transform:none;letter-spacing:0;font-style:italic;color:var(--stone)">(preferred when possible)</span>
+            </label>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.5rem">
+              <input type="text" id="f-lat" placeholder="lat e.g. 38.5449">
+              <input type="text" id="f-lng" placeholder="lng e.g. -121.7399">
+            </div>
+            <p class="form-hint">coordinates place the pin precisely. find them on google maps by right-clicking the spot.</p>
+          </div>
 
-async function submitPlace() {
-  const name = document.getElementById('f-name').value.trim();
-  const cat  = document.getElementById('f-cat').value;
-  const addr = document.getElementById('f-addr').value.trim();
-  const desc = document.getElementById('f-desc').value.trim();
-  const link = document.getElementById('f-link').value.trim();
-  const contact = document.getElementById('f-contact').value.trim();
-  const latRaw = document.getElementById('f-lat').value.trim();
-  const lngRaw = document.getElementById('f-lng').value.trim();
-  const lat = latRaw ? parseFloat(latRaw) : null;
-  const lng = lngRaw ? parseFloat(lngRaw) : null;
-  if (!name || !cat || (!addr && !lat)) { showToast('name, type, and either address or coordinates are required.'); return; }
-  try {
-    const res = await fetch(BACK4APP_URL, {
-      method: 'POST',
-      headers: {
-        'X-Parse-Application-Id': BACK4APP_APP_ID,
-        'X-Parse-JavaScript-Key': BACK4APP_JS_KEY,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ name, category: cat, address: addr, description: desc, link, submittedBy: contact, status: 'pending', lat, lng }),
-    });
-    if (res.ok) {
-      closeSubmit();
-      ['f-name','f-addr','f-desc','f-link','f-contact','f-lat','f-lng'].forEach(id => document.getElementById(id).value = '');
-      document.getElementById('f-cat').value = '';
-      showToast('submitted. thanks for adding to the commons.');
-    } else { showToast('something went wrong. try again?'); }
-  } catch(e) { showToast('connection error. please try again.'); }
-}
+          <div class="form-group">
+            <label>address or cross streets</label>
+            <input type="text" id="f-addr" placeholder="e.g. 5th and L St, Davis CA">
+          </div>
 
-async function submitCorrection() {
-  const name = document.getElementById('c-name').value.trim();
-  const type = document.getElementById('c-type').value;
-  const details = document.getElementById('c-details').value.trim();
-  const latRaw = document.getElementById('c-lat').value.trim();
-  const lngRaw = document.getElementById('c-lng').value.trim();
-  if (!name || !type) { showToast('place name and correction type are required.'); return; }
-  try {
-    const res = await fetch(BACK4APP_URL.replace('/Place', '/Correction'), {
-      method: 'POST',
-      headers: {
-        'X-Parse-Application-Id': BACK4APP_APP_ID,
-        'X-Parse-JavaScript-Key': BACK4APP_JS_KEY,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ placeName: name, correctionType: type, details, lat: latRaw || null, lng: lngRaw || null, status: 'pending' }),
-    });
-    if (res.ok) {
-      closeCorrection();
-      ['c-name','c-details','c-lat','c-lng'].forEach(id => document.getElementById(id).value = '');
-      document.getElementById('c-type').value = '';
-      showToast('correction sent. thanks for keeping the map accurate.');
-    } else { showToast('something went wrong. try again?'); }
-  } catch(e) { showToast('connection error. please try again.'); }
-}
+          <div class="form-group">
+            <label>short description</label>
+            <textarea id="f-desc" placeholder="hours, what's available, anything useful to know"></textarea>
+          </div>
 
-initMap();
-loadAll();
-</script>
+          <div class="form-group">
+            <label>link (optional)</label>
+            <input type="url" id="f-link" placeholder="https://">
+            <p class="form-hint">instagram, website, google maps link, etc.</p>
+          </div>
+
+          <div class="form-group">
+            <label>your name or handle (optional)</label>
+            <input type="text" id="f-contact" placeholder="for credit">
+          </div>
+
+          <button class="btn btn-add" style="width:100%;margin-top:0.25rem" onclick="submitPlace()">submit for review</button>
+          <p class="submit-note">submissions are reviewed before going live. thanks for helping map the commons.</p>
+
+        </div><!-- /modal-body -->
+      </div><!-- /modal -->
+    </div><!-- /modal-outer -->
+  </div><!-- /submit-modal -->
+
+
+  <!-- ============================================================
+       MODAL — SUGGEST A CORRECTION
+       ============================================================ -->
+  <div class="modal-backdrop" id="correction-modal">
+    <div class="modal-outer">
+      <div class="modal">
+
+        <div class="modal-header">
+          <span class="modal-title">suggest a correction</span>
+          <button class="modal-close" onclick="closeCorrection()">x</button>
+        </div>
+
+        <div class="modal-body">
+
+          <p style="font-size:0.75rem;line-height:1.7;margin-bottom:1rem;color:var(--stone)">
+            wrong location, closed permanently, changed hours, or something else? let us know.
+          </p>
+
+          <div class="form-group">
+            <label>place name</label>
+            <input type="text" id="c-name" placeholder="which place is this about?">
+          </div>
+
+          <div class="form-group">
+            <label>what needs correcting?</label>
+            <select id="c-type">
+              <option value="">choose one</option>
+              <option value="wrong-location">pin is in the wrong location</option>
+              <option value="closed">place has permanently closed</option>
+              <option value="info">hours, description, or other info is wrong</option>
+              <option value="duplicate">this is a duplicate listing</option>
+              <option value="other">other</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label>
+              corrected coordinates
+              <span style="font-weight:400;text-transform:none;letter-spacing:0;font-style:italic;color:var(--stone)">(if location is wrong)</span>
+            </label>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.5rem">
+              <input type="text" id="c-lat" placeholder="lat">
+              <input type="text" id="c-lng" placeholder="lng">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>details</label>
+            <textarea id="c-details" placeholder="anything else we should know"></textarea>
+          </div>
+
+          <button class="btn btn-add" style="width:100%;margin-top:0.25rem" onclick="submitCorrection()">send correction</button>
+          <p class="submit-note">corrections go straight to the maintainer for review.</p>
+
+        </div><!-- /modal-body -->
+      </div><!-- /modal -->
+    </div><!-- /modal-outer -->
+  </div><!-- /correction-modal -->
+
+
+  <!-- ============================================================
+       MODAL — ABOUT
+       ============================================================ -->
+  <div class="modal-backdrop" id="about-modal">
+    <div class="modal-outer">
+      <div class="modal">
+
+        <div class="modal-header">
+          <span class="modal-title">open:grounds</span>
+          <button class="modal-close" onclick="closeAbout()">x</button>
+        </div>
+
+        <div class="modal-body">
+
+          <p class="about-text">
+            open:grounds is a citizen-built map of common goods in davis, ca.
+            free, shared, and mutual-aid resources that belong to everyone:
+            community gardens, freedges, the food co-op, little free libraries,
+            tool libraries, thrift and reuse stores, bike repair, and more.
+          </p>
+
+          <p class="about-text">
+            data is pulled from
+            <a href="https://fallingfruit.org" target="_blank">falling fruit</a>,
+            <a href="https://openstreetmap.org" target="_blank">openstreetmap</a>,
+            and community submissions reviewed by the project maintainer.
+          </p>
+
+          <p style="font-size:0.72rem;color:var(--stone);line-height:1.6">
+            a project by
+            <a href="https://zahrabaxi.com" target="_blank" style="color:var(--flame);font-weight:700">zahra baxi</a>
+            · davis, ca
+          </p>
+
+          <button class="btn" style="margin-top:1rem" onclick="closeAbout()">close</button>
+
+        </div><!-- /modal-body -->
+      </div><!-- /modal -->
+    </div><!-- /modal-outer -->
+  </div><!-- /about-modal -->
+
+
+  <!-- toast notification — shown briefly after form submissions -->
+  <div id="toast"></div>
+
+  <!-- our script — loaded last so the DOM is ready -->
+  <script src="script.js"></script>
+
 </body>
 </html>
