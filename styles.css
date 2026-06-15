@@ -220,20 +220,18 @@ header {
 .panel {
   border-bottom: var(--border);
   padding: 1rem 1.15rem;
-  /* panels don't set their own height — the sidebar drag handles control it */
   overflow: hidden;
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
 }
 
 /* each panel gets its own tinted background */
 .panel-filters { background: var(--pink-tint); }
 .panel-sources { background: var(--sky-tint); }
-.panel-index   {
-  background: var(--flame-tint);
-  flex: 1;       /* takes whatever space is left after the other two panels */
-  min-height: 0;
-  display: flex;
-  flex-direction: column;
-}
+.panel-index   { background: var(--flame-tint); }
+.panel-commons { background: var(--grass-tint); border-bottom: none; }
 
 .panel-label {
   font-family: 'Space Grotesk', sans-serif;
@@ -289,6 +287,12 @@ header {
   display: flex;
   flex-direction: column;
   gap: 0.25rem;
+  overflow-y: auto;
+  flex: 1;
+  min-height: 0;
+  /* pull it edge-to-edge so scrollbar sits flush */
+  margin: 0 -1.15rem -1rem;
+  padding: 0 1.15rem 1rem;
 }
 
 .cat-btn {
@@ -451,6 +455,74 @@ header {
   border-color: var(--flame);
 }
 .listing-link:hover { background: var(--flame); color: var(--paper); }
+
+
+/* ============================================================
+   COMMONS LINKS PANEL
+   the "davis commons" section at the bottom of the sidebar
+   ============================================================ */
+
+.commons-links {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  margin: 0 -1.15rem -1rem;
+  padding: 0 1.15rem 1rem;
+}
+
+.commons-section-label {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--stone);
+  padding-top: 0.6rem;
+  padding-bottom: 0.2rem;
+  border-top: 1.5px solid rgba(21,19,15,0.15);
+  margin-top: 0.25rem;
+  flex-shrink: 0;
+}
+.commons-section-label:first-child {
+  padding-top: 0;
+  margin-top: 0;
+  border-top: none;
+}
+
+.commons-link {
+  display: flex;
+  flex-direction: column;
+  gap: 0.08rem;
+  padding: 0.45rem 0.55rem;
+  border: 1.5px solid transparent;
+  text-decoration: none;
+  color: var(--ink);
+  cursor: pointer;
+  transition: border-color 0.1s, background 0.1s;
+  flex-shrink: 0;
+}
+.commons-link:hover {
+  background: rgba(21,19,15,0.07);
+  border-color: var(--ink);
+}
+
+.commons-link-name {
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 600;
+  font-size: 0.8rem;
+  color: var(--grass);
+}
+.commons-link:hover .commons-link-name { color: var(--ink); }
+
+.commons-link-sub {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.62rem;
+  color: var(--stone);
+  line-height: 1.4;
+}
 
 
 /* ============================================================
@@ -863,37 +935,199 @@ textarea { min-height: 72px; }
 
 
 /* ============================================================
-   RESPONSIVE — mobile layout
-   on narrow screens the sidebar stacks above the map
+   TAG PILL FILTERS  (free / low-cost / zero-waste / community)
    ============================================================ */
 
+.panel-tags {
+  background: var(--grass-tint);
+  flex: 0 0 auto;       /* don't grow — fixed height */
+}
+
+.tag-pill-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.tag-pill {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  padding: 0.3rem 0.7rem;
+  border: 2px solid var(--ink);
+  background: var(--paper);
+  color: var(--ink);
+  cursor: pointer;
+  transition: background 0.1s, color 0.1s;
+  white-space: nowrap;
+}
+.tag-pill:hover:not(.active) { background: rgba(21,19,15,0.1); }
+.tag-pill.active {
+  background: var(--grass);
+  color: var(--paper);
+  border-color: var(--grass);
+}
+
+
+/* ============================================================
+   RESPONSIVE — mobile layout
+   map fills screen; tab bar at bottom; sheet slides up
+   ============================================================ */
+
+/* hide mobile chrome on desktop */
+.mobile-bar   { display: none; }
+.mobile-sheet { display: none; }
+
 @media (max-width: 640px) {
-  .brand-title { font-size: 1.4rem; }
-  .brand-mark  { width: 36px; height: 36px; }
+
+  /* ---- header ---- */
+  header {
+    height: 52px;
+    padding: 0 1rem;
+  }
+  .brand-title { font-size: 1.25rem; }
+  .brand-mark  { width: 32px; height: 32px; }
   .brand-sub   { display: none; }
+  .header-right { display: none; } /* actions live in bottom bar instead */
 
-  /* stack sidebar above map */
+  /* ---- app body: map fills everything ---- */
   .app-body {
-    grid-template-columns: 1fr;
-    grid-template-rows: auto 1fr;
+    display: block;
+    height: calc(100dvh - 52px - 56px); /* below header, above tab bar */
   }
 
-  .sidebar {
-    border-right: none;
-    border-bottom: var(--border);
-    overflow-x: auto;
+  /* hide the desktop sidebar entirely */
+  .sidebar       { display: none; }
+  .resize-handle { display: none; }
+
+  /* map stretches to fill the app-body block */
+  #map {
+    width: 100%;
+    height: 100%;
   }
 
-  /* make filters scroll horizontally in a row */
-  .panel-filters {
+  /* ---- mobile bottom tab bar ---- */
+  .mobile-bar {
     display: flex;
-    align-items: center;
-    gap: 1rem;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 56px;
+    background: var(--paper);
+    border-top: var(--border);
+    z-index: 500;
   }
-  .panel-filters .panel-label { margin-bottom: 0; white-space: nowrap; }
-  .cat-list { flex-direction: row; flex-wrap: nowrap; }
 
-  /* hide source legend and index list on mobile to save space */
-  .panel-sources,
-  .panel-index   { display: none; }
+  .mobile-tab {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2px;
+    background: none;
+    border: none;
+    border-right: 2px solid var(--ink);
+    cursor: pointer;
+    font-family: 'Space Grotesk', sans-serif;
+    padding: 0;
+    transition: background 0.1s;
+  }
+  .mobile-tab:last-child { border-right: none; }
+  .mobile-tab:hover      { background: rgba(21,19,15,0.07); }
+  .mobile-tab.active     { background: var(--ink); }
+  .mobile-tab.active .mobile-tab-icon,
+  .mobile-tab.active .mobile-tab-label { color: var(--paper); }
+
+  .mobile-tab-icon {
+    font-size: 1.1rem;
+    line-height: 1;
+    color: var(--ink);
+  }
+  .mobile-tab-label {
+    font-size: 0.6rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--stone);
+  }
+
+  /* ---- mobile slide-up sheet ---- */
+  .mobile-sheet {
+    display: block;
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 56px; /* sits above the tab bar */
+    height: 0;
+    max-height: calc(100dvh - 52px - 56px);
+    background: var(--paper);
+    border-top: var(--border);
+    z-index: 400;
+    overflow: hidden;
+    transition: height 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .mobile-sheet.open {
+    height: 55vh;
+  }
+
+  .mobile-sheet-handle {
+    width: 36px;
+    height: 4px;
+    background: rgba(21,19,15,0.25);
+    margin: 0.6rem auto 0;
+    border-radius: 2px;
+    flex-shrink: 0;
+  }
+
+  .mobile-sheet-content {
+    height: calc(100% - 20px);
+    overflow-y: auto;
+    padding: 0.75rem 1rem 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  /* ---- sheet: filter view ---- */
+  .mobile-sheet-content .panel-label {
+    margin-bottom: 0.4rem;
+  }
+
+  .mobile-sheet-content .tag-pill-list {
+    flex-wrap: wrap;
+  }
+
+  .mobile-sheet-content .cat-list {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 0.3rem;
+    overflow: visible;
+    margin: 0;
+    padding: 0;
+  }
+
+  .mobile-sheet-content .cat-btn {
+    width: auto;
+    padding: 0.35rem 0.6rem;
+    font-size: 0.75rem;
+    border: 2px solid var(--ink);
+  }
+
+  /* ---- sheet: list view ---- */
+  .mobile-listings .listing-card {
+    padding: 0.75rem 0;
+  }
+
+  /* ---- modal: full-screen on mobile ---- */
+  .modal-backdrop { padding: 0; align-items: flex-end; }
+  .modal-outer {
+    max-width: 100%;
+    max-height: 92dvh;
+    box-shadow: none;
+    border-top: var(--border);
+  }
 }

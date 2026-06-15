@@ -77,14 +77,20 @@
     <!-- SIDEBAR -->
     <div class="sidebar">
 
+      <!-- tag filter pills — free / low-cost / zero-waste / community -->
+      <div class="panel panel-tags" id="panel-tags">
+        <div class="panel-label">filter by value</div>
+        <div class="tag-pill-list" id="tag-filters"></div>
+      </div>
+
       <!-- category filter buttons — built by buildFilters() in script.js -->
-      <div class="panel ≈" id="panel-filters">
+      <div class="panel panel-filters" id="panel-filters">
         <div class="panel-label">filter by type</div>
         <div class="cat-list" id="cat-filters"></div>
       </div>
 
       <!-- draggable handle between filters and sources -->
-      <div class="panel-resize-handle" id="row-handle-1"></div>
+      <!-- <div class="panel-resize-handle" id="row-handle-1"></div> -->
 
       <!-- data source legend -->
        <!-- REMOVE NOT NECESSARY -->
@@ -106,13 +112,51 @@
         </div>
       </div> -->
 
-      <!-- draggable handle between sources and index -->
-      <div class="panel-resize-handle" id="row-handle-2"></div>
-
       <!-- scrollable place index — built by renderListings() in script.js -->
       <div class="panel panel-index" id="panel-index">
         <div class="panel-label">index <span class="muted" id="count-label">0 places</span></div>
         <div id="listings"></div>
+      </div>
+
+      <!-- draggable handle between index and commons links -->
+      <div class="panel-resize-handle" id="row-handle-2"></div>
+
+      <!-- commons links panel -->
+      <div class="panel panel-commons" id="panel-commons">
+        <div class="panel-label">davis commons</div>
+        <div class="commons-links">
+
+          <div class="commons-section-label">gift &amp; sharing networks</div>
+          <a class="commons-link" href="https://www.facebook.com/groups/buynothingdavis/" target="_blank">
+            <span class="commons-link-name">Buy Nothing Davis</span>
+            <span class="commons-link-sub">free neighborhood gift economy</span>
+          </a>
+          <a class="commons-link" href="https://www.facebook.com/groups/freecycledavis/" target="_blank">
+            <span class="commons-link-name">Davis Freecycle</span>
+            <span class="commons-link-sub">give &amp; get free stuff locally</span>
+          </a>
+
+          <div class="commons-section-label">foraging</div>
+          <a class="commons-link" href="https://fallingfruit.org/?c=foraging,gleaning&z=14&y=38.546&x=-121.748" target="_blank">
+            <span class="commons-link-name">Falling Fruit — Davis</span>
+            <span class="commons-link-sub">forageable trees &amp; public harvests</span>
+          </a>
+
+          <div class="commons-section-label">community media</div>
+          <a class="commons-link" href="https://dctv.davismedia.org" target="_blank">
+            <span class="commons-link-name">DCTV — channel 15</span>
+            <span class="commons-link-sub">Davis public access TV · stream online</span>
+          </a>
+          <a class="commons-link" href="https://kdrt.org" target="_blank">
+            <span class="commons-link-name">KDRT 95.7 FM</span>
+            <span class="commons-link-sub">low-power community radio · stream online</span>
+          </a>
+          <a class="commons-link" href="https://kdvs.org" target="_blank">
+            <span class="commons-link-name">KDVS 90.3 FM</span>
+            <span class="commons-link-sub">UC Davis free-form radio · stream online</span>
+          </a>
+
+        </div>
       </div>
 
     </div><!-- /sidebar -->
@@ -312,6 +356,34 @@
     </div><!-- /modal-outer -->
   </div><!-- /about-modal -->
 
+
+  <!-- MOBILE BOTTOM BAR — persistent tab bar on small screens -->
+  <div class="mobile-bar" id="mobile-bar">
+    <button class="mobile-tab active" id="tab-map" onclick="mobileSwitchTab('map')">
+      <span class="mobile-tab-icon">◎</span>
+      <span class="mobile-tab-label">map</span>
+    </button>
+    <button class="mobile-tab" id="tab-filter" onclick="mobileSwitchTab('filter')">
+      <span class="mobile-tab-icon">◈</span>
+      <span class="mobile-tab-label">filter</span>
+    </button>
+    <button class="mobile-tab" id="tab-list" onclick="mobileSwitchTab('list')">
+      <span class="mobile-tab-icon">≡</span>
+      <span class="mobile-tab-label">list</span>
+    </button>
+    <button class="mobile-tab" id="tab-add" onclick="openSubmit()">
+      <span class="mobile-tab-icon">+</span>
+      <span class="mobile-tab-label">add</span>
+    </button>
+  </div>
+
+  <!-- MOBILE SHEET — slides up to show filters or listings -->
+  <div class="mobile-sheet" id="mobile-sheet">
+    <div class="mobile-sheet-handle"></div>
+    <div class="mobile-sheet-content" id="mobile-sheet-content">
+      <!-- content swapped by mobileSwitchTab() -->
+    </div>
+  </div>
 
   <!-- toast notification — shown briefly after form submissions -->
   <div id="toast"></div>

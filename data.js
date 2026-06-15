@@ -22,6 +22,7 @@ var CATEGORIES = [
   { id: 'parks',    label: 'community parks',     color: '#4a932b' },
   { id: 'fridge',   label: 'community fridge',    color: '#2F9BD6' },
   { id: 'commun',    label: 'community meals',    color: '#8B5CF6' },
+  { id: 'entertain', label: 'entertainment',      color: '#D4460F' },
   { id: 'coop',     label: 'food co-op',          color: '#FFC53D' },
   { id: 'pantry',   label: 'free pantry',         color: '#FF5722' },
   { id: 'lolib',    label: 'local library',       color: '#beb129' },
@@ -32,6 +33,7 @@ var CATEGORIES = [
   { id: 'bikes',    label: 'bike repair',         color: '#4F6BFF' },
   { id: 'mutual',   label: 'mutual aid',          color: '#C2185B' },
   { id: 'other',    label: 'other commons',       color: '#75695A' }
+  
 ];
 
 
@@ -80,7 +82,7 @@ var SEED_DATA = [
 
 
   {
-    id: 's15',
+    id: 's4',
     name: 'Mary L. Stephens Davis Branch Library',
     category: 'lolib',
     lat: 38.556916, lng: -121.747134,
@@ -101,7 +103,7 @@ var SEED_DATA = [
   },
 
   {
-    id: 's4',
+    id: 's5',
     name: 'Davis Food Co-op Freedge',
     category: 'fridge',
     lat: 38.549561, lng: -121.740080,
@@ -111,7 +113,7 @@ var SEED_DATA = [
     source: 'public'
   },
   {
-    id: 's5',
+    id: 's6',
     name: 'Memorial Union Freedge',
     category: 'fridge',
     lat: 38.5423, lng: -121.7489,
@@ -122,7 +124,7 @@ var SEED_DATA = [
     source: 'public'
   },
   {
-    id: 's6',
+    id: 's7',
     name: 'Davis Food Co-op',
     category: 'coop',
     lat: 38.5496, lng: -121.7398,
@@ -219,7 +221,7 @@ var SEED_DATA = [
   },
 
 {
-    id: 's14',
+    id: 's15',
     name: 'Dero FixIt - Hawthorn Hall',
     category: 'bikes',
     lat: 38.537315, lng: -121.758166,
@@ -231,7 +233,7 @@ var SEED_DATA = [
   },
 
   {
-    id: 's14',
+    id: 's16',
     name: 'Dero FixIt - Scrub Oak Hall',
     category: 'bikes',
     lat: 38.536771, lng: -121.756677,
@@ -242,7 +244,7 @@ var SEED_DATA = [
     source: 'dero'
   },
   {
-    id: 's14',
+    id: 's17',
     name: 'Dero FixIt - Redwood Hall',
     category: 'bikes',
     lat: 38.535968, lng: -121.755575,
@@ -253,7 +255,7 @@ var SEED_DATA = [
     source: 'dero'
   },
   {
-    id: 's14',
+    id: 's18',
     name: 'Dero FixIt - Scrubs Cafe',
     category: 'bikes',
     lat: 38.533244, lng: -121.763174,
@@ -264,7 +266,7 @@ var SEED_DATA = [
     source: 'dero'
   },
   {
-    id: 's14',
+    id: 's19',
     name: 'Dero FixIt - UC Davis',
     category: 'bikes',
     lat: 38.540293, lng: -121.758683,
@@ -275,7 +277,7 @@ var SEED_DATA = [
     source: 'dero'
   },
     {
-    id: 's14',
+    id: 's20',
     name: 'Dero FixIt - UC Davis',
     category: 'bikes',
     lat: 38.541687, lng: -121.760999,
@@ -287,7 +289,7 @@ var SEED_DATA = [
   },
 
     {
-    id: 's14',
+    id: 's21',
     name: 'Dero FixIt - Sunrise Park',
     category: 'bikes',
     lat: 38.541929, lng: -121.769681,
@@ -298,7 +300,7 @@ var SEED_DATA = [
     source: 'dero'
   },
    {
-    id: 's14',
+    id: 's22',
     name: 'Dero FixIt - UC Davis Activities and Recreation Center',
     category: 'bikes',
     lat: 38.543102, lng: -121.758926,
@@ -309,7 +311,7 @@ var SEED_DATA = [
     source: 'dero'
   },
   {
-    id: 's14',
+    id: 's23',
     name: 'Dero FixIt - Castillian North',
     category: 'bikes',
     lat: 38.549512, lng: -121.767007,
@@ -320,7 +322,7 @@ var SEED_DATA = [
     source: 'dero'
   },
   {
-    id: 's14',
+    id: 's24',
     name: 'Dero FixIt - Mary L. Stephens Davis Library',
     category: 'bikes',
     lat: 38.557216, lng: -121.746952,
@@ -331,7 +333,7 @@ var SEED_DATA = [
     source: 'dero'
   },
   {
-    id: 's14',
+    id: 's25',
     name: 'Dero FixIt - The Cannery',
     category: 'bikes',
     lat: 38.566171, lng: -121.742076,
@@ -344,19 +346,19 @@ var SEED_DATA = [
 
 
   {
-    id: 's16',
+    id: 's26',
     name: 'Free Supply Closet @ J Street Co-op',
     category: 'mutual',
     lat: 38.545397, lng: -121.735776,
     geocodeAddress: '234 J St, Davis, CA',
     address: 'Corner of 3rd and J Streets, Davis CA 95616',
     link: 'https://www.instagram.com/j_street_cooperative/',
-    description: 'free supply closet inside the J Street Cooperative. kitchen supplies, living supplies, clothes, blankets, sleeping bags, and more. not for food — for food donations, visit the Freedge at the Quaker Friends Meeting House (4th and L St).',
+    description: 'free supply closet inside the J Street Cooperative. kitchen supplies, living supplies, clothes, blankets, sleeping bags, and more. not for food.',
     source: 'public'
   },
 
   {
-    id: 's17',
+    id: 's27',
     name: 'Mutual Aid in Davis (MAD)',
     category: 'mutual',
     lat: null, lng: null,
@@ -386,7 +388,7 @@ var ADDRESS_DATA = [
 
   // -------- freedges --------
   {
-    id: 's18',
+    id: 's28',
     name: 'East Davis Freedge',
     category: 'fridge',
     lat: 38.55979, lng: -121.7259293,
@@ -397,7 +399,7 @@ var ADDRESS_DATA = [
     source: 'community'
   },
   {
-    id: 's19',
+    id: 's29',
     name: 'Neighborhood Kitchen Freedge',
     category: 'fridge',
     lat: 38.568911, lng: -121.7498,
@@ -408,7 +410,7 @@ var ADDRESS_DATA = [
     source: 'community'
   },
   {
-    id: 's20',
+    id: 's30',
     name: 'Eureka Freedge',
     category: 'fridge',
     lat: 38.554131, lng: -121.750091,
@@ -419,7 +421,7 @@ var ADDRESS_DATA = [
     source: 'community'
   },
   {
-    id: 's21',
+    id: 's31',
     name: 'Turtlehouse Freedge',
     category: 'fridge',
     lat: 38.542451, lng: -121.746072,
@@ -430,7 +432,7 @@ var ADDRESS_DATA = [
     source: 'community'
   },
   {
-    id: 's22',
+    id: 's32',
     name: 'UC Davis Silo Freedge',
     category: 'fridge',
     lat: 38.538756, lng: -121.753033,
@@ -441,7 +443,7 @@ var ADDRESS_DATA = [
     source: 'community'
   },
   {
-    id: 's23',
+    id: 's33',
     name: 'Bowley Plant Science Teaching Center Freedge',
     category: 'fridge',
     lat: 38.539142, lng: -121.763935,
@@ -455,7 +457,7 @@ var ADDRESS_DATA = [
 
   // -------- thrift & reuse --------
   {
-    id: 's25',
+    id: 's34',
     name: 'Bohème',
     category: 'thrift',
     lat: 38.544472, lng: -121.743234,
@@ -466,7 +468,7 @@ var ADDRESS_DATA = [
     source: 'public'
   },
   {
-    id: 's26',
+    id: 's35',
     name: 'Goodwill',
     category: 'thrift',
     lat: 38.553322, lng: 121.730549,
@@ -479,7 +481,7 @@ var ADDRESS_DATA = [
 
   // -------- edible campus harvest sites --------
   {
-    id: 's27',
+    id: 's36',
     name: 'Salad Bowl Garden (Edible Campus)',
     category: 'foraging',
     lat: 38.54298, lng: -121.751483,
@@ -490,7 +492,7 @@ var ADDRESS_DATA = [
     source: 'public'
   },
   {
-    id: 's28',
+    id: 's37',
     name: 'Biological Orchard and Gardens (BOG), Mann Laboratory',
     category: 'foraging',
     lat: 38.541491, lng: -121.75564,
@@ -503,7 +505,7 @@ var ADDRESS_DATA = [
 
   // -------- little free libraries --------
   {
-    id: 's29',
+    id: 's38',
     name: 'Little Free Library + Board Games',
     category: 'library',
     lat: null, lng: null,
@@ -514,7 +516,7 @@ var ADDRESS_DATA = [
     source: 'community'
   },
   {
-    id: 's30',
+    id: 's39',
     name: 'Little Free Library + Produce Basket',
     category: 'library',
     lat: null, lng: null,
@@ -525,7 +527,7 @@ var ADDRESS_DATA = [
     source: 'community'
   },
   {
-    id: 's31',
+    id: 's40',
     name: 'Little Free Library – Prado Ln',
     category: 'library',
     lat: null, lng: null,
@@ -536,7 +538,7 @@ var ADDRESS_DATA = [
     source: 'community'
   },
   {
-    id: 's32',
+    id: 's41',
     name: 'Little Free Library – Camphor Ln',
     category: 'library',
     lat: null, lng: null,
@@ -547,7 +549,7 @@ var ADDRESS_DATA = [
     source: 'community'
   },
   {
-    id: 's33',
+    id: 's42',
     name: 'Little Free Library – Layton Dr',
     category: 'library',
     lat: null, lng: null,
@@ -558,7 +560,7 @@ var ADDRESS_DATA = [
     source: 'community'
   },
   {
-    id: 's34',
+    id: 's43',
     name: 'Little Free Library – Blackburn Dr',
     category: 'library',
     lat: null, lng: null,
@@ -569,7 +571,7 @@ var ADDRESS_DATA = [
     source: 'community'
   },
   {
-    id: 's35',
+    id: 's44',
     name: 'Little Free Library – Monarch Ln',
     category: 'library',
     lat: null, lng: null,
@@ -580,7 +582,7 @@ var ADDRESS_DATA = [
     source: 'community'
   },
   {
-    id: 's36',
+    id: 's45',
     name: 'Little Free Library – Eligio Ln',
     category: 'library',
     lat: null, lng: null,
@@ -591,7 +593,7 @@ var ADDRESS_DATA = [
     source: 'community'
   },
   {
-    id: 's37',
+    id: 's46',
     name: 'Little Free Library – Alegre Way',
     category: 'library',
     lat: null, lng: null,
@@ -602,7 +604,7 @@ var ADDRESS_DATA = [
     source: 'community'
   },
   {
-    id: 's38',
+    id: 's47',
     name: 'Little Free Library – Arroyo Ave',
     category: 'library',
     lat: null, lng: null,
@@ -613,7 +615,7 @@ var ADDRESS_DATA = [
     source: 'community'
   },
   {
-    id: 's39',
+    id: 's48',
     name: 'Little Free Library – Atlantis Park',
     category: 'library',
     lat: null, lng: null,
@@ -624,7 +626,7 @@ var ADDRESS_DATA = [
     source: 'community'
   },
   {
-    id: 's40',
+    id: 's49',
     name: 'Little Free Library – La Paz Dr',
     category: 'library',
     lat: null, lng: null,
@@ -635,7 +637,7 @@ var ADDRESS_DATA = [
     source: 'community'
   },
   {
-    id: 's41',
+    id: 's50',
     name: 'Little Free Library – East Davis',
     category: 'library',
     lat: null, lng: null,
@@ -646,7 +648,7 @@ var ADDRESS_DATA = [
     source: 'community'
   },
   {
-    id: 's42',
+    id: 's51',
     name: 'Little Free Library – Renoir Ave',
     category: 'library',
     lat: null, lng: null,
@@ -660,7 +662,7 @@ var ADDRESS_DATA = [
 
 
    {
-    id: 's42',
+    id: 's52',
     name: 'Little Free Library – Coolidge Court',
     category: 'library',
     lat: null, lng: null,
@@ -671,7 +673,7 @@ var ADDRESS_DATA = [
     source: 'community'
   },
    {
-    id: 's42',
+    id: 's53',
     name: 'Little Free Library – McNelson\'s Library',
     category: 'library',
     lat: null, lng: null,
@@ -682,7 +684,7 @@ var ADDRESS_DATA = [
     source: 'community'
   },
    {
-    id: 's42',
+    id: 's54',
     name: 'Little Free Library – Morro Bay',
     category: 'library',
     lat: null, lng: null,
@@ -693,7 +695,7 @@ var ADDRESS_DATA = [
     source: 'community'
   },
    {
-    id: 's42',
+    id: 's55',
     name: 'Little Free Library – Popo And Lǎoye Library',
     category: 'library',
     lat: null, lng: null,
@@ -704,7 +706,7 @@ var ADDRESS_DATA = [
     source: 'community'
   },
    {
-    id: 's42',
+    id: 's56',
     name: 'Little Free Library – Purdue Dr',
     category: 'library',
     lat: null, lng: null,
@@ -715,7 +717,7 @@ var ADDRESS_DATA = [
     source: 'community'
   },
    {
-    id: 's42',
+    id: 's57',
     name: 'Little Free Library – Charlotte\'s Mystery Library',
     category: 'library',
     lat: null, lng: null,
@@ -726,7 +728,7 @@ var ADDRESS_DATA = [
     source: 'community'
   },
    {
-    id: 's42',
+    id: 's58',
     name: 'Little Free Library – Lemon Ln',
     category: 'library',
     lat: null, lng: null,
@@ -737,7 +739,7 @@ var ADDRESS_DATA = [
     source: 'community'
   },
    {
-    id: 's42',
+    id: 's59',
     name: 'Little Free Library – Ben\'s Little Library',
     category: 'library',
     lat: null, lng: null,
@@ -748,7 +750,7 @@ var ADDRESS_DATA = [
     source: 'community'
   },
    {
-    id: 's42',
+    id: 's60',
     name: 'Little Free Library – The Little Bluebird Library',
     category: 'library',
     lat: null, lng: null,
@@ -759,7 +761,7 @@ var ADDRESS_DATA = [
     source: 'community'
   },
    {
-    id: 's42',
+    id: 's61',
     name: 'Little Free Kids Library',
     category: 'library',
     lat: null, lng: null,
@@ -770,7 +772,7 @@ var ADDRESS_DATA = [
     source: 'community'
   },
    {
-    id: 's42',
+    id: 's62',
     name: 'Little Free Library – Sandpiper Drive',
     category: 'library',
     lat: null, lng: null,
@@ -781,7 +783,7 @@ var ADDRESS_DATA = [
     source: 'community'
   },
    {
-    id: 's42',
+    id: 's63',
     name: 'Little Free Library – Fiesta Ave',
     category: 'library',
     lat: null, lng: null,
@@ -792,7 +794,7 @@ var ADDRESS_DATA = [
     source: 'community'
   },
    {
-    id: 's42',
+    id: 's64',
     name: 'Little Free Library – Bueno Drive',
     category: 'library',
     lat: null, lng: null,
@@ -803,7 +805,7 @@ var ADDRESS_DATA = [
     source: 'community'
   },
    {
-    id: 's42',
+    id: 's65',
     name: 'Little Free Library – Hawthorne Ln',
     category: 'library',
     lat: null, lng: null,
@@ -814,7 +816,7 @@ var ADDRESS_DATA = [
     source: 'community'
   },
    {
-    id: 's42',
+    id: 's66',
     name: 'Little Free Library – Linden Ln',
     category: 'library',
     lat: null, lng: null,
@@ -825,7 +827,7 @@ var ADDRESS_DATA = [
     source: 'community'
   },
    {
-    id: 's42',
+    id: 's67',
     name: 'Little Free Library – Georgetown Place',
     category: 'library',
     lat: null, lng: null,
@@ -836,7 +838,7 @@ var ADDRESS_DATA = [
     source: 'community'
   },
    {
-    id: 's42',
+    id: 's68',
     name: 'Little Free Library – Oeste Drive',
     category: 'library',
     lat: null, lng: null,
@@ -847,7 +849,7 @@ var ADDRESS_DATA = [
     source: 'community'
   },
    {
-    id: 's42',
+    id: 's69',
     name: 'Little Free Library – Little Moon',
     category: 'library',
     lat: null, lng: null,
@@ -858,7 +860,7 @@ var ADDRESS_DATA = [
     source: 'community'
   },
    {
-    id: 's42',
+    id: 's70',
     name: 'Little Free Library – The Brazil Family',
     category: 'library',
     lat: null, lng: null,
@@ -869,7 +871,7 @@ var ADDRESS_DATA = [
     source: 'community'
   },
    {
-    id: 's42',
+    id: 's71',
     name: 'Little Free Library – Elmwood Drive',
     category: 'library',
     lat: null, lng: null,
@@ -880,7 +882,7 @@ var ADDRESS_DATA = [
     source: 'community'
   },
    {
-    id: 's42',
+    id: 's72',
     name: 'Little Free Library – College Park',
     category: 'library',
     lat: null, lng: null,
@@ -891,7 +893,7 @@ var ADDRESS_DATA = [
     source: 'community'
   },
    {
-    id: 's42',
+    id: 's73',
     name: 'Little Free Library – Chloe\'s Yolo District Office',
     category: 'library',
     lat: null, lng: null,
@@ -902,7 +904,7 @@ var ADDRESS_DATA = [
     source: 'community'
   },
    {
-    id: 's42',
+    id: 's74',
     name: 'Little Free Library – A Street',
     category: 'library',
     lat: null, lng: null,
@@ -913,7 +915,7 @@ var ADDRESS_DATA = [
     source: 'community'
   },
     {
-    id: 's42',
+    id: 's75',
     name: 'Little Free Library – Cedar Place Children\'s Library',
     category: 'library',
     lat: null, lng: null,
@@ -924,7 +926,7 @@ var ADDRESS_DATA = [
     source: 'community'
   },
     {
-    id: 's42',
+    id: 's76',
     name: 'Little Free Library – Andyhaus',
     category: 'library',
     lat: null, lng: null,
@@ -935,7 +937,7 @@ var ADDRESS_DATA = [
     source: 'community'
   },
      {
-    id: 's42',
+    id: 's77',
     name: 'Little Free Library – University Ave',
     category: 'library',
     lat: null, lng: null,
@@ -946,7 +948,7 @@ var ADDRESS_DATA = [
     source: 'community'
   },
      {
-    id: 's42',
+    id: 's78',
     name: 'Little Free Library – E Street',
     category: 'library',
     lat: null, lng: null,
@@ -957,7 +959,7 @@ var ADDRESS_DATA = [
     source: 'community'
   },
      {
-    id: 's42',
+    id: 's79',
     name: 'Little Free Library – Little Lo',
     category: 'library',
     lat: null, lng: null,
@@ -968,7 +970,7 @@ var ADDRESS_DATA = [
     source: 'community'
   },
      {
-    id: 's42',
+    id: 's80',
     name: 'Little Free Library – True Connections',
     category: 'library',
     lat: null, lng: null,
@@ -979,7 +981,7 @@ var ADDRESS_DATA = [
     source: 'community'
   },
   {
-    id: 's42',
+    id: 's81',
     name: 'Little Free Library – Davis Manor Neighborhood Free Library',
     category: 'library',
     lat: null, lng: null,
@@ -990,7 +992,7 @@ var ADDRESS_DATA = [
     source: 'community'
   },
   {
-    id: 's42',
+    id: 's82',
     name: 'Little Free Library – Cypress Lane',
     category: 'library',
     lat: null, lng: null,
@@ -1001,7 +1003,7 @@ var ADDRESS_DATA = [
     source: 'community'
   },
   {
-    id: 's42',
+    id: 's83',
     name: 'Little Free Library – Pole Line Road',
     category: 'library',
     lat: null, lng: null,
@@ -1012,7 +1014,7 @@ var ADDRESS_DATA = [
     source: 'community'
   },
   {
-    id: 's42',
+    id: 's84',
     name: 'Little Free Library – Little Free Library Peace Garden',
     category: 'library',
     lat: null, lng: null,
@@ -1023,7 +1025,7 @@ var ADDRESS_DATA = [
     source: 'community'
   },
   {
-    id: 's42',
+    id: 's85',
     name: 'Little Free Library – Dogs, Cars, and other Great Things',
     category: 'library',
     lat: null, lng: null,
@@ -1034,7 +1036,7 @@ var ADDRESS_DATA = [
     source: 'community'
   },
   {
-    id: 's42',
+    id: 's86',
     name: 'Little Free Library – Amanda\'s Library',
     category: 'library',
     lat: null, lng: null,
@@ -1045,7 +1047,7 @@ var ADDRESS_DATA = [
     source: 'community'
   },
   {
-    id: 's42',
+    id: 's87',
     name: 'Little Free Library – Little Woodbridge Library',
     category: 'library',
     lat: null, lng: null,
@@ -1056,7 +1058,7 @@ var ADDRESS_DATA = [
     source: 'community'
   },
   {
-    id: 's42',
+    id: 's88',
     name: 'Little Free Library – Deodara Court',
     category: 'library',
     lat: null, lng: null,
@@ -1067,7 +1069,7 @@ var ADDRESS_DATA = [
     source: 'community'
   },
   {
-    id: 's42',
+    id: 's89',
     name: 'Little Free Library – Almond Lane',
     category: 'library',
     lat: null, lng: null,
@@ -1078,7 +1080,7 @@ var ADDRESS_DATA = [
     source: 'community'
   },
   {
-    id: 's42',
+    id: 's90',
     name: 'Little Free Library – La Mesa Ct',
     category: 'library',
     lat: null, lng: null,
@@ -1089,7 +1091,7 @@ var ADDRESS_DATA = [
     source: 'community'
   },
   {
-    id: 's42',
+    id: 's91',
     name: 'Little Free Library – El Pescador Ct',
     category: 'library',
     lat: null, lng: null,
@@ -1105,37 +1107,37 @@ var ADDRESS_DATA = [
 //    -------- gardens --------
 
 {
-    id: 's42',
-    name: 'UC Davis Arboretum',
+    id: 's92',
+    name: 'UC Davis Arboretum & Public Garden',
     category: 'garden',
-    lat: 38.5347, lng: -121.7597,
-    address: 'UC Davis Arboretum, Davis, CA',
-    geocodeAddress: 'UC Davis Arboretum, Davis, CA',
-    link: null,
-    description: 'a little free library on El Pescador Ct. swap a book, take a book.',
-    source: 'community'
+    lat: 38.5342, lng: -121.7560,
+    address: '448 La Rue Rd, UC Davis, Davis CA 95616',
+    geocodeAddress: 'UC Davis Arboretum La Rue Road Davis CA',
+    link: 'https://arboretum.ucdavis.edu',
+    description: '100-acre public garden free and open daily, dawn to dusk. includes the Ruth Risdon Storer Garden, Redwood Grove, native plant collections, and seasonal educational programs. no admission.',
+    source: 'public'
   },
 
   {
-    id: 's42',
+    id: 's93',
     name: 'Davis Community Meals & Housing (Paul\'s Place)',
     category: 'commun',
     lat: 38.5556, lng: -121.7383,
-    address: 'UC Davis Arboretum, Davis, CA',
-    geocodeAddress: 'UC Davis Arboretum, Davis, CA',
-    link: null,
-    description: 'a little free library on El Pescador Ct. swap a book, take a book.',
-    source: 'community'
+    address: '1111 H St, Davis CA 95616',
+    geocodeAddress: '1111 H St Davis CA',
+    link: 'https://www.daviscommunitymeals.org',
+    description: 'free hot meals served daily to anyone in need. Paul\'s Place provides meals, emergency shelter referrals, and community support. no questions asked.',
+    source: 'public'
   },
   {
-    id: 's42',
-    name: 'St. Martin\'s Episcopal Church',
+    id: 's94',
+    name: 'St. Martin\'s Episcopal Church Community Meals',
     category: 'commun',
     lat: 38.5568, lng: -121.7700,
-    address: 'UC Davis Arboretum, Davis, CA',
-    geocodeAddress: 'UC Davis Arboretum, Davis, CA',
+    address: '640 Hawthorn Ln, Davis CA 95616',
+    geocodeAddress: '640 Hawthorn Lane Davis CA',
     link: null,
-    description: 'a little free library on El Pescador Ct. swap a book, take a book.',
+    description: 'community meal program open to all. check with the church for current schedule and available services.',
     source: 'community'
   },
 
@@ -1145,7 +1147,7 @@ var ADDRESS_DATA = [
   //  -------- pantries --------
 
   {
-    id: 's43',
+    id: 's95',
     name: 'ASUCD Pantry',
     category: 'pantry',
     lat: 38.5422208, lng: -121.7491641,
@@ -1154,6 +1156,163 @@ var ADDRESS_DATA = [
     link: 'https://thepantry.ucdavis.edu/',
     description: 'a community pantry located in Memorial Union.',
     source: 'public'
+  },
+
+  // -------- parks --------
+
+  {
+    id: 's96',
+    name: 'Central Park',
+    category: 'parks',
+    lat: 38.546069010516284, lng: -121.745031624665,
+    address: '5th St & B St, 401 C St, Davis, CA 95616',
+    geocodeAddress: null,
+    link: 'https://www.cityofdavis.org/city-hall/parks-and-community-services/parks-and-open-space',
+    description: 'the heart of downtown Davis. open lawn, mature trees, a bandshell, and the Saturday Farmers Market. frequent free community events year-round. always open, never a fee.',
+    source: 'public'
+  },
+  {
+    id: 's97',
+    name: 'Community Park',
+    category: 'parks',
+    lat: 38.55888423376993, lng: -121.74638635675947,
+    address: '203 E 14th St, Davis CA 95616',
+    geocodeAddress: null,
+    link: 'https://www.cityofdavis.org/city-hall/parks-and-community-services/parks-and-open-space',
+    description: 'large north Davis park with open fields, Rainbow City playground, picnic areas, and the Davis Art Center next door. free and open daily.',
+    source: 'public'
+  },
+  {
+    id: 's98',
+    name: 'Slide Hill Park',
+    category: 'parks',
+    lat: 38.56044579738162, lng: -121.71648678246144,
+    address: '2850 Temple Dr, Davis, CA 95618',
+    geocodeAddress: null,
+    link: 'https://www.cityofdavis.org/city-hall/parks-and-community-services/parks-and-open-space',
+    description: 'east Davis park with the famous cement slide, basketball, tennis, and softball. pool is open in summer for a small fee. the park itself is always free.',
+    source: 'public'
+  },
+  {
+    id: 's99',
+    name: 'Sycamore Park',
+    category: 'parks',
+    lat: 38.55560273956896, lng: -121.76609100135528,
+    address: '1313 Sycamore Ln, Davis, CA 95616',
+    geocodeAddress: null,
+    link: 'https://www.cityofdavis.org/city-hall/parks-and-community-services/parks-and-open-space',
+    description: 'west Davis neighborhood park with open lawn, playground, and greenbelt path access. free and open daily.',
+    source: 'public'
+  },
+  {
+    id: 's100',
+    name: 'Northstar Park',
+    category: 'parks',
+    lat: 38.57119628529738, lng: -121.75112419290593,
+    address: '3434 Anderson Rd, Davis, CA 95616',
+    geocodeAddress: null,
+    link: 'https://www.cityofdavis.org/city-hall/parks-and-community-services/parks-and-open-space',
+    description: 'north Davis neighborhood park with open space, playground, and greenbelt connections. free and open daily.',
+    source: 'public'
+  },
+
+  // -------- nature commons --------
+
+  // {
+  //   id: 's101',
+  //   name: 'Putah Creek — Hopkins Rd Trailhead',
+  //   category: 'parks',
+  //   lat: 38.5218, lng: -121.7811,
+  //   address: 'Hopkins Rd at Putah Creek, Davis CA',
+  //   geocodeAddress: null,
+  //   link: 'https://arboretum.ucdavis.edu/putah-creek',
+  //   description: 'main trailhead for the Putah Creek Riparian Reserve. fire ring picnic area, direct creek access (popular swimming hole in summer), porta potties on site. miles of shaded creek-side trail. free, open sunrise to sunset.',
+  //   source: 'public'
+  // },
+  {
+    id: 's102',
+    name: 'Putah Creek — Old Davis Rd Trailhead',
+    category: 'parks',
+    lat: 38.5196, lng: -121.7577,
+    address: 'Old Davis Rd at Putah Creek, Davis CA',
+    geocodeAddress: null,
+    link: 'https://arboretum.ucdavis.edu/putah-creek',
+    description: 'east access point to the Putah Creek trail system. ADA-accessible path, educational signage, lots of shade. connects to the full levee and riparian trail loop. free.',
+    source: 'public'
+  },
+
+  // -------- food & growing --------
+
+  {
+    id: 's103',
+    name: 'UC Davis Student Farm Farmstand',
+    category: 'garden',
+    lat: 38.53930894554264, lng: -121.76539349992072,
+    address: '1200 Extension Center Dr, Davis CA 95616',
+    geocodeAddress: null,
+    link: 'https://asi.ucdavis.edu/programs/sf/farm-marketplace',
+    description: 'student-run farmstand on Extension Center Drive selling organic produce and sustainably grown flowers. open every Monday noon–3pm during the academic year. look for white pop-up tents. open to the whole community.',
+    source: 'public'
+  },
+  {
+    id: 's104',
+    name: 'Davis Farmers Market',
+    category: 'garden',
+    lat: 38.54470829935328, lng: -121.74415041068424,
+    address: 'Central Park, 4th St & C St, Davis CA 95616',
+    geocodeAddress: null,
+    link: 'https://www.davisfarmersmarket.org',
+    description: 'year-round outdoor market in Central Park. Saturdays 8am–1pm year-round; Wednesdays 3–6pm spring through fall. local produce, live music, prepared food, and craft vendors. free to attend.',
+    source: 'public'
+  },
+
+  // -------- community media --------
+
+  {
+    id: 's105',
+    name: 'Davis Media Access (DCTV)',
+    category: 'entertain',
+    lat: 38.54901092239584, lng: -121.73139951539181,
+    address: '1623 5th St Suite A, Davis CA 95616',
+    geocodeAddress: null,
+    link: 'https://davismedia.org',
+    description: 'nonprofit community media center open to all Davis residents. home to DCTV public access TV (channel 15 on cable). offers free media training, equipment access, and production workshops. tune in: Comcast ch. 15 / stream at dctv.davismedia.org.',
+    source: 'public'
+  },
+  {
+    id: 's106',
+    name: 'KDRT 95.7 FM — Low Power Community Radio',
+    category: 'entertain',
+    lat: 38.54894070087835, lng: -121.73145067648079,
+    address: '1623 5th St Suite A, Davis CA 95616',
+    geocodeAddress: null,
+    link: 'https://kdrt.org',
+    description: 'Davis\'s own low-power community radio station, run by Davis Media Access. volunteer DJs, local music, news, and talk. tune in at 95.7 FM or stream live at kdrt.org.',
+    source: 'public'
+  },
+  {
+    id: 's107',
+    name: 'KDVS 90.3 FM — UC Davis Free Form Radio',
+    category: 'entertain',
+    lat: 38.542617, lng: -121.750264,
+    address: '14 Lower Freeborn Hall, UC Davis, Davis CA 95616',
+    geocodeAddress: null,
+    link: 'https://kdvs.org',
+    description: 'UC Davis student-run free-form radio station broadcasting since 1964. open to community volunteers and DJs. tune in at 90.3 FM or stream live at kdvs.org. one of the longest-running college radio stations in the US.',
+    source: 'public'
+  },
+
+  // -------- mutual aid --------
+
+  {
+    id: 's108',
+    name: 'Buy Nothing Davis',
+    category: 'mutual',
+    lat: null, lng: null,
+    address: 'Davis, CA (neighborhood groups — no fixed location)',
+    geocodeAddress: null,
+    link: 'https://www.facebook.com/groups/buynothingdavis/',
+    description: 'hyperlocal gift economy operating through neighborhood Facebook groups. give and receive household goods, food, skills, and time — completely free, no trading. find your neighborhood group at buynothingproject.org.',
+    source: 'community'
   }
 ];
-

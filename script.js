@@ -45,7 +45,27 @@ var DAVIS_BBOX = {
 var map            = null;   // the leaflet map instance
 var allMarkers     = [];     // leaflet marker objects currently on the map
 var activeCategory = 'all'; // which category filter is selected
+var activeTags     = {};     // which value tags are toggled: { free: true, ... }
 var allPlaces      = SEED_DATA.concat(ADDRESS_DATA); // working array — seed + API results
+
+// map each category to which value tags apply
+var CATEGORY_TAGS = {
+  garden:   ['free', 'zero-waste', 'community'],
+  parks:    ['free', 'community'],
+  fridge:   ['free', 'community'],
+  commun:   ['free', 'community'],
+  entertain:['low-cost', 'community'],
+  coop:     ['low-cost', 'zero-waste', 'community'],
+  pantry:   ['free', 'community'],
+  lolib:    ['free', 'community'],
+  library:  ['free', 'community'],
+  tools:    ['free', 'zero-waste', 'community'],
+  thrift:   ['low-cost', 'zero-waste'],
+  foraging: ['free', 'zero-waste'],
+  bikes:    ['free', 'zero-waste', 'community'],
+  mutual:   ['free', 'community'],
+  other:    ['community']
+};
 
 // used by the animated loading counter
 var _loadPct    = 0;
@@ -217,22 +237,77 @@ function buildFilters() {
 
 
 /* ============================================================
+   TAG FILTER PILLS
+   ============================================================ */
+
+var TAG_DEFS = [
+  { id: 'free',       label: 'free' },
+  { id: 'low-cost',   label: 'low-cost' },
+  { id: 'zero-waste', label: 'zero-waste' },
+  { id: 'community',  label: 'community' }
+];
+
+function buildTagFilters(containerEl) {
+  if (!containerEl) containerEl = document.querySelector('#tag-filters');
+  if (!containerEl) return;
+  containerEl.innerHTML = '';
+
+  for (var i = 0; i < TAG_DEFS.length; i++) {
+    var t = TAG_DEFS[i];
+    var pill = document.createElement('button');
+    pill.className = 'tag-pill' + (activeTags[t.id] ? ' active' : '');
+    pill.textContent = t.label;
+    pill.onclick = (function(tid) {
+      return function() {
+        if (activeTags[tid]) {
+          delete activeTags[tid];
+        } else {
+          activeTags[tid] = true;
+        }
+        // rebuild both desktop and mobile tag pills
+        buildTagFilters(document.querySelector('#tag-filters'));
+        buildTagFilters(document.querySelector('#mobile-tag-filters'));
+        buildFilters();
+        renderMarkers();
+        renderListings();
+        // also refresh mobile listings if open
+        if (document.querySelector('.mobile-sheet.open') && _mobileTab === 'list') {
+          renderMobileListings();
+        }
+      };
+    }(t.id));
+    containerEl.appendChild(pill);
+  }
+}
+
+
+/* ============================================================
    FILTERING
    returns the subset of places that match the active category
    ============================================================ */
 
 function getFiltered() {
   var result = [];
+  var tagKeys = Object.keys(activeTags);
+
   for (var i = 0; i < allPlaces.length; i++) {
     var p = allPlaces[i];
 
-    // skip entries that haven't been geocoded yet — they'll pop in
-    // once geocodeSeedData() resolves a lat/lng for them
     if (p.lat == null || p.lng == null) continue;
 
-    if (activeCategory === 'all' || p.category === activeCategory) {
-      result.push(p);
+    if (activeCategory !== 'all' && p.category !== activeCategory) continue;
+
+    // tag filter: place must match ALL active tags
+    if (tagKeys.length > 0) {
+      var placeTags = CATEGORY_TAGS[p.category] || [];
+      var match = true;
+      for (var t = 0; t < tagKeys.length; t++) {
+        if (placeTags.indexOf(tagKeys[t]) === -1) { match = false; break; }
+      }
+      if (!match) continue;
     }
+
+    result.push(p);
   }
   return result;
 }
@@ -653,6 +728,7 @@ async function loadAll() {
   allPlaces = dedup(SEED_DATA.concat(ADDRESS_DATA).concat(b4aData));
 
   buildFilters();
+  buildTagFilters();
   renderMarkers();
   renderListings();
 
@@ -673,72 +749,52 @@ async function loadAll() {
 
 /* ============================================================
    PANEL ROW RESIZE HANDLES
-   two horizontal drag handles sit between the three sidebar panels.
-   dragging them redistributes height between adjacent panels,
-   exactly like the sidebar/map split but on the vertical axis.
-
-   the index panel always takes whatever space remains (flex:1),
-   so we only need to set explicit heights on filters and sources.
+   one horizontal drag handle sits between the index and commons panels.
+   the filters and index panels each get flex:1 (equal share) by default;
+   dragging the handle redistributes height between index and commons.
    ============================================================ */
 
 (function() {
-  var sidebar  = document.querySelector('.sidebar');
   var filters  = document.querySelector('#panel-filters');
-  var sources  = document.querySelector('#panel-sources');
-  var handle1  = document.querySelector('#row-handle-1');  // between filters & sources
-  var handle2  = document.querySelector('#row-handle-2');  // between sources & index
+  var index    = document.querySelector('#panel-index');
+  var commons  = document.querySelector('#panel-commons');
+  var handle2  = document.querySelector('#row-handle-2');
 
-  var dragging    = null;   // which handle is active ('h1' or 'h2')
-  var dragStartY  = 0;
-  var startH1     = 0;      // filters height at drag start
-  var startH2     = 0;      // sources height at drag start
+  var dragging   = false;
+  var dragStartY = 0;
+  var startIndex = 0;
+  var startCommons = 0;
 
-  // minimum height for any panel — enough to show the label row
-  var MIN_H = 38;
+  var MIN_H = 80;
 
-  function startDrag(handleId, e) {
-    dragging   = handleId;
+  if (!handle2 || !index || !commons) return;
+
+  handle2.addEventListener('mousedown', function(e) {
+    dragging   = true;
     dragStartY = e.clientY;
-    startH1    = filters.getBoundingClientRect().height;
-    startH2    = sources.getBoundingClientRect().height;
-
-    document.querySelector('#' + handleId).classList.add('dragging');
+    startIndex   = index.getBoundingClientRect().height;
+    startCommons = commons.getBoundingClientRect().height;
+    handle2.classList.add('dragging');
     document.body.style.cursor     = 'row-resize';
     document.body.style.userSelect = 'none';
     e.preventDefault();
-  }
-
-  handle1.addEventListener('mousedown', function(e) { startDrag('row-handle-1', e); });
-  handle2.addEventListener('mousedown', function(e) { startDrag('row-handle-2', e); });
+  });
 
   document.addEventListener('mousemove', function(e) {
     if (!dragging) return;
-
-    var delta = e.clientY - dragStartY;
-
-    if (dragging === 'row-handle-1') {
-      // moving handle1 changes the filters panel height only;
-      // the sources panel absorbs the difference from below
-      var newH1 = Math.max(MIN_H, startH1 + delta);
-      var newH2 = Math.max(MIN_H, startH2 - delta);
-      filters.style.height = newH1 + 'px';
-      filters.style.flex   = '0 0 ' + newH1 + 'px';
-      sources.style.height = newH2 + 'px';
-      sources.style.flex   = '0 0 ' + newH2 + 'px';
-
-    } else if (dragging === 'row-handle-2') {
-      // moving handle2 changes the sources panel height;
-      // the index panel (flex:1) absorbs the rest automatically
-      var newH2 = Math.max(MIN_H, startH2 + delta);
-      sources.style.height = newH2 + 'px';
-      sources.style.flex   = '0 0 ' + newH2 + 'px';
-    }
+    var delta    = e.clientY - dragStartY;
+    var newIndex   = Math.max(MIN_H, startIndex + delta);
+    var newCommons = Math.max(MIN_H, startCommons - delta);
+    index.style.height   = newIndex + 'px';
+    index.style.flex     = '0 0 ' + newIndex + 'px';
+    commons.style.height = newCommons + 'px';
+    commons.style.flex   = '0 0 ' + newCommons + 'px';
   });
 
   document.addEventListener('mouseup', function() {
     if (!dragging) return;
-    document.querySelector('#' + dragging).classList.remove('dragging');
-    dragging = null;
+    dragging = false;
+    handle2.classList.remove('dragging');
     document.body.style.cursor     = '';
     document.body.style.userSelect = '';
   });
@@ -964,6 +1020,139 @@ function showUserLocation() {
   }, function() {
     // user denied or geolocation unavailable — fail silently
   });
+}
+
+
+/* ============================================================
+   MOBILE SHEET / TAB BAR
+   ============================================================ */
+
+var _mobileTab = 'map';
+
+function mobileSwitchTab(tab) {
+  _mobileTab = tab;
+
+  // update tab button active states
+  var tabs = ['map', 'filter', 'list'];
+  for (var i = 0; i < tabs.length; i++) {
+    var btn = document.querySelector('#tab-' + tabs[i]);
+    if (btn) btn.classList.toggle('active', tabs[i] === tab);
+  }
+  // "add" tab has no active state — it opens a modal
+  var addBtn = document.querySelector('#tab-add');
+  if (addBtn) addBtn.classList.remove('active');
+
+  var sheet = document.querySelector('#mobile-sheet');
+  var content = document.querySelector('#mobile-sheet-content');
+
+  if (tab === 'map') {
+    // close the sheet, show the map
+    if (sheet) sheet.classList.remove('open');
+    return;
+  }
+
+  if (!sheet || !content) return;
+  sheet.classList.add('open');
+
+  if (tab === 'filter') {
+    content.innerHTML =
+      '<div>' +
+        '<div class="panel-label">filter by value</div>' +
+        '<div class="tag-pill-list" id="mobile-tag-filters"></div>' +
+      '</div>' +
+      '<div>' +
+        '<div class="panel-label">filter by type</div>' +
+        '<div class="cat-list" id="mobile-cat-filters"></div>' +
+      '</div>';
+    buildTagFilters(document.querySelector('#mobile-tag-filters'));
+    buildMobileFilters();
+  }
+
+  if (tab === 'list') {
+    content.innerHTML = '<div class="panel-label">index <span class="muted" id="mobile-count-label">0 places</span></div><div class="mobile-listings" id="mobile-listings"></div>';
+    renderMobileListings();
+  }
+}
+
+function buildMobileFilters() {
+  var el = document.querySelector('#mobile-cat-filters');
+  if (!el) return;
+  el.innerHTML = '';
+
+  for (var i = 0; i < CATEGORIES.length; i++) {
+    var cat = CATEGORIES[i];
+    var count = 0;
+    for (var j = 0; j < allPlaces.length; j++) {
+      var pj = allPlaces[j];
+      if (pj.lat == null || pj.lng == null) continue;
+      if (cat.id === 'all' || pj.category === cat.id) count++;
+    }
+
+    var btn = document.createElement('button');
+    btn.className = 'cat-btn' + (cat.id === activeCategory ? ' active' : '');
+    btn.style.setProperty('--cat-color', cat.color);
+    btn.innerHTML =
+      '<span class="cat-swatch"></span>' +
+      cat.label +
+      '<span class="cat-count">' + count + '</span>';
+
+    btn.onclick = (function(id) {
+      return function() {
+        activeCategory = id;
+        buildFilters();
+        buildMobileFilters();
+        renderMarkers();
+        renderListings();
+      };
+    }(cat.id));
+
+    el.appendChild(btn);
+  }
+}
+
+function renderMobileListings() {
+  var el = document.querySelector('#mobile-listings');
+  var countLabel = document.querySelector('#mobile-count-label');
+  if (!el) return;
+
+  var filtered = getFiltered();
+  if (countLabel) countLabel.textContent = filtered.length + ' place' + (filtered.length === 1 ? '' : 's');
+
+  el.innerHTML = '';
+  for (var i = 0; i < filtered.length; i++) {
+    var place = filtered[i];
+    var num = i + 1;
+
+    var addrHtml = place.address ? '<div class="listing-addr">' + place.address + '</div>' : '';
+    var statusTag = place.status ? '<span class="listing-tag status">' + place.status + '</span>' : '';
+    var linkTag = place.link ? '<a class="listing-tag listing-link" href="' + place.link + '" target="_blank" onclick="event.stopPropagation()">website</a>' : '';
+
+    var card = document.createElement('div');
+    card.className = 'listing-card';
+    card.innerHTML =
+      '<div class="listing-num" style="--cat-color:' + catColor(place.category) + '">' + num + '</div>' +
+      '<div class="listing-body">' +
+        '<div class="listing-name">' + place.name + '</div>' +
+        addrHtml +
+        '<div class="listing-tags">' +
+          '<span class="listing-tag" style="background:' + catColor(place.category) + ';color:#F7F4EC">' + catLabel(place.category) + '</span>' +
+          statusTag + linkTag +
+        '</div>' +
+      '</div>';
+
+    card.onclick = (function(idx, p) {
+      return function() {
+        // close sheet and fly map
+        mobileSwitchTab('map');
+        setTimeout(function() {
+          map.setView([p.lat, p.lng], 17);
+          if (allMarkers[idx]) allMarkers[idx].openPopup();
+        }, 120);
+      };
+    }(i, place));
+
+    el.appendChild(card);
+  }
 }
 
 
