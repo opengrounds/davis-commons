@@ -18,22 +18,22 @@
 
 var CATEGORIES = [
   { id: 'all',      label: 'all',                 color: '#15130F' },
-  { id: 'garden',   label: 'community garden',    color: '#2F4D22' },
-  { id: 'parks',    label: 'community parks',     color: '#4a932b' },
   { id: 'fridge',   label: 'community fridge',    color: '#2F9BD6' },
-  { id: 'commun',    label: 'community meals',    color: '#8B5CF6' },
-  { id: 'entertain', label: 'entertainment',      color: '#D4460F' },
-  { id: 'coop',     label: 'food co-op',          color: '#FFC53D' },
-  { id: 'pantry',   label: 'free pantry',         color: '#FF5722' },
+  { id: 'pantry',   label: 'free pantry',         color: '#ff9d00' },
+  { id: 'coop',     label: 'food co-op',          color: '#e2c221' },
+  { id: 'commun',    label: 'community meals',    color: '#E53E3E' },
+  { id: 'garden',   label: 'community garden',    color: '#38A169' },
+  { id: 'market',   label: 'farmers market',      color: '#c22fb8' },
+  { id: 'foraging', label: 'foraging',            color: '#A855F7' },
   { id: 'lolib',    label: 'local library',       color: '#beb129' },
   { id: 'library',  label: 'little free library', color: '#FF3E86' },
-  { id: 'tools',    label: 'tool / repair',       color: '#1F6B5C' },
-  { id: 'thrift',   label: 'thrift & reuse',      color: '#9C6B30' },
-  { id: 'foraging', label: 'foraging',            color: '#B0431E' },
   { id: 'bikes',    label: 'bike repair',         color: '#4F6BFF' },
-  { id: 'mutual',   label: 'mutual aid',          color: '#C2185B' },
-  { id: 'other',    label: 'other commons',       color: '#75695A' }
-  
+  { id: 'tools',    label: 'tool / repair',       color: '#00A3C4' },
+  { id: 'thrift',   label: 'thrift & reuse',      color: '#805AD5' },
+  { id: 'parks',    label: 'community parks',     color: '#154736' },
+  { id: 'entertain', label: 'entertainment',      color: '#FF5722' },
+  { id: 'mutual',   label: 'mutual aid',          color: '#84CC16' },
+  { id: 'other',    label: 'other commons',       color: '#718096' }
 ];
 
 
@@ -1257,7 +1257,7 @@ var ADDRESS_DATA = [
   {
     id: 's104',
     name: 'Davis Farmers Market',
-    category: 'garden',
+    category: 'market',
     lat: 38.54470829935328, lng: -121.74415041068424,
     address: 'Central Park, 4th St & C St, Davis CA 95616',
     geocodeAddress: null,
