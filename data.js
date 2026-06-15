@@ -21,10 +21,9 @@ var CATEGORIES = [
   { id: 'garden',   label: 'community garden',    color: '#2F4D22' },
   { id: 'parks',    label: 'community parks',     color: '#4a932b' },
   { id: 'fridge',   label: 'community fridge',    color: '#2F9BD6' },
-  { id: 'commun',    label: 'community meals',    color: '#a824b9' },
+  { id: 'commun',    label: 'community meals',    color: '#8B5CF6' },
   { id: 'coop',     label: 'food co-op',          color: '#FFC53D' },
   { id: 'pantry',   label: 'free pantry',         color: '#FF5722' },
-  { id: 'seeds',    label: 'seed library',        color: '#8B5CF6' },
   { id: 'lolib',    label: 'local library',       color: '#beb129' },
   { id: 'library',  label: 'little free library', color: '#FF3E86' },
   { id: 'tools',    label: 'tool / repair',       color: '#1F6B5C' },
@@ -49,8 +48,8 @@ var SEED_DATA = [
     id: 's1',
     name: '5th Street Community Garden',
     category: 'garden',
-    lat: null, lng: null,
-    geocodeAddress: '1825 5th Street, Davis, CA',
+    lat: 38.548928, lng: -121.729173,
+    geocodeAddress: null,
     address: '1825 5th St, Davis CA 95616',
     link: 'https://cityofdavis.org/city-hall/parks-community-services/parks-open-space/community-gardens',
     description: 'city-run organic plots in East Davis. open year-round; new-plot waitlist through the city parks department.',
@@ -60,7 +59,7 @@ var SEED_DATA = [
     id: 's2',
     name: 'Cannery Community Garden',
     category: 'garden',
-    lat: null, lng: null,
+    lat: 38.566203, lng: -121.741893,
     address: '1701 Harvest St, Davis CA 95616',
     geocodeAddress: '1701 Harvest St, Davis, CA',
     link: 'https://cityofdavis.org/city-hall/parks-community-services/parks-open-space/community-gardens',
@@ -78,11 +77,34 @@ var SEED_DATA = [
     description: 'student-run organic farm near the Baggins End domes. open to students, staff, and the wider community.',
     source: 'public'
   },
+
+
+  {
+    id: 's15',
+    name: 'Mary L. Stephens Davis Branch Library',
+    category: 'lolib',
+    lat: 38.556916, lng: -121.747134,
+    geocodeAddress: null,
+    address: '315 E 14th St, Davis CA 95616',
+    link: 'https://yolocountylibrary.org/locations/davis/',
+    description: 'full public library with books, DVDs, CDs, and more. free with a library card. open to everyone.',
+    source: 'public',
+    colocated: [
+      {
+        name: 'Davis Makerspace & Clothing Repair Cafe',
+        category: 'tools',
+        description: 'community makerspace and repair cafe, co-hosted at the library. bring projects, clothing, electronics, or household items — tools available, staff and volunteers on hand to help. supervised children welcome; signed liability waiver required (available on site).',
+        hours: 'mon & tue 6–8p · thu 9:30–11:30a',
+        link: 'https://artsalliancedavis.org/event/davis-makerspace-clothing-repair-cafe-340/'
+      }
+    ]
+  },
+
   {
     id: 's4',
     name: 'Davis Food Co-op Freedge',
     category: 'fridge',
-    lat: null, lng: null,
+    lat: 38.549561, lng: -121.740080,
     address: '620 G St, Davis CA 95616',
     link: 'https://davisfood.coop',
     description: 'community fridge on the west side of the co-op building. staff restock it daily with surplus produce, dairy, and bakery. take what you need, leave what you can.',
@@ -133,7 +155,7 @@ var SEED_DATA = [
     id: 's9',
     name: 'Easy Wind Gear',
     category: 'thrift',
-    lat: null, lng: null,
+    lat: 38.549301, lng: -121.740791,
     address: '617 G St, Davis, CA 95616',
     geocodeAddress: '617 G St, Davis, CA',
     link: 'https://easywindgear.com/',
@@ -195,32 +217,138 @@ var SEED_DATA = [
     description: 'full-service campus bike shop with low-cost repairs and a self-service stand with tools. staffed by students, open to students, faculty, and the public.',
     source: 'public'
   },
-  {
-    id: 's15',
-    name: 'Mary L. Stephens Davis Branch Library',
-    category: 'lolib',
-    lat: 38.5568, lng: -121.7471,
-    geocodeAddress: '315 E 14th Street, Davis, CA',
-    address: '315 E 14th St, Davis CA 95616',
-    link: 'https://yolocountylibrary.org/locations/davis/',
-    description: 'full public library with books, DVDs, CDs, and more. free with a library card. open to everyone.',
-    source: 'public',
-    colocated: [
-      {
-        name: 'Davis Makerspace & Clothing Repair Cafe',
-        category: 'tools',
-        description: 'community makerspace and repair cafe, co-hosted at the library. bring projects, clothing, electronics, or household items — tools available, staff and volunteers on hand to help. supervised children welcome; signed liability waiver required (available on site).',
-        hours: 'mon & tue 6–8p · thu 9:30–11:30a',
-        link: 'https://artsalliancedavis.org/event/davis-makerspace-clothing-repair-cafe-340/'
-      }
-    ]
+
+{
+    id: 's14',
+    name: 'Dero FixIt - Hawthorn Hall',
+    category: 'bikes',
+    lat: 38.537315, lng: -121.758166,
+    geocodeAddress: null,
+    address: '664 Tercero Hall Dr, Davis, CA 95616',
+    link: 'https://bikebarn.ucdavis.edu',
+    description: 'public bike repair station. includes all the tools necessary to perform basic bike repairs and maintenance, from changing a flat to adjusting brakes and derailleurs.',
+    source: 'dero'
   },
+
+  {
+    id: 's14',
+    name: 'Dero FixIt - Scrub Oak Hall',
+    category: 'bikes',
+    lat: 38.536771, lng: -121.756677,
+    geocodeAddress: null,
+    address: 'Tercero Hall Cir, Davis, CA 95616',
+    link: 'https://bikebarn.ucdavis.edu',
+    description: 'public bike repair station. includes all the tools necessary to perform basic bike repairs and maintenance, from changing a flat to adjusting brakes and derailleurs.',
+    source: 'dero'
+  },
+  {
+    id: 's14',
+    name: 'Dero FixIt - Redwood Hall',
+    category: 'bikes',
+    lat: 38.535968, lng: -121.755575,
+    geocodeAddress: null,
+    address: '363 Bioletti Way, Davis, CA 95616',
+    link: 'https://bikebarn.ucdavis.edu',
+    description: 'public bike repair station. includes all the tools necessary to perform basic bike repairs and maintenance, from changing a flat to adjusting brakes and derailleurs.',
+    source: 'dero'
+  },
+  {
+    id: 's14',
+    name: 'Dero FixIt - Scrubs Cafe',
+    category: 'bikes',
+    lat: 38.533244, lng: -121.763174,
+    geocodeAddress: null,
+    address: '570 Health Sciences Mall, Davis, CA 95616',
+    link: 'https://bikebarn.ucdavis.edu',
+    description: 'public bike repair station. includes all the tools necessary to perform basic bike repairs and maintenance, from changing a flat to adjusting brakes and derailleurs.',
+    source: 'dero'
+  },
+  {
+    id: 's14',
+    name: 'Dero FixIt - UC Davis',
+    category: 'bikes',
+    lat: 38.540293, lng: -121.758683,
+    geocodeAddress: null,
+    address: '631 Kleiber Hall Dr, Davis, CA 95616',
+    link: 'https://bikebarn.ucdavis.edu',
+    description: 'public bike repair station. includes all the tools necessary to perform basic bike repairs and maintenance, from changing a flat to adjusting brakes and derailleurs.',
+    source: 'dero'
+  },
+    {
+    id: 's14',
+    name: 'Dero FixIt - UC Davis',
+    category: 'bikes',
+    lat: 38.541687, lng: -121.760999,
+    geocodeAddress: null,
+    address: '164 Orchard Park Dr, Davis, CA 95616',
+    link: 'https://bikebarn.ucdavis.edu',
+    description: 'public bike repair station. includes all the tools necessary to perform basic bike repairs and maintenance, from changing a flat to adjusting brakes and derailleurs.',
+    source: 'dero'
+  },
+
+    {
+    id: 's14',
+    name: 'Dero FixIt - Sunrise Park',
+    category: 'bikes',
+    lat: 38.541929, lng: -121.769681,
+    geocodeAddress: null,
+    address: '1590 Tilia St, Davis, CA 95616',
+    link: 'https://bikebarn.ucdavis.edu',
+    description: 'public bike repair station. includes all the tools necessary to perform basic bike repairs and maintenance, from changing a flat to adjusting brakes and derailleurs.',
+    source: 'dero'
+  },
+   {
+    id: 's14',
+    name: 'Dero FixIt - UC Davis Activities and Recreation Center',
+    category: 'bikes',
+    lat: 38.543102, lng: -121.758926,
+    geocodeAddress: null,
+    address: '760 Orchard Rd, Davis, CA 95616',
+    link: 'https://bikebarn.ucdavis.edu',
+    description: 'public bike repair station. includes all the tools necessary to perform basic bike repairs and maintenance, from changing a flat to adjusting brakes and derailleurs.',
+    source: 'dero'
+  },
+  {
+    id: 's14',
+    name: 'Dero FixIt - Castillian North',
+    category: 'bikes',
+    lat: 38.549512, lng: -121.767007,
+    geocodeAddress: null,
+    address: '1440 Wake Forest Dr, Davis, CA 95616',
+    link: 'https://bikebarn.ucdavis.edu',
+    description: 'public bike repair station. includes all the tools necessary to perform basic bike repairs and maintenance, from changing a flat to adjusting brakes and derailleurs.',
+    source: 'dero'
+  },
+  {
+    id: 's14',
+    name: 'Dero FixIt - Mary L. Stephens Davis Library',
+    category: 'bikes',
+    lat: 38.557216, lng: -121.746952,
+    geocodeAddress: null,
+    address: '315 E 14th St, Davis, CA 95616',
+    link: 'https://bikebarn.ucdavis.edu',
+    description: 'public bike repair station. includes all the tools necessary to perform basic bike repairs and maintenance, from changing a flat to adjusting brakes and derailleurs.',
+    source: 'dero'
+  },
+  {
+    id: 's14',
+    name: 'Dero FixIt - The Cannery',
+    category: 'bikes',
+    lat: 38.566171, lng: -121.742076,
+    geocodeAddress: null,
+    address: '2000 Cannery Loop, Davis, CA 95616,',
+    link: 'https://bikebarn.ucdavis.edu',
+    description: 'public bike repair station. includes all the tools necessary to perform basic bike repairs and maintenance, from changing a flat to adjusting brakes and derailleurs.',
+    source: 'dero'
+  },
+
+
   {
     id: 's16',
     name: 'Free Supply Closet @ J Street Co-op',
     category: 'mutual',
-    lat: null, lng: null,
-    geocodeAddress: 'J Street Cooperative, 3rd Street and J Street, Davis, CA',
+    lat: 38.545397, lng: -121.735776,
+    geocodeAddress: '234 J St, Davis, CA',
     address: 'Corner of 3rd and J Streets, Davis CA 95616',
     link: 'https://www.instagram.com/j_street_cooperative/',
     description: 'free supply closet inside the J Street Cooperative. kitchen supplies, living supplies, clothes, blankets, sleeping bags, and more. not for food — for food donations, visit the Freedge at the Quaker Friends Meeting House (4th and L St).',
@@ -261,7 +389,7 @@ var ADDRESS_DATA = [
     id: 's18',
     name: 'East Davis Freedge',
     category: 'fridge',
-    lat: null, lng: null,
+    lat: 38.55979, lng: -121.7259293,
     address: '2013 Whittier Dr, Davis CA 95618',
     geocodeAddress: '2013 Whittier Dr, Davis, CA',
     link: null,
@@ -272,9 +400,9 @@ var ADDRESS_DATA = [
     id: 's19',
     name: 'Neighborhood Kitchen Freedge',
     category: 'fridge',
-    lat: null, lng: null,
-    address: 'Grande Ave, Davis CA 95616',
-    geocodeAddress: 'Grande Ave, Davis, CA',
+    lat: 38.568911, lng: -121.7498,
+    address: '257 Grande Ave, Davis, CA 95616',
+    geocodeAddress: '275 Grande Ave, Davis, CA',
     link: null,
     description: 'community freedge along Grande Ave. take what you need, leave what you can.',
     source: 'community'
@@ -283,7 +411,7 @@ var ADDRESS_DATA = [
     id: 's20',
     name: 'Eureka Freedge',
     category: 'fridge',
-    lat: null, lng: null,
+    lat: 38.554131, lng: -121.750091,
     address: '1221 Eureka Ave, Davis CA 95616',
     geocodeAddress: '1221 Eureka Ave, Davis, CA',
     link: null,
@@ -294,7 +422,7 @@ var ADDRESS_DATA = [
     id: 's21',
     name: 'Turtlehouse Freedge',
     category: 'fridge',
-    lat: null, lng: null,
+    lat: 38.542451, lng: -121.746072,
     address: '217 2nd St, Davis CA 95616',
     geocodeAddress: '217 2nd St, Davis, CA',
     link: null,
@@ -305,7 +433,7 @@ var ADDRESS_DATA = [
     id: 's22',
     name: 'UC Davis Silo Freedge',
     category: 'fridge',
-    lat: null, lng: null,
+    lat: 38.538756, lng: -121.753033,
     address: '420 Hutchison Dr, Davis CA 95616',
     geocodeAddress: '420 Hutchison Dr, Davis, CA',
     link: null,
@@ -316,7 +444,7 @@ var ADDRESS_DATA = [
     id: 's23',
     name: 'Bowley Plant Science Teaching Center Freedge',
     category: 'fridge',
-    lat: null, lng: null,
+    lat: 38.539142, lng: -121.763935,
     address: '1200 Extension Center Cir, Davis CA 95616',
     geocodeAddress: '1200 Extension Center Cir, Davis, CA',
     link: null,
@@ -330,7 +458,7 @@ var ADDRESS_DATA = [
     id: 's25',
     name: 'Bohème',
     category: 'thrift',
-    lat: null, lng: null,
+    lat: 38.544472, lng: -121.743234,
     address: '409 3rd St, Davis CA 95616',
     geocodeAddress: '409 3rd St, Davis, CA',
     link: 'https://www.bohemethreads.com/',
@@ -341,7 +469,7 @@ var ADDRESS_DATA = [
     id: 's26',
     name: 'Goodwill',
     category: 'thrift',
-    lat: null, lng: null,
+    lat: 38.553322, lng: 121.730549,
     address: '1640 E 8th St, Davis CA 95616',
     geocodeAddress: '1640 E 8th St, Davis, CA',
     link: null,
@@ -354,7 +482,7 @@ var ADDRESS_DATA = [
     id: 's27',
     name: 'Salad Bowl Garden (Edible Campus)',
     category: 'foraging',
-    lat: null, lng: null,
+    lat: 38.54298, lng: -121.751483,
     address: 'Plant and Environmental Sciences Building, UC Davis',
     geocodeAddress: '387 N Quad, Davis, CA',
     link: 'https://ediblecampus.ucdavis.edu/gardens/sbg',
@@ -365,7 +493,7 @@ var ADDRESS_DATA = [
     id: 's28',
     name: 'Biological Orchard and Gardens (BOG), Mann Laboratory',
     category: 'foraging',
-    lat: null, lng: null,
+    lat: 38.541491, lng: -121.75564,
     address: 'Mann Laboratory, UC Davis',
     geocodeAddress: '549 Kleiber Hall Dr, Davis, CA',
     link: 'https://ediblecampus.ucdavis.edu/gardens/bog',
@@ -987,31 +1115,6 @@ var ADDRESS_DATA = [
     description: 'a little free library on El Pescador Ct. swap a book, take a book.',
     source: 'community'
   },
-
-  {
-    id: 's42',
-    name: 'UC Davis Salad Bowl Garden',
-    category: 'garden',
-    lat: 38.5347, lng: -121.7597,
-    address: 'UC Davis Arboretum, Davis, CA',
-    geocodeAddress: 'UC Davis Arboretum, Davis, CA',
-    link: null,
-    description: 'a little free library on El Pescador Ct. swap a book, take a book.',
-    source: 'community'
-  },
-
-  {
-    id: 's42',
-    name: 'UC Davis Biological Orchard & Gardens (BOG)',
-    category: 'garden',
-    lat: 38.5347, lng: -121.7597,
-    address: 'UC Davis Arboretum, Davis, CA',
-    geocodeAddress: 'UC Davis Arboretum, Davis, CA',
-    link: null,
-    description: 'a little free library on El Pescador Ct. swap a book, take a book.',
-    source: 'community'
-  },
-
 
   {
     id: 's42',

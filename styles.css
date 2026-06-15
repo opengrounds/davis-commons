@@ -829,6 +829,13 @@ textarea { min-height: 72px; }
 }
 
 
+/* pulsing ring animation for the user location dot */
+@keyframes userLocPulse {
+  0%, 100% { box-shadow: 0 0 0 4px rgba(47,155,214,0.3), 2px 2px 0 rgba(21,19,15,0.25); }
+  50%       { box-shadow: 0 0 0 8px rgba(47,155,214,0.08), 2px 2px 0 rgba(21,19,15,0.25); }
+}
+
+
 /* ============================================================
    TOAST NOTIFICATION
    pops up from the bottom to confirm actions

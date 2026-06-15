@@ -259,6 +259,7 @@ function renderMarkers() {
     // human-readable source attribution
     var sourceLabel = 'open grounds';
     if (place.source === 'community')    sourceLabel = 'community data';
+    if (place.source === 'dero')    sourceLabel = 'dero fixit map';
     if (place.source === 'public')       sourceLabel = 'public';
     if (place.source === 'fallingfruit') sourceLabel = 'falling fruit';
 
@@ -655,14 +656,14 @@ async function loadAll() {
   renderMarkers();
   renderListings();
 
-  setStatus('locating addresses...');
+  setStatus('fetching addresses...');
 
   // geocode address-only entries — keep the overlay up and drive the bar
   // from 60% to 99% as each address resolves, then dismiss at 100%.
   // pass allPlaces directly so geocoding mutates the objects the map renders.
   await geocodeSeedData(allPlaces, function(done, total) {
     setLoading(60 + Math.round((done / total) * 39));
-    setStatus('locating addresses... (' + done + ' of ' + total + ')');
+    setStatus('fetching addresses... (' + done + ' of ' + total + ')');
   });
 
   setStatus('done!');
@@ -927,8 +928,49 @@ async function submitCorrection() {
 
 
 /* ============================================================
+   USER LOCATION DOT
+   requests the browser's geolocation and drops a pulsing blue
+   dot on the map. silently does nothing if the user denies.
+   ============================================================ */
+
+function showUserLocation() {
+  if (!navigator.geolocation) return;
+
+  navigator.geolocation.getCurrentPosition(function(pos) {
+    var lat = pos.coords.latitude;
+    var lng = pos.coords.longitude;
+
+    // pulsing blue dot — uses the sky blue already in the design system
+    var dotIcon = L.divIcon({
+      className: '',
+      html: '<div style="' +
+        'width:16px;height:16px;border-radius:50%;' +
+        'background:#2F9BD6;' +
+        'border:2.5px solid #F7F4EC;' +
+        'box-shadow:0 0 0 4px rgba(47,155,214,0.3),2px 2px 0 rgba(21,19,15,0.25);' +
+        'animation:userLocPulse 2s ease-in-out infinite;' +
+      '"></div>',
+      iconSize:    [16, 16],
+      iconAnchor:  [8, 8],
+      popupAnchor: [0, -10]
+    });
+
+    L.marker([lat, lng], { icon: dotIcon, zIndexOffset: 9999 })
+      .addTo(map)
+      .bindPopup(
+        '<div style="font-family:\'Space Grotesk\',sans-serif;font-size:0.75rem;font-weight:700;">you are here</div>'
+      );
+
+  }, function() {
+    // user denied or geolocation unavailable — fail silently
+  });
+}
+
+
+/* ============================================================
    BOOT
    ============================================================ */
 
 initMap();
 loadAll();
+showUserLocation();
