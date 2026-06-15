@@ -35,7 +35,7 @@
       <div class="loader-dot"></div>
     </div>
     <div class="loader-percent" id="loader-percent">0%</div>
-    <div class="loader-label">loading the commons…</div>
+    <div class="loader-label" id="loader-label">hang on tight...</div>
   </div>
 
 
@@ -78,7 +78,7 @@
     <div class="sidebar">
 
       <!-- category filter buttons — built by buildFilters() in script.js -->
-      <div class="panel panel-filters" id="panel-filters">
+      <div class="panel ≈" id="panel-filters">
         <div class="panel-label">filter by type</div>
         <div class="cat-list" id="cat-filters"></div>
       </div>
@@ -87,12 +87,13 @@
       <div class="panel-resize-handle" id="row-handle-1"></div>
 
       <!-- data source legend -->
-      <div class="panel panel-sources" id="panel-sources">
+       <!-- REMOVE NOT NECESSARY -->
+      <!-- <div class="panel panel-sources" id="panel-sources">
         <div class="panel-label">data sources</div>
         <div class="source-legend">
           <div class="source-row">
             <div class="source-dot" style="background:var(--flame)"></div>
-            open grounds (davis)
+            community submissions
           </div>
           <div class="source-row">
             <div class="source-dot" style="background:var(--grass)"></div>
@@ -103,7 +104,7 @@
             falling fruit
           </div>
         </div>
-      </div>
+      </div> -->
 
       <!-- draggable handle between sources and index -->
       <div class="panel-resize-handle" id="row-handle-2"></div>
@@ -277,7 +278,7 @@
           <button class="modal-close" onclick="closeAbout()">x</button>
         </div>
 
-        <div class="modal-body">
+        <div class="modal-body"> 
 
           <p class="about-text">
             open:grounds is a citizen-built map of common goods in davis, ca.
@@ -288,9 +289,14 @@
 
           <p class="about-text">
             data is pulled from
+            <a href="https://freedge.org/" target="_blank">freedge</a>,
             <a href="https://fallingfruit.org" target="_blank">falling fruit</a>,
             <a href="https://openstreetmap.org" target="_blank">openstreetmap</a>,
-            and community submissions reviewed by the project maintainer.
+            <a href="https://www.davisfarmersmarket.org/" target="_blank">davis farmers market</a>,
+            <a href="https://www.davisfoodcoop.com/" target="_blank">davis food co-op</a>,
+            <a href="https://ediblecampus.ucdavis.edu/" target="_blank">edible campus uc davis</a>,
+            <a href="https://littlefreelibrary.org/" target="_blank">little free library</a>,
+            and community submissions from people like you!!!
           </p>
 
           <p style="font-size:0.72rem;color:var(--stone);line-height:1.6">
@@ -311,6 +317,7 @@
   <div id="toast"></div>
 
   <!-- our script — loaded last so the DOM is ready -->
+  <script src="data.js"></script>
   <script src="script.js"></script>
 
 </body>

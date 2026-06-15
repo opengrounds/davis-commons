@@ -23,13 +23,13 @@
 
   /* accent palette */
   --pink:       #FF3E86;
-  --pink-tint:  #FFE2EE;
+  --pink-tint:  #ECE6D9;
   --sky:        #2F9BD6;
   --sky-tint:   #DDF1FA;
   --grass:      #2F4D22;
   --grass-tint: #E6EEDF;
   --flame:      #FF5722;
-  --flame-tint: #FFE7DA;
+  --flame-tint: #ECE6D9;
   --sun:        #FFC53D;
   --plum:       #8B5CF6;
   --teal:       #1F6B5C;
@@ -46,8 +46,8 @@ html, body {
   background: var(--paper);
   color: var(--ink);
   font-family: 'Space Mono', monospace;
-  font-size: 13px;
-  line-height: 1.5;
+  font-size: 16px;
+  line-height: 1.6;
   height: 100%;
   overflow: hidden; /* map takes full viewport, no page scroll */
 }
@@ -101,13 +101,13 @@ header {
   letter-spacing: -0.02em;
   line-height: 1;
 }
-.brand-title .punct { color: var(--flame); }
-.brand-title .ital  { font-style: italic; color: var(--pink); }
+.brand-title .punct { font-weight: 100; color: var(--flame); }
+.brand-title .ital  { font-weight: 100; font-style: italic; color: var(--pink); }
 
 .brand-sub {
   font-family: 'Space Mono', monospace;
-  font-size: 0.6rem;
-  letter-spacing: 0.2em;
+  font-size: 0.7rem;
+  letter-spacing: 0.15em;
   text-transform: uppercase;
   color: var(--stone);
 }
@@ -125,7 +125,7 @@ header {
 
 .btn {
   font-family: 'Space Grotesk', sans-serif;
-  font-size: 0.72rem;
+  font-size: 0.8rem;
   font-weight: 700;
   letter-spacing: 0.05em;
   padding: 0.55rem 1.1rem;
@@ -135,7 +135,7 @@ header {
   cursor: pointer;
   transition: transform 0.08s ease, background 0.1s, color 0.1s;
   white-space: nowrap;
-  height: 36px;
+  height: 40px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -147,7 +147,7 @@ header {
 /* slightly muted secondary button style */
 .btn-secondary {
   border-width: 2px;
-  font-size: 0.65rem;
+  font-size: 0.75rem;
   color: var(--stone);
   border-color: rgba(21,19,15,0.3);
 }
@@ -238,8 +238,8 @@ header {
 .panel-label {
   font-family: 'Space Grotesk', sans-serif;
   font-weight: 700;
-  font-size: 0.66rem;
-  letter-spacing: 0.2em;
+  font-size: 0.72rem;
+  letter-spacing: 0.15em;
   text-transform: uppercase;
   margin-bottom: 0.75rem;
   flex-shrink: 0;
@@ -297,8 +297,8 @@ header {
   gap: 0.6rem;
   font-family: 'Space Grotesk', sans-serif;
   font-weight: 600;
-  font-size: 0.74rem;
-  padding: 0.42rem 0.55rem;
+  font-size: 0.85rem;
+  padding: 0.5rem 0.55rem;
   border: 2px solid transparent;
   background: transparent;
   color: var(--ink);
@@ -330,7 +330,7 @@ header {
 .cat-count {
   margin-left: auto;
   font-family: 'Space Mono', monospace;
-  font-size: 0.62rem;
+  font-size: 0.72rem;
   opacity: 0.6;
 }
 
@@ -349,7 +349,7 @@ header {
   display: flex;
   align-items: center;
   gap: 0.55rem;
-  font-size: 0.65rem;
+  font-size: 0.8rem;
 }
 
 .source-dot {
@@ -407,12 +407,12 @@ header {
 .listing-name {
   font-family: 'Space Grotesk', sans-serif;
   font-weight: 700;
-  font-size: 0.8rem;
+  font-size: 0.9rem;
   line-height: 1.25;
 }
 
 .listing-addr {
-  font-size: 0.6rem;
+  font-size: 0.75rem;
   font-style: italic;
   color: var(--stone);
   margin-top: 0.15rem;
@@ -429,11 +429,11 @@ header {
 .listing-tag {
   display: inline-block;
   font-family: 'Space Grotesk', sans-serif;
-  font-size: 0.54rem;
+  font-size: 0.65rem;
   font-weight: 700;
   letter-spacing: 0.07em;
   text-transform: uppercase;
-  padding: 0.1rem 0.4rem;
+  padding: 0.15rem 0.45rem;
   border: 1.5px solid var(--ink);
   color: var(--ink);
 }
@@ -562,10 +562,45 @@ header {
 }
 .popup-link:hover { text-decoration: underline; }
 
+/* co-located sub-entries inside a popup */
+.popup-colocated {
+  margin-top: 0.6rem;
+  padding-top: 0.6rem;
+  border-top: 1px dashed var(--stone);
+}
+.popup-co-name {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--ink);
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-bottom: 0.3rem;
+}
+.popup-co-name .popup-cat {
+  font-size: 0.52rem;
+  padding: 0.1rem 0.3rem;
+  margin-bottom: 0;
+}
 
-/* ============================================================
-   MODALS  (submit, correction, about)
-   ============================================================ */
+/* co-located sub-entries inside a sidebar listing card */
+.listing-colocated {
+  margin-top: 0.4rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+.listing-co-row {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+.listing-co-name {
+  font-size: 0.62rem;
+  color: var(--stone);
+  font-family: 'Space Mono', monospace;
+}
 
 /* full-screen dimmed backdrop — hidden by default */
 .modal-backdrop {
@@ -744,8 +779,8 @@ textarea { min-height: 72px; }
   font-size: 1.5rem;
   letter-spacing: -0.02em;
 }
-.loader-brand .punct { color: var(--flame); }
-.loader-brand .ital  { font-style: italic; color: var(--pink); }
+.loader-brand .punct { font-weight: 100; color: var(--flame); }
+.loader-brand .ital  { font-weight: 100; font-style: italic; color: var(--pink); }
 
 /* bouncing dots animation */
 .loader-dots {

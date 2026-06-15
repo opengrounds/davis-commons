@@ -3,13 +3,13 @@
   a citizen map of shared resources in davis, ca
   by zahra baxi
 
-  pulls data from three sources in parallel:
-    1. openstreetmap (via the overpass API)
-    2. falling fruit  (public foraging database)
-    3. back4app       (our own community submissions)
+  all place data lives in data.js (loaded first).
+  this file handles the map, UI, and two live data fetches:
+    1. falling fruit  (public foraging database)
+    2. back4app       (our own community submissions)
 
-  then geocodes any seed entries that only have an address,
-  and progressively updates the map as results come in.
+  geocodes address-only entries via nominatim in the background,
+  caching results in localStorage.
 */
 
 
@@ -34,238 +34,7 @@ var DAVIS_BBOX = {
 };
 
 
-/* ============================================================
-   CATEGORY DEFINITIONS
-   each entry maps a slug to a display label and a hex color.
-   the color is used for markers, swatches, and tags.
-   ============================================================ */
-
-var CATEGORIES = [
-  { id: 'all',      label: 'all',                 color: '#15130F' },
-  { id: 'garden',   label: 'community garden',    color: '#2F4D22' },
-  { id: 'fridge',   label: 'community fridge',    color: '#2F9BD6' },
-  { id: 'coop',     label: 'food co-op',          color: '#FFC53D' },
-  { id: 'pantry',   label: 'free pantry',         color: '#FF5722' },
-  { id: 'seeds',    label: 'seed library',        color: '#8B5CF6' },
-  { id: 'library',  label: 'little free library', color: '#FF3E86' },
-  { id: 'tools',    label: 'tool / repair',       color: '#1F6B5C' },
-  { id: 'thrift',   label: 'thrift & reuse',      color: '#9C6B30' },
-  { id: 'foraging', label: 'foraging',            color: '#B0431E' },
-  { id: 'bikes',    label: 'bike repair',         color: '#4F6BFF' },
-  { id: 'mutual',   label: 'mutual aid',          color: '#C2185B' },
-  { id: 'other',    label: 'other commons',       color: '#75695A' }
-];
-
-
-/* ============================================================
-   SEED DATA
-   hand-curated entries that are always shown, even if the
-   external APIs are down. geocodeAddress is the string we
-   send to nominatim; lat/lng are fallback coordinates used
-   immediately while geocoding runs in the background.
-   ============================================================ */
-
-var SEED_DATA = [
-  {
-    id: 's1',
-    name: '5th Street Community Garden',
-    category: 'garden',
-    lat: 38.5432, lng: -121.7298,
-    address: '1825 5th St, Davis CA 95616',
-    geocodeAddress: '1825 5th St, Davis, CA',
-    link: 'https://cityofdavis.org/city-hall/parks-community-services/parks-open-space/community-gardens',
-    description: 'city-run organic plots in East Davis. open year-round; new-plot waitlist through the city parks department.',
-    source: 'opengrounds'
-  },
-  {
-    id: 's2',
-    name: 'Cannery Community Garden',
-    category: 'garden',
-    lat: 38.5600, lng: -121.7275,
-    address: '1701 Harvest St, Davis CA 95616',
-    geocodeAddress: '1701 Harvest St, Davis, CA',
-    link: 'https://cityofdavis.org/city-hall/parks-community-services/parks-open-space/community-gardens',
-    description: 'raised-bed plots in the Cannery neighborhood, open to residents and the public via the city garden program.',
-    source: 'opengrounds'
-  },
-  {
-    id: 's3',
-    name: 'ASUCD Experimental College Garden',
-    category: 'garden',
-    lat: 38.5346, lng: -121.7620,
-    address: 'UC Davis campus, near the Domes',
-    geocodeAddress: 'Baggins End Domes, UC Davis, Davis, CA',
-    link: 'https://asucd.ucdavis.edu',
-    description: 'student-run organic farm near the Baggins End domes. open to students, staff, and the wider community.',
-    source: 'opengrounds'
-  },
-  {
-    id: 's4',
-    name: 'Davis Food Co-op Freedge',
-    category: 'fridge',
-    lat: 38.5449, lng: -121.7399,
-    address: '620 G St, Davis CA 95616',
-    geocodeAddress: '620 G St, Davis, CA',
-    link: 'https://davisfood.coop',
-    description: 'community fridge on the west side of the co-op building. staff restock it daily with surplus produce, dairy, and bakery. take what you need, leave what you can.',
-    source: 'opengrounds'
-  },
-  {
-    id: 's5',
-    name: 'Memorial Union Freedge',
-    category: 'fridge',
-    lat: 38.5407, lng: -121.7494,
-    address: 'UC Davis Memorial Union, east side near the bookstore',
-    geocodeAddress: 'Memorial Union, UC Davis, Davis, CA',
-    link: 'https://basicneeds.ucdavis.edu',
-    description: 'campus freedge for whole produce, canned goods, and sealed non-perishables, across from the ASUCD pantry.',
-    source: 'opengrounds'
-  },
-  {
-    id: 's6',
-    name: 'Davis Food Co-op',
-    category: 'coop',
-    lat: 38.5449, lng: -121.7399,
-    address: '620 G St, Davis CA 95616',
-    geocodeAddress: '620 G St, Davis, CA',
-    link: 'https://davisfood.coop',
-    description: 'member-owned grocery co-op since 1972, open to everyone. organic produce, bulk bins, a full deli, and a community bulletin board. open daily 7am-10pm.',
-    source: 'opengrounds'
-  },
-  {
-    id: 's7',
-    name: 'Davis Makerspace Repair Cafe',
-    category: 'tools',
-    lat: 38.5459, lng: -121.7338,
-    address: '315 E 14th St (Yolo County Library, Davis Branch)',
-    geocodeAddress: '315 E 14th St, Davis, CA',
-    link: 'https://www.yolocounty.org/general-government/library',
-    description: 'monthly repair cafe. bring in clothing, electronics, and household items for free fixes. hosted by the library and friends of the davis public library.',
-    source: 'opengrounds'
-  },
-  {
-    id: 's8',
-    name: 'Community Mercantile',
-    category: 'thrift',
-    lat: 38.5464, lng: -121.7162,
-    address: '622 Cantrill Dr, Davis CA 95618',
-    geocodeAddress: '622 Cantrill Dr, Davis, CA',
-    link: 'https://communitymercantile.org',
-    description: 'nonprofit reuse store and tool lending library. housewares, furniture, tools, fabric, and more, diverted from the landfill. open thu-sun.',
-    source: 'opengrounds'
-  },
-  {
-    id: 's9',
-    name: 'Yolo County SPCA Thrift Store',
-    category: 'thrift',
-    lat: 38.5426, lng: -121.7458,
-    address: '920 3rd St Ste F, Davis CA 95616',
-    geocodeAddress: '920 3rd St, Davis, CA',
-    link: 'https://www.yolospca.org',
-    description: 'donation-based thrift store benefiting the spca. clothing, books, housewares, and the occasional great find.',
-    source: 'opengrounds'
-  },
-  {
-    id: 's10',
-    name: 'Aggie Reuse Store',
-    category: 'thrift',
-    lat: 38.5407, lng: -121.7494,
-    address: 'UC Davis Memorial Union #154, 1 Shields Ave',
-    geocodeAddress: 'Memorial Union, UC Davis, Davis, CA',
-    link: 'https://sustainability.ucdavis.edu/action/waste/reuse-store',
-    description: 'student-run reuse store now operating as zero-cost mutual aid. clothes, school supplies, and small appliances, free for students and the community.',
-    source: 'opengrounds'
-  },
-  {
-    id: 's11',
-    name: 'Stevenson Bridge Library in a Box',
-    category: 'library',
-    lat: 38.5185, lng: -121.8042,
-    address: 'Stevenson Bridge Rd, Yolo/Solano county line',
-    geocodeAddress: 'Stevenson Bridge Rd, Davis, CA',
-    link: null,
-    description: 'free 24/7 community library on the historic graffiti bridge over Putah Creek.',
-    source: 'opengrounds',
-    status: 'bridge closed for repairs through oct 2026'
-  },
-  {
-    id: 's12',
-    name: 'Davis Bike Garage',
-    category: 'bikes',
-    lat: 38.5590, lng: -121.7425,
-    address: '606 Pena Dr #300, Davis CA 95618',
-    geocodeAddress: '606 Pena Dr, Davis, CA',
-    link: 'https://www.thebikecampaign.org/bike-garage',
-    description: 'free community bike repair shop run by The Bike Campaign. drop in with your bike, volunteer mechanics on site. check thebikecampaign.org for current hours.',
-    source: 'opengrounds'
-  },
-  {
-    id: 's13',
-    name: 'Davis Bike Collective',
-    category: 'bikes',
-    lat: 38.5441, lng: -121.7430,
-    address: '1221 1/2 4th St, Davis CA 95616',
-    geocodeAddress: '1221 4th St, Davis, CA',
-    link: 'https://davisbikecollective.org',
-    description: 'volunteer-run nonprofit bike shop. pay-what-you-can repairs, free parts library, and DIY stands. open drop-in hours most evenings and weekends.',
-    source: 'opengrounds'
-  },
-  {
-    id: 's14',
-    name: 'ASUCD Bike Barn',
-    category: 'bikes',
-    lat: 38.5416, lng: -121.7496,
-    address: '1 Shields Ave (Silo area), UC Davis',
-    geocodeAddress: 'Bike Barn, UC Davis, Davis, CA',
-    link: 'https://bikebarn.ucdavis.edu',
-    description: 'full-service campus bike shop with low-cost repairs and a self-service stand with tools. staffed by students, open to students, faculty, and the public.',
-    source: 'opengrounds'
-  },
-  {
-    id: 's15',
-    name: 'Mary L. Stephens Davis Branch Library',
-    category: 'library',
-    lat: 38.5459, lng: -121.7338,
-    address: '315 E 14th St, Davis CA 95616',
-    geocodeAddress: '315 E 14th St, Davis, CA',
-    link: 'https://www.yolocounty.org/general-government/library/locations/davis-branch-library',
-    description: 'full public library with books, DVDs, CDs, and more. free with a library card. open to everyone.',
-    source: 'opengrounds'
-  },
-  {
-    id: 's16',
-    name: 'Free Supply Closet @ J Street Co-op',
-    category: 'mutual',
-    lat: 38.5441, lng: -121.7399,
-    address: 'Corner of 3rd and J Streets, Davis CA 95616',
-    geocodeAddress: 'J Street Cooperative, 3rd and J St, Davis, CA',
-    link: 'https://www.instagram.com/j_street_cooperative/',
-    description: 'free supply closet inside the J Street Cooperative. kitchen supplies, living supplies, clothes, blankets, sleeping bags, and more. not for food — for food donations, visit the Freedge at the Quaker Friends Meeting House (4th and L St).',
-    source: 'opengrounds'
-  },
-  {
-    id: 's17',
-    name: 'Quaker Friends Meeting House Freedge',
-    category: 'fridge',
-    lat: 38.5430, lng: -121.7370,
-    address: 'Corner of 4th and L Streets, Davis CA 95616',
-    geocodeAddress: 'Davis Friends Meeting, 4th and L St, Davis, CA',
-    link: null,
-    description: 'community fridge (freedge) at the Davis Friends Meeting House. accepts food donations. drop off produce, canned goods, and other non-perishables.',
-    source: 'opengrounds'
-  },
-  {
-    id: 's18',
-    name: 'Mutual Aid in Davis (MAD)',
-    category: 'mutual',
-    lat: 38.5449, lng: -121.7400,
-    address: 'Davis, CA (delivery-based — no fixed location)',
-    geocodeAddress: null,
-    link: 'https://www.norcalresist.org/mad-davis.html',
-    description: 'volunteer delivery network redistributing furniture, clothes, living supplies, and kitchen supplies from donors to neighbors in need. fill out the intake form on their site to request items. run by NorCal Resist.',
-    source: 'opengrounds'
-  }
-];
+// CATEGORIES, SEED_DATA, and ADDRESS_DATA are defined in data.js (loaded before this file)
 
 
 /* ============================================================
@@ -276,7 +45,7 @@ var SEED_DATA = [
 var map            = null;   // the leaflet map instance
 var allMarkers     = [];     // leaflet marker objects currently on the map
 var activeCategory = 'all'; // which category filter is selected
-var allPlaces      = SEED_DATA.slice(); // working array — seed + API results
+var allPlaces      = SEED_DATA.concat(ADDRESS_DATA); // working array — seed + API results
 
 // used by the animated loading counter
 var _loadPct    = 0;
@@ -304,6 +73,11 @@ function catLabel(id) { return catInfo(id).label; }
    LOADING OVERLAY
    animates the big percentage counter toward a target value
    ============================================================ */
+
+function setStatus(msg) {
+  var el = document.querySelector('#loader-label');
+  if (el) el.textContent = msg;
+}
 
 function setLoading(target) {
   // cancel any existing animation tick
@@ -378,20 +152,20 @@ function makeIcon(cat, num) {
 
   // build the icon as an inline-styled div so it matches our design system
   var html = '<div style="' +
-    'width:26px;height:26px;border-radius:50%;' +
+    'width:30px;height:30px;border-radius:50%;' +
     'background:' + color + ';' +
     'border:2px solid #15130F;' +
     'display:flex;align-items:center;justify-content:center;' +
-    'font-family:\'Space Grotesk\',sans-serif;font-weight:700;' +
-    'font-size:12px;color:#F7F4EC;' +
+    'font-family:\'Space Grotesk\',sans-serif;font-weight:400;' +
+    'font-size:15px;color:#F7F4EC;' +
     'box-shadow:2px 2px 0 rgba(21,19,15,0.35);line-height:1' +
   '">' + num + '</div>';
 
   return L.divIcon({
     className:   '',
     html:        html,
-    iconSize:    [26, 26],
-    iconAnchor:  [13, 13],
+    iconSize:    [30, 30],
+    iconAnchor:  [15, 15],
     popupAnchor: [0, -15]
   });
 }
@@ -409,14 +183,14 @@ function buildFilters() {
   for (var i = 0; i < CATEGORIES.length; i++) {
     var cat = CATEGORIES[i];
 
-    // count how many visible places belong to this category
+    // count how many visible places belong to this category —
+    // entries still waiting on geocoding (lat/lng not resolved
+    // yet) aren't counted until they have a real position
     var count = 0;
-    if (cat.id === 'all') {
-      count = allPlaces.length;
-    } else {
-      for (var j = 0; j < allPlaces.length; j++) {
-        if (allPlaces[j].category === cat.id) count++;
-      }
+    for (var j = 0; j < allPlaces.length; j++) {
+      var pj = allPlaces[j];
+      if (pj.lat == null || pj.lng == null) continue;
+      if (cat.id === 'all' || pj.category === cat.id) count++;
     }
 
     var btn = document.createElement('button');
@@ -448,14 +222,16 @@ function buildFilters() {
    ============================================================ */
 
 function getFiltered() {
-  if (activeCategory === 'all') {
-    return allPlaces;
-  }
-
   var result = [];
   for (var i = 0; i < allPlaces.length; i++) {
-    if (allPlaces[i].category === activeCategory) {
-      result.push(allPlaces[i]);
+    var p = allPlaces[i];
+
+    // skip entries that haven't been geocoded yet — they'll pop in
+    // once geocodeSeedData() resolves a lat/lng for them
+    if (p.lat == null || p.lng == null) continue;
+
+    if (activeCategory === 'all' || p.category === activeCategory) {
+      result.push(p);
     }
   }
   return result;
@@ -482,7 +258,8 @@ function renderMarkers() {
 
     // human-readable source attribution
     var sourceLabel = 'open grounds';
-    if (place.source === 'osm')         sourceLabel = 'openstreetmap';
+    if (place.source === 'community')    sourceLabel = 'community data';
+    if (place.source === 'public')       sourceLabel = 'public';
     if (place.source === 'fallingfruit') sourceLabel = 'falling fruit';
 
     // optional "visit site" link in the popup
@@ -509,6 +286,30 @@ function renderMarkers() {
       statusHtml = '<div class="popup-status">' + place.status + '</div>';
     }
 
+    // co-located places — shown as stacked sub-sections in the popup
+    var colocatedHtml = '';
+    if (place.colocated && place.colocated.length) {
+      for (var c = 0; c < place.colocated.length; c++) {
+        var co = place.colocated[c];
+        var coLink = co.link
+          ? '<a href="' + co.link + '" target="_blank" class="popup-link">visit site</a>'
+          : '';
+        var coHours = co.hours
+          ? '<div class="popup-status">' + co.hours + '</div>'
+          : '';
+        colocatedHtml +=
+          '<div class="popup-colocated">' +
+            '<div class="popup-co-name">' +
+              '<span class="popup-cat" style="--cat-color:' + catColor(co.category) + '">' + catLabel(co.category) + '</span>' +
+              co.name +
+            '</div>' +
+            '<div class="popup-desc">' + (co.description || '') + '</div>' +
+            coHours +
+            (coLink ? '<div class="popup-footer">' + coLink + '</div>' : '') +
+          '</div>';
+      }
+    }
+
     var popupContent =
       '<div class="popup-inner">' +
         '<div class="popup-cat" style="--cat-color:' + catColor(place.category) + '">' + catLabel(place.category) + '</div>' +
@@ -516,6 +317,7 @@ function renderMarkers() {
         addrHtml +
         descHtml +
         statusHtml +
+        colocatedHtml +
         '<div class="popup-footer">' +
           '<span class="popup-source">via ' + sourceLabel + '</span>' +
           linkHtml +
@@ -563,6 +365,20 @@ function renderListings() {
       linkTag = '<a class="listing-tag listing-link" href="' + place.link + '" target="_blank" onclick="event.stopPropagation()">website</a>';
     }
 
+    var colocatedCardHtml = '';
+    if (place.colocated && place.colocated.length) {
+      colocatedCardHtml += '<div class="listing-colocated">';
+      for (var c = 0; c < place.colocated.length; c++) {
+        var co = place.colocated[c];
+        colocatedCardHtml +=
+          '<div class="listing-co-row">' +
+            '<span class="listing-tag" style="background:' + catColor(co.category) + ';color:#F7F4EC">' + catLabel(co.category) + '</span>' +
+            '<span class="listing-co-name">' + co.name + '</span>' +
+          '</div>';
+      }
+      colocatedCardHtml += '</div>';
+    }
+
     var card = document.createElement('div');
     card.className = 'listing-card';
     card.innerHTML =
@@ -575,6 +391,7 @@ function renderListings() {
           statusTag +
           linkTag +
         '</div>' +
+        colocatedCardHtml +
       '</div>';
 
     // clicking a card flies the map to that pin and opens its popup.
@@ -593,77 +410,6 @@ function renderListings() {
 }
 
 
-/* ============================================================
-   DATA FETCHING — OPENSTREETMAP (overpass API)
-   queries for fridges, food banks, little free libraries,
-   public gardens, and allotments within the davis bbox
-   ============================================================ */
-
-async function fetchOSM() {
-  var bbox  = DAVIS_BBOX;
-  var query = [
-    '[out:json][timeout:20];',
-    '(',
-    '  node["amenity"="community_fridge"](' + bbox.south + ',' + bbox.west + ',' + bbox.north + ',' + bbox.east + ');',
-    '  node["amenity"="food_bank"]('        + bbox.south + ',' + bbox.west + ',' + bbox.north + ',' + bbox.east + ');',
-    '  node["amenity"="public_bookcase"]('  + bbox.south + ',' + bbox.west + ',' + bbox.north + ',' + bbox.east + ');',
-    '  node["leisure"="garden"]["access"="public"](' + bbox.south + ',' + bbox.west + ',' + bbox.north + ',' + bbox.east + ');',
-    '  node["landuse"="allotments"]('       + bbox.south + ',' + bbox.west + ',' + bbox.north + ',' + bbox.east + ');',
-    '  way["landuse"="allotments"]('        + bbox.south + ',' + bbox.west + ',' + bbox.north + ',' + bbox.east + ');',
-    ');',
-    'out center;'
-  ].join('\n');
-
-  try {
-    var res  = await fetch('https://overpass-api.de/api/interpreter', {
-      method: 'POST',
-      body: 'data=' + encodeURIComponent(query)
-    });
-    var data = await res.json();
-    var results = [];
-
-    var elements = data.elements || [];
-    for (var i = 0; i < elements.length; i++) {
-      var el  = elements[i];
-      var lat = el.lat !== undefined ? el.lat : (el.center ? el.center.lat : null);
-      var lng = el.lon !== undefined ? el.lon : (el.center ? el.center.lon : null);
-
-      if (!lat || !lng) continue;
-
-      var tags     = el.tags || {};
-      var category = 'other';
-
-      if (tags.amenity === 'community_fridge')  category = 'fridge';
-      else if (tags.amenity === 'food_bank')    category = 'pantry';
-      else if (tags.amenity === 'public_bookcase') category = 'library';
-      else if (tags.leisure === 'garden' || tags.landuse === 'allotments') category = 'garden';
-
-      var name = tags.name || tags['name:en'] || category;
-
-      var address = '';
-      if (tags['addr:street']) {
-        address = ((tags['addr:housenumber'] || '') + ' ' + tags['addr:street'] + ', Davis CA').trim();
-      }
-
-      results.push({
-        id:          'osm-' + el.id,
-        name:        name,
-        category:    category,
-        lat:         lat,
-        lng:         lng,
-        address:     address,
-        description: tags.description || tags.opening_hours || '',
-        source:      'osm'
-      });
-    }
-
-    return results;
-
-  } catch(e) {
-    console.log('OSM fetch failed:', e);
-    return [];
-  }
-}
 
 
 /* ============================================================
@@ -768,7 +514,15 @@ function dedup(places) {
   var results = [];
 
   for (var i = 0; i < places.length; i++) {
-    var p   = places[i];
+    var p = places[i];
+
+    // entries waiting on geocoding have no coordinates to compare yet —
+    // let them through as-is; getFiltered() hides them until they resolve
+    if (p.lat == null || p.lng == null) {
+      results.push(p);
+      continue;
+    }
+
     // round to 3 decimal places (~100m grid) for fuzzy matching
     var key = Math.round(p.lat * 1000) + ',' + Math.round(p.lng * 1000) + ',' + p.category;
 
@@ -790,7 +544,7 @@ function dedup(places) {
    usage policy (1 request per second).
    ============================================================ */
 
-var GEO_CACHE_PREFIX = 'og_geo_v1:';
+var GEO_CACHE_PREFIX = 'og_geo_v3:';
 
 function geoCache(key) {
   try {
@@ -835,12 +589,20 @@ async function geocodeOne(query) {
   return null;
 }
 
-// runs through seed entries sequentially, with a 1.1s delay between
-// cache misses to respect nominatim's rate limit
-async function geocodeSeedData(places) {
+// runs through all entries that have a geocodeAddress, sequentially,
+// with a 1.1s delay between cache misses to respect nominatim's rate limit.
+// geocoded coordinates take priority; hardcoded lat/lng act as fallback only
+// if geocoding fails (network down, address not found, etc.).
+async function geocodeSeedData(places, onProgress) {
+  var queue = [];
   for (var i = 0; i < places.length; i++) {
     var p = places[i];
-    if (!p.geocodeAddress) continue;
+    if (!p.geocodeAddress) continue; // no address to geocode
+    queue.push(p);
+  }
+
+  for (var i = 0; i < queue.length; i++) {
+    var p = queue[i];
 
     // only sleep if this address isn't already cached
     var cached = geoCache(p.geocodeAddress);
@@ -850,11 +612,19 @@ async function geocodeSeedData(places) {
 
     var result = await geocodeOne(p.geocodeAddress);
     if (result) {
+      // geocoded result takes priority over any hardcoded coords
       p.lat = result.lat;
       p.lng = result.lng;
+    } else if (p.lat == null) {
+      console.log('geocoding failed, no result for:', p.geocodeAddress);
     }
+    // if geocoding fails but we have hardcoded fallback coords, keep them
+
+    // report progress to caller (used to drive the loading bar)
+    if (onProgress) onProgress(i + 1, queue.length);
 
     // re-render after each result so the map updates progressively
+    buildFilters();
     renderMarkers();
     renderListings();
   }
@@ -869,39 +639,34 @@ async function geocodeSeedData(places) {
 
 async function loadAll() {
   setLoading(5);
+  setStatus('connecting to community data...');
 
-  // track how many of the three fetches have finished
-  var done = 0;
-  function tick() {
-    done++;
-    // steps: 28% → 46% → 64% as each finishes
-    setLoading(10 + done * 18);
-  }
-
-  // fire all three fetches at once but let each one tick the progress counter
-  var osmPromise = fetchOSM().then(function(r)         { tick(); return r; });
-  var ffPromise  = fetchFallingFruit().then(function(r) { tick(); return r; });
-  var b4aPromise = fetchBack4App().then(function(r)     { tick(); return r; });
-
-  var osmData = await osmPromise;
-  var ffData  = await ffPromise;
+  // fetch community submissions from back4app
+  var b4aPromise = fetchBack4App();
+  b4aPromise.then(function() { setLoading(60); });
   var b4aData = await b4aPromise;
 
-  setLoading(72);
+  setStatus('building the map...');
 
-  // merge: seed data first (so our entries take precedence in dedup),
-  // then back4app approved submissions, then OSM, then falling fruit
-  allPlaces = dedup(SEED_DATA.concat(b4aData).concat(osmData).concat(ffData));
+  // merge all data sources
+  allPlaces = dedup(SEED_DATA.concat(ADDRESS_DATA).concat(b4aData));
 
   buildFilters();
   renderMarkers();
   renderListings();
-  setLoading(88);
 
-  // geocode seed addresses in the background — map is already usable
-  geocodeSeedData(SEED_DATA).then(function() {
-    setLoading(100);
+  setStatus('locating addresses...');
+
+  // geocode address-only entries — keep the overlay up and drive the bar
+  // from 60% to 99% as each address resolves, then dismiss at 100%.
+  // pass allPlaces directly so geocoding mutates the objects the map renders.
+  await geocodeSeedData(allPlaces, function(done, total) {
+    setLoading(60 + Math.round((done / total) * 39));
+    setStatus('locating addresses... (' + done + ' of ' + total + ')');
   });
+
+  setStatus('done!');
+  setLoading(100);
 }
 
 
