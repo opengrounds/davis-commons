@@ -714,36 +714,40 @@ async function geocodeSeedData(places, onProgress) {
    ============================================================ */
 
 async function loadAll() {
-  setLoading(5);
+  setLoading(10);
   setStatus('connecting to community data...');
 
-  // fetch community submissions from back4app
+  // kick off both external fetches in parallel
   var b4aPromise = fetchBack4App();
-  b4aPromise.then(function() { setLoading(60); });
-  var b4aData = await b4aPromise;
+  var ffPromise  = fetchFallingFruit();
 
+  setLoading(30);
+
+  // wait for both, but don't let either failure block the map
+  var b4aData = await b4aPromise.catch(function() { return []; });
+  var ffData  = await ffPromise.catch(function() { return []; });
+
+  setLoading(70);
   setStatus('building the map...');
 
-  // merge all data sources
-  allPlaces = dedup(SEED_DATA.concat(ADDRESS_DATA).concat(b4aData));
+  // merge all data sources and render immediately with fallback coords
+  allPlaces = dedup(SEED_DATA.concat(ADDRESS_DATA).concat(b4aData).concat(ffData));
 
   buildFilters();
   buildTagFilters();
   renderMarkers();
   renderListings();
 
-  setStatus('fetching addresses...');
-
-  // geocode address-only entries — keep the overlay up and drive the bar
-  // from 60% to 99% as each address resolves, then dismiss at 100%.
-  // pass allPlaces directly so geocoding mutates the objects the map renders.
-  await geocodeSeedData(allPlaces, function(done, total) {
-    setLoading(60 + Math.round((done / total) * 39));
-    setStatus('fetching addresses... (' + done + ' of ' + total + ')');
-  });
-
+  // map is ready — dismiss the overlay now, don't wait for geocoding
   setStatus('done!');
   setLoading(100);
+
+  // geocode in the background — silently updates pins as coords resolve
+  geocodeSeedData(allPlaces, function() {
+    buildFilters();
+    renderMarkers();
+    renderListings();
+  });
 }
 
 
@@ -1028,9 +1032,45 @@ function showUserLocation() {
    ============================================================ */
 
 var _mobileTab = 'map';
+var _moreTrayOpen = false;
+
+function mobileCloseTray() {
+  _moreTrayOpen = false;
+  var tray = document.querySelector('#mobile-more-tray');
+  var moreBtn = document.querySelector('#tab-more');
+  if (tray) tray.classList.remove('open');
+  if (moreBtn) moreBtn.classList.remove('active');
+}
+
+function mobileToggleMore() {
+  _moreTrayOpen = !_moreTrayOpen;
+  var tray = document.querySelector('#mobile-more-tray');
+  var moreBtn = document.querySelector('#tab-more');
+  if (tray) tray.classList.toggle('open', _moreTrayOpen);
+  if (moreBtn) moreBtn.classList.toggle('active', _moreTrayOpen);
+  // close the sheet when tray opens
+  if (_moreTrayOpen) {
+    var sheet = document.querySelector('#mobile-sheet');
+    if (sheet) sheet.classList.remove('open');
+    // deactivate other tabs
+    ['map','filter','list'].forEach(function(t) {
+      var b = document.querySelector('#tab-' + t);
+      if (b) b.classList.remove('active');
+    });
+  }
+}
+
+function mobileMoreAction(action) {
+  mobileCloseTray();
+  if (action === 'add')        { openSubmit(); }
+  if (action === 'correction') { openCorrection(); }
+  if (action === 'about')      { openAbout(); }
+}
 
 function mobileSwitchTab(tab) {
   _mobileTab = tab;
+  // close the more tray whenever switching tabs
+  mobileCloseTray();
 
   // update tab button active states
   var tabs = ['map', 'filter', 'list'];
@@ -1038,9 +1078,6 @@ function mobileSwitchTab(tab) {
     var btn = document.querySelector('#tab-' + tabs[i]);
     if (btn) btn.classList.toggle('active', tabs[i] === tab);
   }
-  // "add" tab has no active state — it opens a modal
-  var addBtn = document.querySelector('#tab-add');
-  if (addBtn) addBtn.classList.remove('active');
 
   var sheet = document.querySelector('#mobile-sheet');
   var content = document.querySelector('#mobile-sheet-content');

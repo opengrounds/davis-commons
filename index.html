@@ -334,7 +334,6 @@
           <p class="about-text">
             data is pulled from
             <a href="https://freedge.org/" target="_blank">freedge</a>,
-            <a href="https://fallingfruit.org" target="_blank">falling fruit</a>,
             <a href="https://openstreetmap.org" target="_blank">openstreetmap</a>,
             <a href="https://www.davisfarmersmarket.org/" target="_blank">davis farmers market</a>,
             <a href="https://www.davisfoodcoop.com/" target="_blank">davis food co-op</a>,
@@ -371,9 +370,25 @@
       <span class="mobile-tab-icon">≡</span>
       <span class="mobile-tab-label">list</span>
     </button>
-    <button class="mobile-tab" id="tab-add" onclick="openSubmit()">
-      <span class="mobile-tab-icon">+</span>
-      <span class="mobile-tab-label">add</span>
+    <button class="mobile-tab" id="tab-more" onclick="mobileToggleMore()">
+      <span class="mobile-tab-icon">⋯</span>
+      <span class="mobile-tab-label">more</span>
+    </button>
+  </div>
+
+  <!-- MOBILE MORE TRAY — slides up above the tab bar -->
+  <div class="mobile-more-tray" id="mobile-more-tray">
+    <button class="more-tray-btn more-tray-btn--add" onclick="mobileMoreAction('add')">
+      <span class="more-tray-icon">+</span>
+      <span>add a place</span>
+    </button>
+    <button class="more-tray-btn" onclick="mobileMoreAction('correction')">
+      <span class="more-tray-icon">✎</span>
+      <span>suggest a correction</span>
+    </button>
+    <button class="more-tray-btn" onclick="mobileMoreAction('about')">
+      <span class="more-tray-icon">◉</span>
+      <span>about</span>
     </button>
   </div>
 
