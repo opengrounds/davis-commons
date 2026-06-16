@@ -31,7 +31,7 @@ var CATEGORIES = [
   { id: 'tools',    label: 'tool / repair',       color: '#00A3C4' },
   { id: 'thrift',   label: 'thrift & reuse',      color: '#805AD5' },
   { id: 'parks',    label: 'community parks',     color: '#154736' },
-  { id: 'entertain', label: 'entertainment',      color: '#FF5722' },
+  { id: 'entertain', label: 'arts & media',       color: '#FF5722' },
   { id: 'mutual',   label: 'mutual aid',          color: '#84CC16' },
   { id: 'other',    label: 'other commons',       color: '#718096' }
 ];

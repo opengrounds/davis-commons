@@ -143,23 +143,58 @@ function initMap() {
   ).addTo(map);
 
   map.on('popupopen', function(e) {
-    if (e.popup._suppressBurst) {
+    var suppressBurst = e.popup._suppressBurst;
+    if (suppressBurst) {
       e.popup._suppressBurst = false;
-      return;
     }
+
     var el = e.popup.getElement();
     if (!el) return;
-    // re-trigger ghost-up by resetting animation
+
+    // re-trigger ghost-up animation
     var wrapper = el.querySelector('.leaflet-popup-content-wrapper');
     if (wrapper) {
       wrapper.classList.remove('closing');
       void wrapper.offsetWidth;
     }
-    var badge = el.querySelector('.popup-cat');
-    if (!badge) return;
-    badge.classList.remove('burst');
-    void badge.offsetWidth;
-    badge.classList.add('burst');
+
+    if (!suppressBurst) {
+      var badge = el.querySelector('.popup-cat');
+      if (badge) {
+        badge.classList.remove('burst');
+        void badge.offsetWidth;
+        badge.classList.add('burst');
+      }
+    }
+
+    // Pan so the full popup including the starburst badge (which overhangs
+    // top:-68px / left:-56px outside the wrapper) is always fully visible.
+    requestAnimationFrame(function() {
+      var popupEl = e.popup.getElement();
+      if (!popupEl) return;
+
+      var mapContainer = map.getContainer();
+      var mapRect      = mapContainer.getBoundingClientRect();
+      var popupRect    = popupEl.getBoundingClientRect();
+
+      // The starburst badge protrudes well beyond the popup element,
+      // so we use asymmetric padding to make sure it is never clipped.
+      var PAD_TOP  = 80;   // starburst floats above
+      var PAD_LEFT = 70;   // starburst floats to the left
+      var PAD_REST = 20;   // right / bottom breathing room
+
+      var dx = 0;
+      var dy = 0;
+
+      if (popupRect.left   < mapRect.left   + PAD_LEFT) dx = popupRect.left   - mapRect.left   - PAD_LEFT;
+      if (popupRect.right  > mapRect.right  - PAD_REST) dx = popupRect.right  - mapRect.right  + PAD_REST;
+      if (popupRect.top    < mapRect.top    + PAD_TOP)  dy = popupRect.top    - mapRect.top    - PAD_TOP;
+      if (popupRect.bottom > mapRect.bottom - PAD_REST) dy = popupRect.bottom - mapRect.bottom + PAD_REST;
+
+      if (dx !== 0 || dy !== 0) {
+        map.panBy([dx, dy], { animate: true, duration: 0.25 });
+      }
+    });
   });
 
   // ghost-down on close: animate before leaflet removes the element

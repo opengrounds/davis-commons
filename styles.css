@@ -597,13 +597,13 @@ header {
 .leaflet-popup-tip-container { display: none; }
 .leaflet-popup-content       { margin: 0 !important; min-width: 200px; }
 
-.popup-inner { padding: 3rem 1.05rem 0.95rem; }
+.popup-inner { padding: 3.5rem 1.05rem 0.95rem; }
 
 /* starburst badge — sibling before .popup-inner, breaks out of top-left corner */
 .popup-cat {
   position: absolute;
-  top: -60px;
-  left: -50px;
+  top: -68px;
+  left: -60px;
   z-index: 10;
   pointer-events: none;
   transform: rotate(-15deg);
@@ -617,19 +617,19 @@ header {
     6.7% 25.0%,  24.5% 24.5%, 25.0% 6.7%,  40.7% 15.2%
   );
 
-  width: 110px;
-  height: 110px;
+  width: 126px;
+  height: 126px;
   display: flex;
   align-items: center;
   justify-content: center;
   text-align: center;
-  padding: 0 26px;
+  padding: 0 30px;
   box-sizing: border-box;
 
   font-family: 'Space Grotesk', sans-serif;
-  font-size: 0.5rem;
+  font-size: 0.72rem;
   font-weight: 700;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
   line-height: 1.3;
   color: var(--paper);
