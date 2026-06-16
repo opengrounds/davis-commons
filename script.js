@@ -130,7 +130,8 @@ function initMap() {
   map = L.map('map', {
     center: [38.546, -121.748],
     zoom: 14,
-    zoomControl: true
+    zoomControl: true,
+    autoPanPadding: [24, 24]
   });
 
   // stamen toner — high-contrast black-and-white base map
@@ -179,9 +180,11 @@ function initMap() {
 
       // The starburst badge protrudes well beyond the popup element,
       // so we use asymmetric padding to make sure it is never clipped.
-      var PAD_TOP  = 80;   // starburst floats above
-      var PAD_LEFT = 70;   // starburst floats to the left
-      var PAD_REST = 20;   // right / bottom breathing room
+      // On mobile the badge is smaller (96px vs 126px) so we use tighter padding.
+      var isMobile = window.innerWidth <= 640;
+      var PAD_TOP  = isMobile ? 60 : 80;   // starburst floats above
+      var PAD_LEFT = isMobile ? 50 : 70;   // starburst floats to the left
+      var PAD_REST = isMobile ? 12 : 20;   // right / bottom breathing room
 
       var dx = 0;
       var dy = 0;
