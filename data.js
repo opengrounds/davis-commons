@@ -55,7 +55,8 @@ var SEED_DATA = [
     address: '1825 5th St, Davis CA 95616',
     link: 'https://cityofdavis.org/city-hall/parks-community-services/parks-open-space/community-gardens',
     description: 'city-run organic plots in East Davis. open year-round; new-plot waitlist through the city parks department.',
-    source: 'public'
+    source: 'public',
+    tags: ['free', 'community']
   },
   {
     id: 's2',
@@ -66,7 +67,8 @@ var SEED_DATA = [
     geocodeAddress: '1701 Harvest St, Davis, CA',
     link: 'https://cityofdavis.org/city-hall/parks-community-services/parks-open-space/community-gardens',
     description: 'raised-bed plots in the Cannery neighborhood, open to residents and the public via the city garden program.',
-    source: 'public'
+    source: 'public',
+    tags: ['free', 'community']
   },
   {
     id: 's3',
@@ -77,7 +79,8 @@ var SEED_DATA = [
     address: 'UC Davis campus, near the Domes',
     link: 'https://asucd.ucdavis.edu',
     description: 'student-run organic farm near the Baggins End domes. open to students, staff, and the wider community.',
-    source: 'public'
+    source: 'public',
+    tags: ['free', 'volunteer', 'community']
   },
 
 
@@ -90,7 +93,8 @@ var SEED_DATA = [
     address: '315 E 14th St, Davis CA 95616',
     link: 'https://yolocountylibrary.org/locations/davis/',
     description: 'full public library with books, DVDs, CDs, and more. free with a library card. open to everyone.',
-    source: 'public'
+    source: 'public',
+    tags: ['free', 'community']
   },
   {
     id: 's4b',
@@ -101,7 +105,8 @@ var SEED_DATA = [
     address: '315 E 14th St, Davis CA 95616 (inside the library)',
     link: 'https://artsalliancedavis.org/event/davis-makerspace-clothing-repair-cafe-340/',
     description: 'community makerspace and repair cafe inside the library. bring projects, clothing, electronics, or household items. tools available, staff and volunteers on hand to help. supervised children welcome with a signed liability waiver (available on site). mon and tue 6-8pm, thu 9:30-11:30am.',
-    source: 'public'
+    source: 'public',
+    tags: ['free', 'volunteer', 'community']
   },
 
   {
@@ -112,7 +117,8 @@ var SEED_DATA = [
     address: '620 G St, Davis CA 95616',
     link: 'https://davisfood.coop',
     description: 'community fridge on the west side of the co-op building. staff restock it daily with surplus produce, dairy, and bakery. take what you need, leave what you can.',
-    source: 'public'
+    source: 'public',
+    tags: ['free', 'community']
   },
   {
     id: 's6',
@@ -123,7 +129,8 @@ var SEED_DATA = [
     address: 'UC Davis Memorial Union, east side near the bookstore',
     link: 'https://basicneeds.ucdavis.edu',
     description: 'campus freedge for whole produce, canned goods, and sealed non-perishables, across from the ASUCD pantry.',
-    source: 'public'
+    source: 'public',
+    tags: ['free', 'community']
   },
   {
     id: 's7',
@@ -134,7 +141,8 @@ var SEED_DATA = [
     address: '620 G St, Davis CA 95616',
     link: 'https://davisfood.coop',
     description: 'member-owned grocery co-op since 1972, open to everyone. organic produce, bulk bins, a full deli, and a community bulletin board. open daily 7am-10pm.',
-    source: 'public'
+    source: 'public',
+    tags: ['low-cost', 'indie', 'community']
   },
   {
     id: 's8',
@@ -145,7 +153,8 @@ var SEED_DATA = [
     address: '622 Cantrill Dr, Davis CA 95618',
     link: 'https://www.communitymercdavis.org/',
     description: 'nonprofit reuse store and tool lending library. housewares, furniture, tools, fabric, and more, diverted from the landfill. open thu-sun.',
-    source: 'public'
+    source: 'public',
+    tags: ['low-cost', 'secondhand', 'community']
   },
   {
     id: 's8b',
@@ -156,7 +165,8 @@ var SEED_DATA = [
     address: '622 Cantrill Dr, Davis CA 95618 (inside Community Mercantile)',
     link: 'https://www.communitymercdavis.org/library-catalog/',
     description: 'tool lending library inside the Community Mercantile reuse store. borrow tools for home, garden, bike repair, and more. open thu-sun during reuse store hours.',
-    source: 'public'
+    source: 'public',
+    tags: ['free', 'sharing']
   },
   {
     id: 's9',
@@ -167,7 +177,8 @@ var SEED_DATA = [
     geocodeAddress: '617 G St, Davis, CA',
     link: 'https://easywindgear.com/',
     description: 'outdoor gear reuse store. affordable used camping, hiking, and climbing gear.',
-    source: 'public'
+    source: 'public',
+    tags: ['low-cost', 'secondhand', 'indie']
   },
   {
     id: 's10',
@@ -178,7 +189,8 @@ var SEED_DATA = [
     address: '920 3rd St Ste F, Davis CA 95616',
     link: 'https://www.yolospca.org',
     description: 'donation-based thrift store benefiting the spca. clothing, books, housewares, and the occasional great find.',
-    source: 'public'
+    source: 'public',
+    tags: ['low-cost', 'secondhand', 'community']
   },
   {
     id: 's11',
@@ -189,7 +201,8 @@ var SEED_DATA = [
     address: 'UC Davis Memorial Union #154, 1 Shields Ave',
     link: 'https://sustainability.ucdavis.edu/action/waste/reuse-store',
     description: 'student-run reuse store now operating as zero-cost mutual aid. clothes, school supplies, and small appliances, free for students and the community.',
-    source: 'public'
+    source: 'public',
+    tags: ['free', 'secondhand', 'community']
   },
   {
     id: 's12',
@@ -200,7 +213,8 @@ var SEED_DATA = [
     address: '606 Pena Dr #300, Davis CA 95618',
     link: 'https://www.thebikecampaign.org/bike-garage',
     description: 'free community bike repair shop run by The Bike Campaign. drop in with your bike, volunteer mechanics on site. check thebikecampaign.org for current hours.',
-    source: 'public'
+    source: 'public',
+    tags: ['free', 'volunteer', 'community']
   },
   {
     id: 's13',
@@ -211,7 +225,8 @@ var SEED_DATA = [
     address: '1221 1/2 4th St, Davis CA 95616',
     link: 'https://davisbikecollective.org',
     description: 'volunteer-run nonprofit bike shop. low-cost repairs, free parts library, and DIY stands. open drop-in hours most evenings and weekends.',
-    source: 'public'
+    source: 'public',
+    tags: ['free', 'volunteer', 'community']
   },
   {
     id: 's14',
@@ -222,7 +237,8 @@ var SEED_DATA = [
     address: '1 Shields Ave (Silo area), UC Davis',
     link: 'https://bikebarn.ucdavis.edu',
     description: 'full-service campus bike shop with low-cost repairs and a self-service stand with tools. staffed by students, open to students, faculty, and the public.',
-    source: 'public'
+    source: 'public',
+    tags: ['low-cost', 'community']
   },
 
 {
@@ -234,7 +250,8 @@ var SEED_DATA = [
     address: '664 Tercero Hall Dr, Davis, CA 95616',
     link: 'https://bikebarn.ucdavis.edu',
     description: 'public bike repair station. includes all the tools necessary to perform basic bike repairs and maintenance, from changing a flat to adjusting brakes and derailleurs.',
-    source: 'dero'
+    source: 'dero',
+    tags: ['free', 'sharing']
   },
 
   {
@@ -246,7 +263,8 @@ var SEED_DATA = [
     address: 'Tercero Hall Cir, Davis, CA 95616',
     link: 'https://bikebarn.ucdavis.edu',
     description: 'public bike repair station. includes all the tools necessary to perform basic bike repairs and maintenance, from changing a flat to adjusting brakes and derailleurs.',
-    source: 'dero'
+    source: 'dero',
+    tags: ['free', 'sharing']
   },
   {
     id: 's17',
@@ -257,7 +275,8 @@ var SEED_DATA = [
     address: '363 Bioletti Way, Davis, CA 95616',
     link: 'https://bikebarn.ucdavis.edu',
     description: 'public bike repair station. includes all the tools necessary to perform basic bike repairs and maintenance, from changing a flat to adjusting brakes and derailleurs.',
-    source: 'dero'
+    source: 'dero',
+    tags: ['free', 'sharing']
   },
   {
     id: 's18',
@@ -268,7 +287,8 @@ var SEED_DATA = [
     address: '570 Health Sciences Mall, Davis, CA 95616',
     link: 'https://bikebarn.ucdavis.edu',
     description: 'public bike repair station. includes all the tools necessary to perform basic bike repairs and maintenance, from changing a flat to adjusting brakes and derailleurs.',
-    source: 'dero'
+    source: 'dero',
+    tags: ['free', 'sharing']
   },
   {
     id: 's19',
@@ -279,7 +299,8 @@ var SEED_DATA = [
     address: '631 Kleiber Hall Dr, Davis, CA 95616',
     link: 'https://bikebarn.ucdavis.edu',
     description: 'public bike repair station. includes all the tools necessary to perform basic bike repairs and maintenance, from changing a flat to adjusting brakes and derailleurs.',
-    source: 'dero'
+    source: 'dero',
+    tags: ['free', 'sharing']
   },
     {
     id: 's20',
@@ -290,7 +311,8 @@ var SEED_DATA = [
     address: '164 Orchard Park Dr, Davis, CA 95616',
     link: 'https://bikebarn.ucdavis.edu',
     description: 'public bike repair station. includes all the tools necessary to perform basic bike repairs and maintenance, from changing a flat to adjusting brakes and derailleurs.',
-    source: 'dero'
+    source: 'dero',
+    tags: ['free', 'sharing']
   },
 
     {
@@ -302,7 +324,8 @@ var SEED_DATA = [
     address: '1590 Tilia St, Davis, CA 95616',
     link: 'https://bikebarn.ucdavis.edu',
     description: 'public bike repair station. includes all the tools necessary to perform basic bike repairs and maintenance, from changing a flat to adjusting brakes and derailleurs.',
-    source: 'dero'
+    source: 'dero',
+    tags: ['free', 'sharing']
   },
    {
     id: 's22',
@@ -313,7 +336,8 @@ var SEED_DATA = [
     address: '760 Orchard Rd, Davis, CA 95616',
     link: 'https://bikebarn.ucdavis.edu',
     description: 'public bike repair station. includes all the tools necessary to perform basic bike repairs and maintenance, from changing a flat to adjusting brakes and derailleurs.',
-    source: 'dero'
+    source: 'dero',
+    tags: ['free', 'sharing']
   },
   {
     id: 's23',
@@ -324,7 +348,8 @@ var SEED_DATA = [
     address: '1440 Wake Forest Dr, Davis, CA 95616',
     link: 'https://bikebarn.ucdavis.edu',
     description: 'public bike repair station. includes all the tools necessary to perform basic bike repairs and maintenance, from changing a flat to adjusting brakes and derailleurs.',
-    source: 'dero'
+    source: 'dero',
+    tags: ['free', 'sharing']
   },
   {
     id: 's24',
@@ -335,7 +360,8 @@ var SEED_DATA = [
     address: '315 E 14th St, Davis, CA 95616',
     link: 'https://bikebarn.ucdavis.edu',
     description: 'public bike repair station. includes all the tools necessary to perform basic bike repairs and maintenance, from changing a flat to adjusting brakes and derailleurs.',
-    source: 'dero'
+    source: 'dero',
+    tags: ['free', 'sharing']
   },
   {
     id: 's25',
@@ -346,7 +372,8 @@ var SEED_DATA = [
     address: '2000 Cannery Loop, Davis, CA 95616,',
     link: 'https://bikebarn.ucdavis.edu',
     description: 'public bike repair station. includes all the tools necessary to perform basic bike repairs and maintenance, from changing a flat to adjusting brakes and derailleurs.',
-    source: 'dero'
+    source: 'dero',
+    tags: ['free', 'sharing']
   },
 
 
@@ -359,7 +386,8 @@ var SEED_DATA = [
     address: 'Corner of 3rd and J Streets, Davis CA 95616',
     link: 'https://www.instagram.com/j_street_cooperative/',
     description: 'free supply closet inside the J Street Cooperative. kitchen supplies, living supplies, clothes, blankets, sleeping bags, and more. not for food.',
-    source: 'public'
+    source: 'public',
+    tags: ['free', 'community']
   },
 
   {
@@ -371,7 +399,8 @@ var SEED_DATA = [
     address: 'Davis, CA (delivery-based — no fixed location)',
     link: 'https://www.norcalresist.org/mad-davis.html',
     description: 'volunteer delivery network redistributing furniture, clothes, living supplies, and kitchen supplies from donors to neighbors in need. fill out the intake form on their site to request items. run by NorCal Resist.',
-    source: 'public'
+    source: 'public',
+    tags: ['free', 'volunteer', 'community']
   }
 ];
 
@@ -401,7 +430,8 @@ var ADDRESS_DATA = [
     geocodeAddress: '2013 Whittier Dr, Davis, CA',
     link: null,
     description: 'neighborhood freedge in East Davis. take what you need, leave what you can.',
-    source: 'community'
+    source: 'community',
+    tags: ['free', 'community']
   },
   {
     id: 's29',
@@ -412,7 +442,8 @@ var ADDRESS_DATA = [
     geocodeAddress: '275 Grande Ave, Davis, CA',
     link: null,
     description: 'community freedge along Grande Ave. take what you need, leave what you can.',
-    source: 'community'
+    source: 'community',
+    tags: ['free', 'community']
   },
   {
     id: 's30',
@@ -423,7 +454,8 @@ var ADDRESS_DATA = [
     geocodeAddress: '1221 Eureka Ave, Davis, CA',
     link: null,
     description: 'neighborhood freedge on Eureka Ave. take what you need, leave what you can.',
-    source: 'community'
+    source: 'community',
+    tags: ['free', 'community']
   },
   {
     id: 's31',
@@ -434,7 +466,8 @@ var ADDRESS_DATA = [
     geocodeAddress: '217 2nd St, Davis, CA',
     link: null,
     description: 'community freedge in downtown Davis. take what you need, leave what you can.',
-    source: 'community'
+    source: 'community',
+    tags: ['free', 'community']
   },
   {
     id: 's32',
@@ -445,7 +478,8 @@ var ADDRESS_DATA = [
     geocodeAddress: '420 Hutchison Dr, Davis, CA',
     link: null,
     description: 'campus freedge near the Silo. take what you need, leave what you can.',
-    source: 'community'
+    source: 'community',
+    tags: ['free', 'community']
   },
   {
     id: 's33',
@@ -457,7 +491,8 @@ var ADDRESS_DATA = [
     link: null,
     description: 'only the Student Farm stocks this freedge, but anyone can take food from it. usually well stocked with produce through the week.',
     source: 'community',
-    status: 'open weekdays 8am-5pm'
+    status: 'open weekdays 8am-5pm',
+    tags: ['free', 'community']
   },
 
   // -------- thrift & reuse --------
@@ -470,7 +505,8 @@ var ADDRESS_DATA = [
     geocodeAddress: '409 3rd St, Davis, CA',
     link: 'https://www.bohemethreads.com/',
     description: 'vintage and secondhand clothing boutique in downtown Davis.',
-    source: 'public'
+    source: 'public',
+    tags: ['low-cost', 'secondhand', 'indie']
   },
   {
     id: 's35',
@@ -481,7 +517,8 @@ var ADDRESS_DATA = [
     geocodeAddress: '1640 E 8th St, Davis, CA',
     link: null,
     description: 'donation-based thrift store with clothing, housewares, books, and more.',
-    source: 'public'
+    source: 'public',
+    tags: ['low-cost', 'secondhand']
   },
 
   // -------- edible campus harvest sites --------
@@ -494,7 +531,8 @@ var ADDRESS_DATA = [
     geocodeAddress: '387 N Quad, Davis, CA',
     link: 'https://ediblecampus.ucdavis.edu/gardens/sbg',
     description: 'student-run edible landscape outside the Plant and Environmental Sciences building, growing since 2008. pick your own salad greens and veggies. open to anyone on campus.',
-    source: 'public'
+    source: 'public',
+    tags: ['free', 'community']
   },
   {
     id: 's37',
@@ -505,7 +543,8 @@ var ADDRESS_DATA = [
     geocodeAddress: '549 Kleiber Hall Dr, Davis, CA',
     link: 'https://ediblecampus.ucdavis.edu/gardens/bog',
     description: 'permaculture demonstration garden in the heart of campus, including an orchard of heirloom California fruit trees. visitors are free to sample the harvest once established.',
-    source: 'public'
+    source: 'public',
+    tags: ['free', 'community']
   },
 
   // -------- little free libraries --------
@@ -518,7 +557,8 @@ var ADDRESS_DATA = [
     geocodeAddress: '2816 Loyola Dr, Davis, CA',
     link: null,
     description: 'little free library that also has a board game lending shelf.',
-    source: 'community'
+    source: 'community',
+    tags: ['free', 'community', 'sharing']
   },
   {
     id: 's39',
@@ -529,7 +569,8 @@ var ADDRESS_DATA = [
     geocodeAddress: '1102 Petra Ct, Davis, CA',
     link: null,
     description: 'little free library paired with a produce-sharing basket. take a book, take some extra produce.',
-    source: 'community'
+    source: 'community',
+    tags: ['free', 'community', 'sharing']
   },
   {
     id: 's40',
@@ -540,7 +581,8 @@ var ADDRESS_DATA = [
     geocodeAddress: '2951 Prado Ln, Davis, CA',
     link: null,
     description: 'a little free library on Prado Ln. swap a book, take a book.',
-    source: 'community'
+    source: 'community',
+    tags: ['free', 'community', 'sharing']
   },
   {
     id: 's41',
@@ -551,7 +593,8 @@ var ADDRESS_DATA = [
     geocodeAddress: '1367 Camphor Ln, Davis, CA',
     link: null,
     description: 'a little free library on Camphor Ln. swap a book, take a book.',
-    source: 'community'
+    source: 'community',
+    tags: ['free', 'community', 'sharing']
   },
   {
     id: 's42',
@@ -562,7 +605,8 @@ var ADDRESS_DATA = [
     geocodeAddress: '2826 Layton Dr, Davis, CA',
     link: null,
     description: 'a little free library on Layton Dr. swap a book, take a book.',
-    source: 'community'
+    source: 'community',
+    tags: ['free', 'sharing']
   },
   {
     id: 's43',
@@ -573,7 +617,8 @@ var ADDRESS_DATA = [
     geocodeAddress: '2613 Blackburn Dr, Davis, CA',
     link: null,
     description: 'a little free library on Blackburn Dr. swap a book, take a book.',
-    source: 'community'
+    source: 'community',
+    tags: ['free', 'community', 'sharing']
   },
   {
     id: 's44',
@@ -584,7 +629,8 @@ var ADDRESS_DATA = [
     geocodeAddress: '1803 Monarch Ln, Davis, CA',
     link: null,
     description: 'a little free library on Monarch Ln. swap a book, take a book.',
-    source: 'community'
+    source: 'community',
+    tags: ['free', 'community', 'sharing']
   },
   {
     id: 's45',
@@ -595,7 +641,8 @@ var ADDRESS_DATA = [
     geocodeAddress: '1430 Eligio Ln, Davis, CA',
     link: null,
     description: 'a little free library on Eligio Ln. swap a book, take a book.',
-    source: 'community'
+    source: 'community',
+    tags: ['free', 'community', 'sharing']
   },
   {
     id: 's46',
@@ -606,7 +653,8 @@ var ADDRESS_DATA = [
     geocodeAddress: '3848 Alegre Way, Davis, CA',
     link: null,
     description: 'a little free library on Alegre Way. swap a book, take a book.',
-    source: 'community'
+    source: 'community',
+    tags: ['free', 'community', 'sharing']
   },
   {
     id: 's47',
@@ -617,7 +665,8 @@ var ADDRESS_DATA = [
     geocodeAddress: '4114 Arroyo Ave, Davis, CA',
     link: null,
     description: 'a little free library on Arroyo Ave. swap a book, take a book.',
-    source: 'community'
+    source: 'community',
+    tags: ['free', 'community', 'sharing']
   },
   {
     id: 's48',
@@ -628,7 +677,8 @@ var ADDRESS_DATA = [
     geocodeAddress: '1406 Pastal Way, Davis, CA',
     link: null,
     description: 'a little free library on Pastal Way. swap a book, take a book.',
-    source: 'community'
+    source: 'community',
+    tags: ['free', 'community', 'sharing']
   },
   {
     id: 's49',
@@ -639,7 +689,8 @@ var ADDRESS_DATA = [
     geocodeAddress: '815 La Paz Dr, Davis, CA',
     link: null,
     description: 'a little free library on La Paz Dr. swap a book, take a book.',
-    source: 'community'
+    source: 'community',
+    tags: ['free', 'community', 'sharing']
   },
   {
     id: 's50',
@@ -650,7 +701,8 @@ var ADDRESS_DATA = [
     geocodeAddress: '2222 E 8th St, Davis, CA',
     link: null,
     description: 'a little free library on E 8th St. swap a book, take a book.',
-    source: 'community'
+    source: 'community',
+    tags: ['free', 'community', 'sharing']
   },
   {
     id: 's51',
@@ -661,7 +713,8 @@ var ADDRESS_DATA = [
     geocodeAddress: '2005 Renoir Ave, Davis, CA',
     link: null,
     description: 'a little free library on Renoir Ave. swap a book, take a book.',
-    source: 'community'
+    source: 'community',
+    tags: ['free', 'community', 'sharing']
   },
 
 
@@ -675,7 +728,8 @@ var ADDRESS_DATA = [
     geocodeAddress: '517 Coolidge Ct, Davis, CA',
     link: null,
     description: 'a little free library on Coolidge Court. swap a book, take a book.',
-    source: 'community'
+    source: 'community',
+    tags: ['free', 'community', 'sharing']
   },
    {
     id: 's53',
@@ -686,7 +740,8 @@ var ADDRESS_DATA = [
     geocodeAddress: '3203 Chesapeake Bay St, Davis, CA',
     link: null,
     description: 'a little free library on Chesapeake Bay and Secret Bay streets. swap a book, take a book.',
-    source: 'community'
+    source: 'community',
+    tags: ['free', 'community', 'sharing']
   },
    {
     id: 's54',
@@ -697,7 +752,8 @@ var ADDRESS_DATA = [
     geocodeAddress: '3325 Morro Bay Ave, Davis, CA',
     link: null,
     description: 'a little free library on Morro Bay Ave. swap a book, take a book.',
-    source: 'community'
+    source: 'community',
+    tags: ['free', 'community', 'sharing']
   },
    {
     id: 's55',
@@ -708,7 +764,8 @@ var ADDRESS_DATA = [
     geocodeAddress: '2334 Glacier Place, Davis, CA',
     link: null,
     description: 'a little free library on Glacier Place. swap a book, take a book.',
-    source: 'community'
+    source: 'community',
+    tags: ['free', 'community', 'sharing']
   },
    {
     id: 's56',
@@ -719,7 +776,8 @@ var ADDRESS_DATA = [
     geocodeAddress: '1219 Purdue Dr, Davis, CA',
     link: null,
     description: 'a little free library on Purdue Dr. swap a book, take a book.',
-    source: 'community'
+    source: 'community',
+    tags: ['free', 'community', 'sharing']
   },
    {
     id: 's57',
@@ -730,7 +788,8 @@ var ADDRESS_DATA = [
     geocodeAddress: '1251 Fordham Dr, Davis, CA',
     link: null,
     description: 'a little free library on Fordham Dr. swap a book, take a book.',
-    source: 'community'
+    source: 'community',
+    tags: ['free', 'community', 'sharing']
   },
    {
     id: 's58',
@@ -741,7 +800,8 @@ var ADDRESS_DATA = [
     geocodeAddress: '1520 Lemon Ln, Davis, CA',
     link: null,
     description: 'a little free library on Lemon Ln. swap a book, take a book.',
-    source: 'community'
+    source: 'community',
+    tags: ['free', 'community', 'sharing']
   },
    {
     id: 's59',
@@ -752,7 +812,8 @@ var ADDRESS_DATA = [
     geocodeAddress: '2608 Quail St., Davis, CA',
     link: null,
     description: 'a little free library on Quail St at the crosswalk to the Greenbelt, near the Dominoes statue. swap a book, take a book.',
-    source: 'community'
+    source: 'community',
+    tags: ['free', 'community', 'sharing']
   },
    {
     id: 's60',
@@ -763,7 +824,8 @@ var ADDRESS_DATA = [
     geocodeAddress: '616 Bluebird Place, Davis, CA',
     link: null,
     description: 'a little free library on Bluebird Place. swap a book, take a book.',
-    source: 'community'
+    source: 'community',
+    tags: ['free', 'community', 'sharing']
   },
    {
     id: 's61',
@@ -774,7 +836,8 @@ var ADDRESS_DATA = [
     geocodeAddress: '240 Pintail Place, Davis, CA',
     link: null,
     description: 'a little free kids library on Pintail Place. swap a book, take a book.',
-    source: 'community'
+    source: 'community',
+    tags: ['free', 'community', 'sharing']
   },
    {
     id: 's62',
@@ -785,7 +848,8 @@ var ADDRESS_DATA = [
     geocodeAddress: '218 Sandpiper Drive, Davis, CA',
     link: null,
     description: 'a little free library on Sandpiper Drive. swap a book, take a book.',
-    source: 'community'
+    source: 'community',
+    tags: ['free', 'community', 'sharing']
   },
    {
     id: 's63',
@@ -796,7 +860,8 @@ var ADDRESS_DATA = [
     geocodeAddress: '404 Fiesta Ave, Davis, CA',
     link: null,
     description: 'a little free library on Fiesta Ave. swap a book, take a book.',
-    source: 'community'
+    source: 'community',
+    tags: ['free', 'community', 'sharing']
   },
    {
     id: 's64',
@@ -807,7 +872,8 @@ var ADDRESS_DATA = [
     geocodeAddress: '2504 Bueno Dr., Davis, CA',
     link: null,
     description: 'a little free library on Bueno Drive. swap a book, take a book.',
-    source: 'community'
+    source: 'community',
+    tags: ['free', 'community', 'sharing']
   },
    {
     id: 's65',
@@ -818,7 +884,8 @@ var ADDRESS_DATA = [
     geocodeAddress: '768 Hawthorne Ln, Davis, CA',
     link: null,
     description: 'a little free library on Hawthorne Ln. swap a book, take a book.',
-    source: 'community'
+    source: 'community',
+    tags: ['free', 'community', 'sharing']
   },
    {
     id: 's66',
@@ -829,7 +896,8 @@ var ADDRESS_DATA = [
     geocodeAddress: '830 Linden Ln, Davis, CA',
     link: null,
     description: 'a little free library on Linden Ln. swap a book, take a book.',
-    source: 'community'
+    source: 'community',
+    tags: ['free', 'community', 'sharing']
   },
    {
     id: 's67',
@@ -840,7 +908,8 @@ var ADDRESS_DATA = [
     geocodeAddress: '632 Georgetown Place, Davis, CA',
     link: null,
     description: 'a little free library on Georgetown Place. swap a book, take a book.',
-    source: 'community'
+    source: 'community',
+    tags: ['free', 'community', 'sharing']
   },
    {
     id: 's68',
@@ -851,7 +920,8 @@ var ADDRESS_DATA = [
     geocodeAddress: '1000 Oeste Drive, Davis, CA',
     link: null,
     description: 'a little free library on Oeste Drive. swap a book, take a book.',
-    source: 'community'
+    source: 'community',
+    tags: ['free', 'community', 'sharing']
   },
    {
     id: 's69',
@@ -862,7 +932,8 @@ var ADDRESS_DATA = [
     geocodeAddress: '554 Rutgers Dr, Davis, CA',
     link: null,
     description: 'a little free library on Rutgers Dr. swap a book, take a book.',
-    source: 'community'
+    source: 'community',
+    tags: ['free', 'community', 'sharing']
   },
    {
     id: 's70',
@@ -873,7 +944,8 @@ var ADDRESS_DATA = [
     geocodeAddress: '1418 Redwood Lane, Davis, CA',
     link: null,
     description: 'a little free library on Redwood Lane. swap a book, take a book.',
-    source: 'community'
+    source: 'community',
+    tags: ['free', 'community', 'sharing']
   },
    {
     id: 's71',
@@ -884,7 +956,8 @@ var ADDRESS_DATA = [
     geocodeAddress: '760 Elmwood Drive, Davis, CA',
     link: null,
     description: 'a little free library on Elmwood Drive. swap a book, take a book.',
-    source: 'community'
+    source: 'community',
+    tags: ['free', 'community', 'sharing']
   },
    {
     id: 's72',
@@ -895,7 +968,8 @@ var ADDRESS_DATA = [
     geocodeAddress: '28 College Park, Davis, CA',
     link: null,
     description: 'a little free library on College Park. swap a book, take a book.',
-    source: 'community'
+    source: 'community',
+    tags: ['free', 'community', 'sharing']
   },
    {
     id: 's73',
@@ -906,7 +980,8 @@ var ADDRESS_DATA = [
     geocodeAddress: '600 A Street, Davis, CA',
     link: null,
     description: 'a little free library on A Street. swap a book, take a book.',
-    source: 'community'
+    source: 'community',
+    tags: ['free', 'community', 'sharing']
   },
    {
     id: 's74',
@@ -917,7 +992,8 @@ var ADDRESS_DATA = [
     geocodeAddress: '854 A Street, Davis, CA',
     link: null,
     description: 'a little free library on A Street. swap a book, take a book.',
-    source: 'community'
+    source: 'community',
+    tags: ['free', 'community', 'sharing']
   },
     {
     id: 's75',
@@ -928,7 +1004,8 @@ var ADDRESS_DATA = [
     geocodeAddress: '1301 Cedar Place, Davis, CA',
     link: null,
     description: 'a little free library on Cedar Place. swap a book, take a book.',
-    source: 'community'
+    source: 'community',
+    tags: ['free', 'community', 'sharing']
   },
     {
     id: 's76',
@@ -939,7 +1016,8 @@ var ADDRESS_DATA = [
     geocodeAddress: '1501 L Street, Davis, CA',
     link: null,
     description: 'a little free library on L Street. swap a book, take a book.',
-    source: 'community'
+    source: 'community',
+    tags: ['free', 'community', 'sharing']
   },
      {
     id: 's77',
@@ -950,7 +1028,8 @@ var ADDRESS_DATA = [
     geocodeAddress: '330 University Ave, Davis, CA',
     link: null,
     description: 'a little free library on University Ave. swap a book, take a book.',
-    source: 'community'
+    source: 'community',
+    tags: ['free', 'community', 'sharing']
   },
      {
     id: 's78',
@@ -961,7 +1040,8 @@ var ADDRESS_DATA = [
     geocodeAddress: '522 E Street, Davis, CA',
     link: null,
     description: 'a little free library on E Street. swap a book, take a book.',
-    source: 'community'
+    source: 'community',
+    tags: ['free', 'community', 'sharing']
   },
      {
     id: 's79',
@@ -972,7 +1052,8 @@ var ADDRESS_DATA = [
     geocodeAddress: '721 K St, Davis, CA',
     link: null,
     description: 'a little free library on K St. swap a book, take a book.',
-    source: 'community'
+    source: 'community',
+    tags: ['free', 'community', 'sharing']
   },
      {
     id: 's80',
@@ -983,7 +1064,8 @@ var ADDRESS_DATA = [
     geocodeAddress: '405 L Street, Davis, CA',
     link: null,
     description: 'a little free library on L Street. swap a book, take a book.',
-    source: 'community'
+    source: 'community',
+    tags: ['free', 'community', 'sharing']
   },
   {
     id: 's81',
@@ -994,7 +1076,8 @@ var ADDRESS_DATA = [
     geocodeAddress: '1418 Colgate Dr, Davis, CA',
     link: null,
     description: 'a little free library on Colgate Dr. swap a book, take a book.',
-    source: 'community'
+    source: 'community',
+    tags: ['free', 'community', 'sharing']
   },
   {
     id: 's82',
@@ -1005,7 +1088,8 @@ var ADDRESS_DATA = [
     geocodeAddress: '1009 Cypress Lane, Davis, CA',
     link: null,
     description: 'a little free library on Cypress Lane. swap a book, take a book.',
-    source: 'community'
+    source: 'community',
+    tags: ['free', 'community', 'sharing']
   },
   {
     id: 's83',
@@ -1016,7 +1100,8 @@ var ADDRESS_DATA = [
     geocodeAddress: '1309 Pole Line Road, Davis, CA',
     link: null,
     description: 'a little free library on Pole Line Road. swap a book, take a book.',
-    source: 'community'
+    source: 'community',
+    tags: ['free', 'community', 'sharing']
   },
   {
     id: 's84',
@@ -1027,7 +1112,8 @@ var ADDRESS_DATA = [
     geocodeAddress: '2005 Renoir Ave, Davis, CA',
     link: null,
     description: 'a little free library at Peace Garden. swap a book, take a book.',
-    source: 'community'
+    source: 'community',
+    tags: ['free', 'community', 'sharing']
   },
   {
     id: 's85',
@@ -1038,7 +1124,8 @@ var ADDRESS_DATA = [
     geocodeAddress: '2125 Baywood Lane, Davis, CA',
     link: null,
     description: 'a little free library on Baywood Lane. swap a book, take a book.',
-    source: 'community'
+    source: 'community',
+    tags: ['free', 'community', 'sharing']
   },
   {
     id: 's86',
@@ -1049,7 +1136,8 @@ var ADDRESS_DATA = [
     geocodeAddress: '3504 Mono Place, Davis, CA',
     link: null,
     description: 'a little free library on Mono Place. swap a book, take a book.',
-    source: 'community'
+    source: 'community',
+    tags: ['free', 'community', 'sharing']
   },
   {
     id: 's87',
@@ -1060,7 +1148,8 @@ var ADDRESS_DATA = [
     geocodeAddress: '4131 Hackberry Place, Davis, CA',
     link: null,
     description: 'a little free library on the South Davis greenbelt. swap a book, take a book.',
-    source: 'community'
+    source: 'community',
+    tags: ['free', 'community', 'sharing']
   },
   {
     id: 's88',
@@ -1071,7 +1160,8 @@ var ADDRESS_DATA = [
     geocodeAddress: 'Deodara Court, Davis, CA',
     link: null,
     description: 'a little free library on Deodara Court. swap a book, take a book.',
-    source: 'community'
+    source: 'community',
+    tags: ['free', 'community', 'sharing']
   },
   {
     id: 's89',
@@ -1082,7 +1172,8 @@ var ADDRESS_DATA = [
     geocodeAddress: '43351 Almond Lane, Davis, CA',
     link: null,
     description: 'a little free library on Almond Lane. swap a book, take a book.',
-    source: 'community'
+    source: 'community',
+    tags: ['free', 'community', 'sharing']
   },
   {
     id: 's90',
@@ -1093,7 +1184,8 @@ var ADDRESS_DATA = [
     geocodeAddress: '2238 La Mesa Ct, Davis, CA',
     link: null,
     description: 'a little free library on La Mesa Ct. swap a book, take a book.',
-    source: 'community'
+    source: 'community',
+    tags: ['free', 'community', 'sharing']
   },
   {
     id: 's91',
@@ -1104,24 +1196,11 @@ var ADDRESS_DATA = [
     geocodeAddress: '1725 El Pescador Ct, Davis, CA',
     link: null,
     description: 'a little free library on El Pescador Ct. swap a book, take a book.',
-    source: 'community'
+    source: 'community',
+    tags: ['free', 'community', 'sharing']
   },
 
 
-
-//    -------- gardens --------
-
-{
-    id: 's92',
-    name: 'UC Davis Arboretum & Public Garden',
-    category: 'garden',
-    lat: 38.5342, lng: -121.7560,
-    address: '448 La Rue Rd, UC Davis, Davis CA 95616',
-    geocodeAddress: 'UC Davis Arboretum La Rue Road Davis CA',
-    link: 'https://arboretum.ucdavis.edu',
-    description: '100-acre public garden free and open daily, dawn to dusk. includes the Ruth Risdon Storer Garden, Redwood Grove, native plant collections, and seasonal educational programs. no admission.',
-    source: 'public'
-  },
 
   {
     id: 's93',
@@ -1162,7 +1241,8 @@ var ADDRESS_DATA = [
     geocodeAddress: 'Memorial Union, 1 Shields Ave, Davis, CA',
     link: 'https://thepantry.ucdavis.edu/',
     description: 'a community pantry located in Memorial Union.',
-    source: 'public'
+    source: 'public',
+    tags: ['free', 'community']
   },
 
   // -------- parks --------
@@ -1176,7 +1256,8 @@ var ADDRESS_DATA = [
     geocodeAddress: null,
     link: 'https://www.cityofdavis.org/city-hall/parks-and-community-services/parks-and-open-space',
     description: 'the heart of downtown Davis. open lawn, mature trees, a bandshell, and the Saturday Farmers Market. frequent free community events year-round. always open, never a fee.',
-    source: 'public'
+    source: 'public',
+    tags: ['free']
   },
   {
     id: 's97',
@@ -1187,7 +1268,8 @@ var ADDRESS_DATA = [
     geocodeAddress: null,
     link: 'https://www.cityofdavis.org/city-hall/parks-and-community-services/parks-and-open-space',
     description: 'large north Davis park with open fields, Rainbow City playground, picnic areas, and the Davis Art Center next door. free and open daily.',
-    source: 'public'
+    source: 'public',
+    tags: ['free']
   },
   {
     id: 's98',
@@ -1198,7 +1280,8 @@ var ADDRESS_DATA = [
     geocodeAddress: null,
     link: 'https://www.cityofdavis.org/city-hall/parks-and-community-services/parks-and-open-space',
     description: 'east Davis park with the famous cement slide, basketball, tennis, and softball. pool is open in summer for a small fee. the park itself is always free.',
-    source: 'public'
+    source: 'public',
+    tags: ['free']
   },
   {
     id: 's99',
@@ -1209,7 +1292,8 @@ var ADDRESS_DATA = [
     geocodeAddress: null,
     link: 'https://www.cityofdavis.org/city-hall/parks-and-community-services/parks-and-open-space',
     description: 'west Davis neighborhood park with open lawn, playground, and greenbelt path access. free and open daily.',
-    source: 'public'
+    source: 'public',
+    tags: ['free']
   },
   {
     id: 's100',
@@ -1220,33 +1304,10 @@ var ADDRESS_DATA = [
     geocodeAddress: null,
     link: 'https://www.cityofdavis.org/city-hall/parks-and-community-services/parks-and-open-space',
     description: 'north Davis neighborhood park with open space, playground, and greenbelt connections. free and open daily.',
-    source: 'public'
+    source: 'public',
+    tags: ['free']
   },
 
-  // -------- nature commons --------
-
-  // {
-  //   id: 's101',
-  //   name: 'Putah Creek — Hopkins Rd Trailhead',
-  //   category: 'parks',
-  //   lat: 38.5218, lng: -121.7811,
-  //   address: 'Hopkins Rd at Putah Creek, Davis CA',
-  //   geocodeAddress: null,
-  //   link: 'https://arboretum.ucdavis.edu/putah-creek',
-  //   description: 'main trailhead for the Putah Creek Riparian Reserve. fire ring picnic area, direct creek access (popular swimming hole in summer), porta potties on site. miles of shaded creek-side trail. free, open sunrise to sunset.',
-  //   source: 'public'
-  // },
-  {
-    id: 's102',
-    name: 'Putah Creek — Old Davis Rd Trailhead',
-    category: 'parks',
-    lat: 38.5196, lng: -121.7577,
-    address: 'Old Davis Rd at Putah Creek, Davis CA',
-    geocodeAddress: null,
-    link: 'https://arboretum.ucdavis.edu/putah-creek',
-    description: 'east access point to the Putah Creek trail system. ADA-accessible path, educational signage, lots of shade. connects to the full levee and riparian trail loop. free.',
-    source: 'public'
-  },
 
   // -------- food & growing --------
 
@@ -1259,7 +1320,8 @@ var ADDRESS_DATA = [
     geocodeAddress: null,
     link: 'https://asi.ucdavis.edu/programs/sf/farm-marketplace',
     description: 'student-run farmstand on Extension Center Drive selling organic produce and sustainably grown flowers. open every Monday noon–3pm during the academic year. look for white pop-up tents. open to the whole community.',
-    source: 'public'
+    source: 'public',
+    tags: ['low-cost', 'community']
   },
   {
     id: 's104',
@@ -1270,7 +1332,8 @@ var ADDRESS_DATA = [
     geocodeAddress: null,
     link: 'https://www.davisfarmersmarket.org',
     description: 'year-round outdoor market in Central Park. Saturdays 8am–1pm year-round; Wednesdays 3–6pm spring through fall. local produce, live music, prepared food, and craft vendors. free to attend.',
-    source: 'public'
+    source: 'public',
+    tags: ['low-cost', 'community']
   },
 
   // -------- community media --------
@@ -1284,7 +1347,8 @@ var ADDRESS_DATA = [
     geocodeAddress: null,
     link: 'https://davismedia.org',
     description: 'nonprofit community media center open to all Davis residents. home to DCTV public access TV (channel 15 on cable). offers free media training, equipment access, and production workshops. tune in: Comcast ch. 15 / stream at dctv.davismedia.org.',
-    source: 'public'
+    source: 'public',
+    tags: ['free', 'volunteer', 'community']
   },
   {
     id: 's106',
@@ -1295,7 +1359,8 @@ var ADDRESS_DATA = [
     geocodeAddress: null,
     link: 'https://kdrt.org',
     description: 'Davis\'s own low-power community radio station, run by Davis Media Access. volunteer DJs, local music, news, and talk. tune in at 95.7 FM or stream live at kdrt.org.',
-    source: 'public'
+    source: 'public',
+    tags: ['free', 'volunteer', 'community']
   },
   {
     id: 's107',
@@ -1306,7 +1371,8 @@ var ADDRESS_DATA = [
     geocodeAddress: null,
     link: 'https://kdvs.org',
     description: 'UC Davis student-run free-form radio station broadcasting since 1964. open to community volunteers and DJs. tune in at 90.3 FM or stream live at kdvs.org. one of the longest-running college radio stations in the US.',
-    source: 'public'
+    source: 'public',
+    tags: ['free', 'volunteer', 'community']
   },
 
   // -------- mutual aid --------
@@ -1320,7 +1386,8 @@ var ADDRESS_DATA = [
     geocodeAddress: null,
     link: 'https://www.facebook.com/groups/buynothingdavis/',
     description: 'hyperlocal gift economy on Facebook. give and receive household goods, food, skills, and time, completely free with no trading. find your neighborhood group at buynothingproject.org.',
-    source: 'community'
+    source: 'community',
+    tags: ['free','secondhand' ,'community']
   },
 
   // -------- parks / disc golf --------
@@ -1334,7 +1401,8 @@ var ADDRESS_DATA = [
     geocodeAddress: null,
     link: 'https://www.cityofdavis.org/city-hall/parks-and-community-services/parks-and-open-space',
     description: 'west Davis park with a free 9-hole disc golf course. open daily. bring your own discs.',
-    source: 'public'
+    source: 'public',
+    tags: ['free']
   },
 
   // -------- nature --------
@@ -1348,7 +1416,8 @@ var ADDRESS_DATA = [
     geocodeAddress: null,
     link: 'https://www.cityofdavis.org/city-hall/parks-and-community-services/parks-and-open-space',
     description: 'protected natural open space in east Davis. walking paths through native grassland and riparian habitat. good for birdwatching. free and open daily.',
-    source: 'public'
+    source: 'public',
+    tags: ['free']
   },
 
   // -------- entertainment --------
@@ -1362,7 +1431,8 @@ var ADDRESS_DATA = [
     geocodeAddress: null,
     link: 'https://davisartscenter.org',
     description: 'nonprofit arts center next to Community Park. gallery exhibitions are free and open to the public. low-cost classes and workshops also available. check their calendar for free opening receptions.',
-    source: 'public'
+    source: 'public',
+    tags: ['free', 'low-cost', 'community', 'indie']
   },
 
   {
@@ -1375,7 +1445,7 @@ var ADDRESS_DATA = [
     link: 'https://www.varsitytheatredavis.com',
     description: 'single-screen independent cinema in downtown Davis, open since 1950. affordable tickets. check the website for showtimes and occasional community screenings.',
     source: 'public',
-    tags: ['low-cost', 'indie', 'community']
+    tags: ['low-cost', 'indie']
   },
 
   // -------- indie / secondhand / sustainable --------
@@ -1390,7 +1460,7 @@ var ADDRESS_DATA = [
     link: null,
     description: 'used bookstore and record shop in downtown Davis, open since 1969. secondhand books, vinyl, and local zines at low prices.',
     source: 'public',
-    tags: ['secondhand', 'indie', 'low-cost', 'community']
+    tags: ['secondhand', 'indie', 'low-cost']
   },
 
   // -------- community garden --------
@@ -1404,6 +1474,7 @@ var ADDRESS_DATA = [
     geocodeAddress: '300 Grande Ave, Davis, CA',
     link: 'https://cityofdavis.org/city-hall/parks-community-services/parks-open-space/community-gardens',
     description: 'city-run community garden on Grande Ave in north Davis. annual plot rental fee covers land, water, and basic maintenance. apply through the city parks department.',
-    source: 'public'
+    source: 'public',
+    tags: ['community']
   }
 ];

@@ -48,27 +48,6 @@ var activeCategory = 'all'; // which category filter is selected
 var activeTags     = {};     // which value tags are toggled: { free: true, ... }
 var allPlaces      = SEED_DATA.concat(ADDRESS_DATA); // working array — seed + API results
 
-// map each category to default value tags.
-// individual places can override with a `tags` array field.
-var CATEGORY_TAGS = {
-  fridge:   ['free', 'donation', 'community'],
-  pantry:   ['free', 'donation', 'community'],
-  commun:   ['free', 'community'],
-  mutual:   ['free', 'donation', 'community'],
-  lolib:    ['free', 'community'],
-  library:  ['free', 'community'],
-  foraging: ['free'],
-  garden:   ['free', 'community'],
-  parks:    ['free', 'community'],
-  bikes:    ['free', 'volunteer', 'community'],
-  tools:    ['free', 'community'],
-  market:   ['free', 'community'],
-  coop:     ['low-cost', 'indie', 'community'],
-  thrift:   ['low-cost', 'secondhand', 'community'],
-  entertain:['low-cost', 'indie', 'community'],
-  other:    ['community']
-};
-
 // used by the animated loading counter
 var _loadPct    = 0;
 var _loadTicker = null;
@@ -280,7 +259,8 @@ var TAG_DEFS = [
   { id: 'volunteer',  label: 'volunteer run' },
   { id: 'indie',      label: 'indie / locally owned' },
   { id: 'secondhand', label: 'secondhand / reuse' },
-  { id: 'community',  label: 'community-run' }
+  { id: 'community',  label: 'community-run' },
+  { id: 'sharing',    label: 'sharing is caring' }
 ];
 
 function buildTagFilters(containerEl) {
@@ -336,7 +316,7 @@ function getFiltered() {
     // tag filter: place must match ALL active tags.
     // prefer the place's own `tags` array; fall back to category defaults.
     if (tagKeys.length > 0) {
-      var placeTags = (p.tags && p.tags.length) ? p.tags : (CATEGORY_TAGS[p.category] || []);
+      var placeTags = p.tags || [];
       var match = true;
       for (var t = 0; t < tagKeys.length; t++) {
         if (placeTags.indexOf(tagKeys[t]) === -1) { match = false; break; }
@@ -406,7 +386,7 @@ function renderMarkers() {
     }
 
     // value tags — use per-place tags if set, else category defaults
-    var placeTags = (place.tags && place.tags.length) ? place.tags : (CATEGORY_TAGS[place.category] || []);
+    var placeTags = place.tags || [];
     var tagsHtml = '';
     if (placeTags.length > 0) {
       var pillsHtml = '';
@@ -507,7 +487,7 @@ function renderListings() {
     }
 
     // value tags
-    var placeTagsL = (place.tags && place.tags.length) ? place.tags : (CATEGORY_TAGS[place.category] || []);
+    var placeTagsL = place.tags || [];
     var valueTagsHtml = '';
     for (var vt = 0; vt < placeTagsL.length; vt++) {
       var vtId = placeTagsL[vt];
@@ -1247,7 +1227,7 @@ function renderMobileListings() {
     var statusTag = place.status ? '<span class="listing-tag status">' + place.status + '</span>' : '';
     var linkTag = place.link ? '<a class="listing-tag listing-link" href="' + place.link + '" target="_blank" onclick="event.stopPropagation()">website</a>' : '';
 
-    var placeTagsM = (place.tags && place.tags.length) ? place.tags : (CATEGORY_TAGS[place.category] || []);
+    var placeTagsM = place.tags || [];
     var mobileValueTagsHtml = '';
     for (var mt = 0; mt < placeTagsM.length; mt++) {
       var mtId = placeTagsM[mt];
