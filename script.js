@@ -170,11 +170,27 @@ function initMap() {
     }
     var el = e.popup.getElement();
     if (!el) return;
+    // re-trigger ghost-up by resetting animation
+    var wrapper = el.querySelector('.leaflet-popup-content-wrapper');
+    if (wrapper) {
+      wrapper.classList.remove('closing');
+      void wrapper.offsetWidth;
+    }
     var badge = el.querySelector('.popup-cat');
     if (!badge) return;
     badge.classList.remove('burst');
     void badge.offsetWidth;
     badge.classList.add('burst');
+  });
+
+  // ghost-down on close: animate before leaflet removes the element
+  map.on('popupclose', function(e) {
+    var el = e.popup.getElement();
+    if (!el) return;
+    var wrapper = el.querySelector('.leaflet-popup-content-wrapper');
+    if (wrapper) {
+      wrapper.classList.add('closing');
+    }
   });
 }
 
@@ -428,6 +444,19 @@ function renderMarkers() {
     var marker = L.marker([place.lat, place.lng], markerOpts)
       .bindPopup(popupContent)
       .addTo(map);
+
+    // bounce the icon div when the marker is clicked
+    marker.on('click', function() {
+      var iconEl = this.getElement();
+      if (!iconEl) return;
+      iconEl.classList.remove('marker-bouncing');
+      void iconEl.offsetWidth;
+      iconEl.classList.add('marker-bouncing');
+      iconEl.addEventListener('animationend', function handler() {
+        iconEl.classList.remove('marker-bouncing');
+        iconEl.removeEventListener('animationend', handler);
+      });
+    });
 
     marker._placeId = place.id;
     allMarkers.push(marker);
