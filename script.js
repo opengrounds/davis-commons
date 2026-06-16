@@ -125,8 +125,9 @@ function setLoading(target) {
       clearInterval(_loadTicker);
       _loadTicker = null;
 
-      // at 100%, fade the overlay out and then remove it from flow
       if (target >= 100) {
+        var doneLabel = document.querySelector('#loader-label');
+        if (doneLabel) doneLabel.textContent = 'done!';
         setTimeout(function() {
           if (overlay) {
             overlay.classList.add('hidden');
@@ -161,6 +162,20 @@ function initMap() {
       maxZoom: 20
     }
   ).addTo(map);
+
+  map.on('popupopen', function(e) {
+    if (e.popup._suppressBurst) {
+      e.popup._suppressBurst = false;
+      return;
+    }
+    var el = e.popup.getElement();
+    if (!el) return;
+    var badge = el.querySelector('.popup-cat');
+    if (!badge) return;
+    badge.classList.remove('burst');
+    void badge.offsetWidth;
+    badge.classList.add('burst');
+  });
 }
 
 
@@ -325,7 +340,13 @@ function getFiltered() {
    ============================================================ */
 
 function renderMarkers() {
-  // remove every existing marker from the map
+  var openPlaceId = null;
+  for (var i = 0; i < allMarkers.length; i++) {
+    if (allMarkers[i].isPopupOpen()) {
+      openPlaceId = allMarkers[i]._placeId;
+      break;
+    }
+  }
   for (var i = 0; i < allMarkers.length; i++) {
     map.removeLayer(allMarkers[i]);
   }
@@ -387,8 +408,8 @@ function renderMarkers() {
     var colocatedHtml = '';
 
     var popupContent =
+      '<div class="popup-cat" style="--cat-color:' + catColor(place.category) + '">' + catLabel(place.category) + '</div>' +
       '<div class="popup-inner">' +
-        '<div class="popup-cat" style="--cat-color:' + catColor(place.category) + '">' + catLabel(place.category) + '</div>' +
         '<div class="popup-name">' + num + '. ' + place.name + '</div>' +
         addrHtml +
         descHtml +
@@ -401,11 +422,25 @@ function renderMarkers() {
         '</div>' +
       '</div>';
 
-    var marker = L.marker([place.lat, place.lng], { icon: makeIcon(place.category, num) })
+    var markerOpts = { icon: makeIcon(place.category, num) };
+    if (place.id === 's4') markerOpts.zIndexOffset = 100;
+
+    var marker = L.marker([place.lat, place.lng], markerOpts)
       .bindPopup(popupContent)
       .addTo(map);
 
+    marker._placeId = place.id;
     allMarkers.push(marker);
+  }
+
+  if (openPlaceId) {
+    for (var j = 0; j < allMarkers.length; j++) {
+      if (allMarkers[j]._placeId === openPlaceId) {
+        allMarkers[j].getPopup()._suppressBurst = true;
+        allMarkers[j].openPopup();
+        break;
+      }
+    }
   }
 }
 
@@ -464,7 +499,7 @@ function renderListings() {
         '<div class="listing-name">' + place.name + '</div>' +
         addrHtml +
         '<div class="listing-tags">' +
-          '<span class="listing-tag" style="background:' + catColor(place.category) + ';color:#F7F4EC">' + catLabel(place.category) + '</span>' +
+          '<span class="listing-tag cat-tag" style="background:' + catColor(place.category) + ';color:#F7F4EC">' + catLabel(place.category) + '</span>' +
           statusTag +
           valueTagsHtml +
           linkTag +
@@ -476,6 +511,16 @@ function renderListings() {
     // we use a closure to freeze the values of i and place for this iteration.
     card.onclick = (function(idx, p) {
       return function() {
+        // burst effect: remove from all cat-tags, then apply to this card's
+        document.querySelectorAll('.listing-tag.cat-tag.burst').forEach(function(t) {
+          t.classList.remove('burst');
+        });
+        var catTag = card.querySelector('.listing-tag.cat-tag');
+        if (catTag) {
+          // re-trigger animation by removing + re-adding
+          void catTag.offsetWidth;
+          catTag.classList.add('burst');
+        }
         map.setView([p.lat, p.lng], 17);
         if (allMarkers[idx]) {
           allMarkers[idx].openPopup();
@@ -741,7 +786,6 @@ async function loadAll() {
   renderListings();
 
   // map is ready — dismiss the overlay now, don't wait for geocoding
-  setStatus('done!');
   setLoading(100);
 
   // geocode in the background — updates pins as coords resolve, shows a small indicator
@@ -1193,13 +1237,19 @@ function renderMobileListings() {
         '<div class="listing-name">' + place.name + '</div>' +
         addrHtml +
         '<div class="listing-tags">' +
-          '<span class="listing-tag" style="background:' + catColor(place.category) + ';color:#F7F4EC">' + catLabel(place.category) + '</span>' +
+          '<span class="listing-tag cat-tag" style="background:' + catColor(place.category) + ';color:#F7F4EC">' + catLabel(place.category) + '</span>' +
           statusTag + mobileValueTagsHtml + linkTag +
         '</div>' +
       '</div>';
 
     card.onclick = (function(idx, p) {
       return function() {
+        // burst effect
+        document.querySelectorAll('.listing-tag.cat-tag.burst').forEach(function(t) {
+          t.classList.remove('burst');
+        });
+        var catTag = card.querySelector('.listing-tag.cat-tag');
+        if (catTag) { void catTag.offsetWidth; catTag.classList.add('burst'); }
         // close sheet and fly map
         mobileSwitchTab('map');
         setTimeout(function() {
