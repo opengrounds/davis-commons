@@ -1253,10 +1253,12 @@ textarea { min-height: 72px; }
   .popup-cat {
     width: 96px;
     height: 96px;
-    font-size: 0.65rem;
+    font-size: 0.6rem;
+    letter-spacing: 0.04em;
+    line-height: 1.2;
     top: -52px;
     left: -44px;
-    padding: 0 22px;
+    padding: 0 24px;
   }
 
   .popup-inner { padding: 2.8rem 0.9rem 0.85rem; }
