@@ -737,7 +737,7 @@ var ADDRESS_DATA = [
     category: 'library',
     lat: null, lng: null,
     address: 'Chesapeake Bay and Secret Bay streets, Davis, CA',
-    geocodeAddress: '3203 Chesapeake Bay St, Davis, CA',
+    geocodeAddress: '3203 Chesapeake Bay Ave, Davis, CA',
     link: null,
     description: 'a little free library on Chesapeake Bay and Secret Bay streets. swap a book, take a book.',
     source: 'community',
