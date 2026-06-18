@@ -711,7 +711,7 @@ var ADDRESS_DATA = [
     name: 'Little Free Library – McNelson\'s Library',
     category: 'library',
     lat: 38.557082, lng: -121.789673,
-    geocodeAddress: 'Chesapeake Bay and Secret Bay streets, Davis, CA',
+    geocodeAddress: null,
     address: 'Chesapeake Bay and Secret Bay streets, Davis, CA',
     link: null,
     description: 'a little free library on Chesapeake Bay and Secret Bay streets. swap a book, take a book.',
