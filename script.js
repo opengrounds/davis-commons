@@ -267,7 +267,7 @@ function initMap() {
       // so we use asymmetric padding to make sure it is never clipped.
       // On mobile the badge is smaller (96px vs 126px) so we use tighter padding.
       var isMobile = window.innerWidth <= 640;
-      var PAD_TOP  = isMobile ? 60 : 80;   // starburst floats above
+      var PAD_TOP  = isMobile ? 105 : 80;  // starburst floats above; on mobile must clear zoom +/− buttons (~80px tall)
       var PAD_LEFT = isMobile ? 50 : 70;   // starburst floats to the left
       var PAD_REST = isMobile ? 12 : 20;   // right / bottom breathing room
 
