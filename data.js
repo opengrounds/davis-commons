@@ -512,7 +512,7 @@ var ADDRESS_DATA = [
     id: 's35',
     name: 'Goodwill',
     category: 'thrift',
-    lat: 38.553322, lng: 121.730549,
+    lat: 38.553322, lng: -121.730549,
     address: '1640 E 8th St, Davis CA 95616',
     geocodeAddress: '1640 E 8th St, Davis, CA',
     link: null,
