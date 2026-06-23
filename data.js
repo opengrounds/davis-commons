@@ -29,6 +29,8 @@ var CATEGORIES = [
   { id: 'foraging', label: 'foraging', color: '#A855F7' },
   { id: 'lolib', label: 'local library', color: '#beb129' },
   { id: 'library', label: 'little free library', color: '#FF3E86' },
+  { id: 'seeds', label: 'seed library', color: '#38A169' },
+  { id: 'artgallery', label: 'free little art gallery', color: '#FF5722' },
   { id: 'bikes', label: 'bike repair', color: '#4F6BFF' },
   { id: 'tools', label: 'tool / repair', color: '#00A3C4' },
   { id: 'thrift', label: 'thrift & reuse', color: '#805AD5' },

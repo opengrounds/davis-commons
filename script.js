@@ -81,7 +81,10 @@ function clearSubmitLoading(btnSelector) {
   btn.classList.remove('loading');
 }
 
-document.addEventListener('DOMContentLoaded', initModalButtons);
+document.addEventListener('DOMContentLoaded', function() {
+  initModalButtons();
+  initDraftAutosave();
+});
 
 /*
   open:grounds — script.js
@@ -1028,7 +1031,137 @@ async function loadAll() {
    MODAL OPEN / CLOSE
    ============================================================ */
 
-function openSubmit()    { document.querySelector('#submit-modal').classList.add('open'); }
+/* ============================================================
+   DRAFT SAVE / RESTORE / CLEAR
+   autosaves the "add a place" form to localStorage so a reload
+   or accidental close doesn't wipe the user's work.
+   ============================================================ */
+
+var DRAFT_KEY = 'og_submit_draft_v1';
+
+function draftRead() {
+  try { var v = localStorage.getItem(DRAFT_KEY); return v ? JSON.parse(v) : null; }
+  catch(e) { return null; }
+}
+
+function draftWrite(data) {
+  try { localStorage.setItem(DRAFT_KEY, JSON.stringify(data)); } catch(e) {}
+}
+
+function draftClear() {
+  try { localStorage.removeItem(DRAFT_KEY); } catch(e) {}
+}
+
+// collect current form state into a plain object
+function draftCollect() {
+  var tags = [];
+  document.querySelectorAll('input[name="f-tags"]:checked').forEach(function(cb) {
+    tags.push(cb.value);
+  });
+  return {
+    name:    document.querySelector('#f-name').value,
+    cat:     document.querySelector('#f-cat').value,
+    addr:    document.querySelector('#f-addr').value,
+    desc:    document.querySelector('#f-desc').value,
+    link:    document.querySelector('#f-link').value,
+    contact: document.querySelector('#f-contact').value,
+    lat:     document.querySelector('#f-lat').value,
+    lng:     document.querySelector('#f-lng').value,
+    tags:    tags
+  };
+}
+
+// restore a saved draft into the form
+function draftApply(d) {
+  if (!d) return;
+  if (d.name)    document.querySelector('#f-name').value    = d.name;
+  if (d.addr)    document.querySelector('#f-addr').value    = d.addr;
+  if (d.desc)    document.querySelector('#f-desc').value    = d.desc;
+  if (d.link)    document.querySelector('#f-link').value    = d.link;
+  if (d.contact) document.querySelector('#f-contact').value = d.contact;
+  if (d.lat)     document.querySelector('#f-lat').value     = d.lat;
+  if (d.lng)     document.querySelector('#f-lng').value     = d.lng;
+
+  if (d.cat) {
+    document.querySelector('#f-cat').value = d.cat;
+    document.querySelectorAll('#f-cat-grid .cat-select-btn').forEach(function(btn) {
+      btn.classList.toggle('active', btn.dataset.value === d.cat);
+    });
+  }
+
+  if (d.tags && d.tags.length) {
+    document.querySelectorAll('input[name="f-tags"]').forEach(function(cb) {
+      cb.checked = d.tags.indexOf(cb.value) !== -1;
+    });
+  }
+
+  updateDraftBadge();
+}
+
+// update the "draft saved" indicator badge next to the Save Draft button
+function updateDraftBadge() {
+  var badge = document.querySelector('#draft-badge');
+  var d = draftRead();
+  if (badge) {
+    if (d && (d.name || d.addr || d.cat)) {
+      badge.style.display = 'inline';
+    } else {
+      badge.style.display = 'none';
+    }
+  }
+}
+
+// called by the "save draft" button
+function saveDraft() {
+  draftWrite(draftCollect());
+  updateDraftBadge();
+  showToast('draft saved. it\'ll be here when you come back.');
+}
+
+// clear all form fields + any saved draft
+function clearForm() {
+  var fields = ['f-name', 'f-addr', 'f-desc', 'f-link', 'f-contact', 'f-lat', 'f-lng'];
+  fields.forEach(function(id) { document.querySelector('#' + id).value = ''; });
+  document.querySelector('#f-cat').value = '';
+  document.querySelectorAll('#f-cat-grid .cat-select-btn').forEach(function(b) { b.classList.remove('active'); });
+  document.querySelectorAll('input[name="f-tags"]').forEach(function(cb) { cb.checked = false; });
+  draftClear();
+  updateDraftBadge();
+  showToast('form cleared.');
+}
+
+// wire up autosave listeners on every field in the submit form
+function initDraftAutosave() {
+  var fields = ['f-name', 'f-addr', 'f-desc', 'f-link', 'f-contact', 'f-lat', 'f-lng'];
+  fields.forEach(function(id) {
+    var el = document.querySelector('#' + id);
+    if (!el) return;
+    el.addEventListener('input', function() { draftWrite(draftCollect()); });
+  });
+
+  // category buttons
+  document.querySelectorAll('#f-cat-grid .cat-select-btn').forEach(function(btn) {
+    btn.addEventListener('click', function() { draftWrite(draftCollect()); });
+  });
+
+  // checkboxes
+  document.querySelectorAll('input[name="f-tags"]').forEach(function(cb) {
+    cb.addEventListener('change', function() { draftWrite(draftCollect()); });
+  });
+
+  updateDraftBadge();
+}
+
+function openSubmit() {
+  document.querySelector('#submit-modal').classList.add('open');
+  // restore any saved draft when the form opens
+  var d = draftRead();
+  if (d && (d.name || d.addr || d.cat)) {
+    draftApply(d);
+  }
+  updateDraftBadge();
+}
+
 function closeSubmit()   { document.querySelector('#submit-modal').classList.remove('open'); }
 function openAbout()     { document.querySelector('#about-modal').classList.add('open'); }
 function closeAbout()    { document.querySelector('#about-modal').classList.remove('open'); }
@@ -1059,6 +1192,7 @@ function showToast(msg) {
 async function submitPlace() {
   var name    = document.querySelector('#f-name').value.trim();
   var cat     = document.querySelector('#f-cat').value;  // set by cat-select-btn clicks
+  var subtype = (document.querySelector('#f-subtype') || {value:''}).value;
   var addr    = document.querySelector('#f-addr').value.trim();
   var desc    = document.querySelector('#f-desc').value.trim();
   var link    = document.querySelector('#f-link').value.trim();
@@ -1091,6 +1225,7 @@ async function submitPlace() {
       body: JSON.stringify({
         name:        name,
         category:    cat,
+        subtype:     subtype || null,
         address:     addr,
         description: desc,
         link:        link,
@@ -1111,8 +1246,15 @@ async function submitPlace() {
         document.querySelector('#' + fields[i]).value = '';
       }
       document.querySelector('#f-cat').value = '';
+      var fSubtype = document.querySelector('#f-subtype');
+      if (fSubtype) fSubtype.value = '';
+      var subtypeGroup = document.querySelector('#f-subtype-group');
+      if (subtypeGroup) subtypeGroup.style.display = 'none';
       document.querySelectorAll('input[name="f-tags"]').forEach(function(cb) { cb.checked = false; });
       document.querySelectorAll('#f-cat-grid .cat-select-btn').forEach(function(b) { b.classList.remove('active'); });
+      document.querySelectorAll('#f-subtype-grid .cat-select-btn').forEach(function(b) { b.classList.remove('active'); });
+      draftClear();
+      updateDraftBadge();
       showToast('submitted. thanks for adding to the commons.');
     } else {
       clearSubmitLoading('#submit-modal .btn-submit');

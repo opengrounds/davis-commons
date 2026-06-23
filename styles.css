@@ -517,7 +517,7 @@ header {
 
 /* ============================================================
    COMMONS LINKS
-   content shown inside the "davis commons" modal, opened from
+   content shown inside the "community links" modal, opened from
    the floating map button
    ============================================================ */
 
@@ -2331,4 +2331,61 @@ input[type="email"]:-webkit-autofill:focus {
     animation: none !important;
     transition: none !important;
   }
+}
+
+/* ============================================================
+   FORM ACTIONS — draft + clear buttons
+   ============================================================ */
+
+.form-actions {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.btn-draft {
+  background: var(--paper-dim);
+  color: var(--ink);
+  border: var(--border);
+  font-family: 'Space Mono', monospace;
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 0.45rem 0.85rem;
+  cursor: pointer;
+  transition: background 0.12s;
+  position: relative;
+}
+
+.btn-draft:hover {
+  background: var(--sun);
+}
+
+.btn-clear {
+  background: transparent;
+  color: var(--stone);
+  border: 2px solid var(--stone);
+  font-family: 'Space Mono', monospace;
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 0.45rem 0.85rem;
+  cursor: pointer;
+  transition: color 0.12s, border-color 0.12s;
+}
+
+.btn-clear:hover {
+  color: var(--ink);
+  border-color: var(--ink);
+}
+
+/* pulsing dot badge inside "save draft" button */
+.draft-badge {
+  color: var(--flame);
+  font-size: 0.65rem;
+  margin-left: 0.3rem;
+  animation: draftPulse 1.8s ease-in-out infinite;
+}
+
+@keyframes draftPulse {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.3; }
 }

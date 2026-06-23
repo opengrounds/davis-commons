@@ -77,7 +77,7 @@
     <!-- SIDEBAR -->
     <div class="sidebar">
 
-      <!-- tag filter pills — free / low-cost / zero-waste / community -->
+      <!-- tag filter pills — free / low-cost / volunteer-run / community, etc. -->
       <div class="panel panel-tags" id="panel-tags">
         <div class="panel-label">filter by value</div>
         <div class="tag-pill-list" id="tag-filters"></div>
@@ -109,9 +109,9 @@
     <!-- THE MAP — leaflet attaches to this div -->
     <div id="map"></div>
 
-    <!-- floating button — opens the davis commons modal -->
+    <!-- floating button — opens the community links modal -->
     <button id="commons-fab" onclick="openCommons()">
-      davis commons
+      community links
     </button>
 
     <!-- non-blocking geocoding indicator — shown while address-only entries resolve -->
@@ -157,6 +157,8 @@
               <button type="button" class="cat-select-btn" data-value="foraging"  style="--c:#A855F7">foraging</button>
               <button type="button" class="cat-select-btn" data-value="lolib"     style="--c:#beb129">local library</button>
               <button type="button" class="cat-select-btn" data-value="library"   style="--c:#FF3E86">little free library</button>
+              <button type="button" class="cat-select-btn" data-value="seeds"     style="--c:#38A169">seed library</button>
+              <button type="button" class="cat-select-btn" data-value="artgallery" style="--c:#FF5722">free little art gallery</button>
               <button type="button" class="cat-select-btn" data-value="bikes"     style="--c:#4F6BFF">bike repair</button>
               <button type="button" class="cat-select-btn" data-value="tools"     style="--c:#00A3C4">tool / repair</button>
               <button type="button" class="cat-select-btn" data-value="thrift"    style="--c:#805AD5">thrift &amp; reuse</button>
@@ -213,8 +215,15 @@
             <input type="text" id="f-contact" placeholder="@handle or name">
           </div>
 
+          <div class="form-actions">
+            <button class="btn btn-draft" onclick="saveDraft()">
+              save draft
+              <span id="draft-badge" class="draft-badge" style="display:none">●</span>
+            </button>
+            <button class="btn btn-clear" onclick="clearForm()">clear fields</button>
+          </div>
           <button class="btn btn-add btn-submit" onclick="submitPlace()">submit for review &#x2192;</button>
-          <p class="submit-note">submissions are reviewed before going live. thanks for helping map the commons.</p>
+          <p class="submit-note">submissions are reviewed before going live. your draft is saved automatically if you close this. thanks for helping map the commons.</p>
 
         </div><!-- /modal-body -->
       </div><!-- /modal -->
@@ -328,11 +337,13 @@
           <div class="about-sources">
             <a href="https://freedge.org/" target="_blank" class="about-source-pill">freedge</a>
             <a href="https://openstreetmap.org" target="_blank" class="about-source-pill">openstreetmap</a>
-            <a href="https://www.davisfarmersmarket.org/" target="_blank" class="about-source-pill">davis farmers market</a>
-            <a href="https://www.davisfoodcoop.com/" target="_blank" class="about-source-pill">davis food co-op</a>
             <a href="https://ediblecampus.ucdavis.edu/" target="_blank" class="about-source-pill">edible campus ucd</a>
             <a href="https://littlefreelibrary.org/" target="_blank" class="about-source-pill">little free library</a>
+            <a href="https://www.freelittleartgallery.com/" target="_blank" class="about-source-pill">free little art galleries</a>
             <a href="https://fallingfruit.org" target="_blank" class="about-source-pill">falling fruit</a>
+            <a href="https://www.dero.com/products/fixit-bike-repair-station/" target="_blank" class="about-source-pill">dero fix it stations</a>
+            <a href="https://www.yolofoodbank.org/" target="_blank" class="about-source-pill">yolo food bank</a>
+            <a href="https://www.yolocrisisnursery.org/" target="_blank" class="about-source-pill">yolo crisis nursery</a>
             <span class="about-source-pill about-source-pill--you">+ you &#x2665;</span>
           </div>
 
@@ -340,7 +351,7 @@
 
           <div class="about-byline">
             <a href="https://zahrabaxi.com" target="_blank" class="about-byline-name">zahra baxi</a>
-            <span class="about-byline-meta">davis, ca &middot; <a href="https://github.com/opengrounds/davis" target="_blank">open source</a> &middot; <a href="https://opengrounds.github.io" target="_blank">all open:grounds projects</a></span>
+            <span class="about-byline-meta">davis, ca &middot; <a href="https://github.com/opengrounds/davis-commons" target="_blank">open source</a> &middot; <a href="https://opengrounds.github.io" target="_blank">all open:grounds projects</a></span>
           </div>
 
           <button class="btn btn-submit" style="margin-top:1.25rem" onclick="closeAbout()">close &#x2715;</button>
@@ -352,7 +363,7 @@
 
 
   <!-- ============================================================
-       MODAL — DAVIS COMMONS
+       MODAL — COMMUNITY LINKS
        community links that live alongside the map but aren't
        part of it: gift economies, foraging, local media.
        ============================================================ -->
@@ -363,7 +374,7 @@
         <div class="modal-header modal-header--commons">
           <div class="modal-header-inner">
             <div class="modal-eyebrow">beyond the map</div>
-            <span class="modal-title">davis commons</span>
+            <span class="modal-title">community links</span>
           </div>
           <button class="modal-close" onclick="closeCommons()">&#x2715;</button>
         </div>
