@@ -1382,26 +1382,27 @@ function showUserLocation() {
     var lat = pos.coords.latitude;
     var lng = pos.coords.longitude;
 
-    // pulsing blue dot — uses the sky blue already in the design system
+    // pulsing dot — matches place-marker-icon style but in sky blue
     var dotIcon = L.divIcon({
       className: '',
       html: '<div style="' +
-        'width:16px;height:16px;border-radius:50%;' +
+        'width:18px;height:18px;border-radius:50%;' +
         'background:#2F9BD6;' +
-        'border:2.5px solid #F7F4EC;' +
-        'box-shadow:0 0 0 4px rgba(47,155,214,0.3),2px 2px 0 rgba(21,19,15,0.25);' +
+        'border:2px solid #15130F;' +
+        'box-shadow:2px 2px 0 rgba(21,19,15,0.35);' +
         'animation:userLocPulse 2s ease-in-out infinite;' +
       '"></div>',
-      iconSize:    [16, 16],
-      iconAnchor:  [8, 8],
-      popupAnchor: [0, -10]
+      iconSize:    [18, 18],
+      iconAnchor:  [9, 9],
+      popupAnchor: [0, -12]
     });
+
+    var popupHtml =
+      '<div class="you-are-here-badge">you are here &#x25CE;</div>';
 
     L.marker([lat, lng], { icon: dotIcon, zIndexOffset: 9999 })
       .addTo(map)
-      .bindPopup(
-        '<div style="font-family:\'Space Grotesk\',sans-serif;font-size:0.75rem;font-weight:700;">you are here</div>'
-      );
+      .bindPopup(popupHtml, { className: 'you-are-here-popup' });
 
   }, function() {
     // user denied or geolocation unavailable — fail silently
@@ -1469,6 +1470,7 @@ function mobileSwitchTab(tab) {
     if (sheet) sheet.classList.remove('open');
     var scrim = document.querySelector('#mobile-sheet-scrim');
     if (scrim) scrim.classList.remove('active');
+    document.body.classList.remove('sheet-open');
     return;
   }
 
@@ -1476,6 +1478,7 @@ function mobileSwitchTab(tab) {
   sheet.classList.add('open');
   var scrim = document.querySelector('#mobile-sheet-scrim');
   if (scrim) scrim.classList.add('active');
+  document.body.classList.add('sheet-open');
 
   if (tab === 'filter') {
     content.innerHTML =

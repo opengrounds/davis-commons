@@ -1031,8 +1031,32 @@ textarea { min-height: 72px; }
 
 /* pulsing ring animation for the user location dot */
 @keyframes userLocPulse {
-  0%, 100% { box-shadow: 0 0 0 4px rgba(47,155,214,0.3), 2px 2px 0 rgba(21,19,15,0.25); }
-  50%       { box-shadow: 0 0 0 8px rgba(47,155,214,0.08), 2px 2px 0 rgba(21,19,15,0.25); }
+  0%, 100% { box-shadow: 2px 2px 0 rgba(21,19,15,0.35), 0 0 0 3px rgba(47,155,214,0.35); }
+  50%       { box-shadow: 2px 2px 0 rgba(21,19,15,0.35), 0 0 0 7px rgba(47,155,214,0.08); }
+}
+
+/* "you are here" popup — sky-blue starburst style */
+.you-are-here-popup .leaflet-popup-content-wrapper {
+  background: #2F9BD6;
+  border-color: #15130F;
+  box-shadow: 3px 3px 0 rgba(21,19,15,0.3) !important;
+  padding: 0;
+}
+
+.you-are-here-popup .leaflet-popup-content {
+  margin: 0 !important;
+  min-width: 0 !important;
+}
+
+.you-are-here-badge {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #F7F4EC;
+  padding: 0.4rem 0.75rem;
+  white-space: nowrap;
 }
 
 
@@ -1232,6 +1256,10 @@ textarea { min-height: 72px; }
     margin-bottom: calc(var(--tab-h) + 12px) !important;
   }
 
+  .leaflet-bottom {
+    bottom: var(--tab-h) !important;
+  }
+
   /* push the commons fab and geo-indicator above the tab bar too —
      shrink the starburst a touch to keep it from crowding the map */
   #commons-fab {
@@ -1241,6 +1269,10 @@ textarea { min-height: 72px; }
     padding: 0 20px;
     font-size: 0.64rem;
   }
+
+  /* hide starburst when sheet is open so it doesn't float over content */
+  body.sheet-open #commons-fab { display: none; }
+
   #geo-indicator { bottom: calc(var(--tab-h) + 7.5rem); }
 
   /* ---- popups on mobile ---- */
