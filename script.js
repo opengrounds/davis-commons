@@ -523,6 +523,8 @@ function renderMarkers() {
 
     var colocatedHtml = '';
 
+    var directionsHtml = '<a href="https://maps.google.com/?saddr=My+Location&daddr=' + place.lat + ',' + place.lng + '" target="_blank" class="popup-link popup-directions">directions ↗</a>';
+
     var popupContent =
       '<div class="popup-cat" style="--cat-color:' + catColor(place.category) + '">' + catLabel(place.category) + '</div>' +
       '<div class="popup-inner">' +
@@ -534,7 +536,10 @@ function renderMarkers() {
         colocatedHtml +
         '<div class="popup-footer">' +
           '<span class="popup-source">via ' + sourceLabel + '</span>' +
-          linkHtml +
+          '<span class="popup-footer-links">' +
+            directionsHtml +
+            linkHtml +
+          '</span>' +
         '</div>' +
       '</div>';
 

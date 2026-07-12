@@ -735,6 +735,17 @@ header {
   margin-top: 0.45rem;
 }
 
+.popup-footer-links {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.popup-directions {
+  color: var(--accentblue);
+}
+.popup-directions:hover { text-decoration: underline; }
+
 .popup-link {
   font-family: 'Space Grotesk', sans-serif;
   font-size: 0.56rem;
